@@ -1,0 +1,26 @@
+name: Deploy Docker image to AWS
+
+on:
+  workflow_run:
+    workflows: ["Publish Docker Image"]
+    types: [completed]
+  
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    - name: Stop the old container
+      run: docker stop backend-boilerplate-code-cicd || true
+    
+    - name: Delete the old container
+      run: docker rm backend-boilerplate-code-cicd || true
+    
+    - name: Delete the old image
+      run: docker rmi ${{secrets.DOCKER_USERNAME}}/backend-boilerplate-code-cicd:latest || true
+
+    - name: Pull the image from dockerhub
+      run: docker pull ${{secrets.DOCKER_USERNAME}}/backend-boilerplate-code-cicd:latest
+
+    - name: Run the image
+      run: docker compose up -d

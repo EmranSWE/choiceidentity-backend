@@ -1,0 +1,460 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:14.200Z'
+}
+{
+  message: '✅ Socket connected: GWEJIFIRyY2kDB_gAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:15.166Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:15.294Z'
+}
+{
+  message: '✅ Socket connected: PxVuY98ulWct3dXAAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:18.136Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:18.192Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:52.170Z'
+}
+{
+  message: '✅ Socket connected: C4Ws43nCh0dlbDWfAAAB, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:53.117Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:53.203Z'
+}
+{
+  message: '✅ Socket connected: 8LmGyVrHIZAV5piIAAAD, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:53.632Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:03:53.686Z'
+}
+{
+  message: '❌ Socket disconnected: C4Ws43nCh0dlbDWfAAAB',
+  level: 'warn',
+  timestamp: '2025-06-18T16:05:27.006Z'
+}
+{
+  message: '✅ Socket connected: pSV9cgvLYfZtZFHIAAAH, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:27.407Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:27.472Z'
+}
+{
+  message: '📥 Notification 6852e37e62ccf942606ccf47 marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:30.200Z'
+}
+{
+  message: '📥 Notification 6852de0c41f0516937533df8 marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:31.190Z'
+}
+{
+  message: '📥 Notification 6852dcc539e6b32d718c31fa marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:32.037Z'
+}
+{
+  message: '📥 Notification 6852dac108f4c7e289c321d0 marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:05:32.669Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:06:43.125Z'
+}
+{
+  message: '✅ Socket connected: NHEag3eH0xD-WgaNAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:06:43.904Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:06:43.986Z'
+}
+{
+  message: '✅ Socket connected: Kns_OabZLGaRRV2CAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:06:45.201Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:06:45.274Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:12:19.498Z'
+}
+{
+  message: '✅ Socket connected: udIXCpPVXRvxbvbFAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:12:20.469Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:12:20.550Z'
+}
+{
+  message: '✅ Socket connected: Yjq4Um9t0GIn-DP3AAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:12:20.861Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:12:20.918Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:13:56.889Z'
+}
+{
+  message: '✅ Socket connected: daqrOAOpBx9uR1SLAAAB, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:13:58.574Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:13:58.642Z'
+}
+{
+  message: '✅ Socket connected: jvsC42-5GiURUcFbAAAD, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:13:59.788Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:13:59.855Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:14:57.166Z'
+}
+{
+  message: '✅ Socket connected: 6ZG8ZJFVdg4IVcsoAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:14:58.183Z'
+}
+{
+  message: '✅ Socket connected: 2XYg8eBiyjFUqZXBAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:14:58.216Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:14:58.269Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:14:58.620Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:20:29.708Z'
+}
+{
+  message: '✅ Socket connected: Lf0DTTv6kzGrx-rwAAAB, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:20:32.346Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:20:32.421Z'
+}
+{
+  message: '✅ Socket connected: BXLa26fGUKX5f_F9AAAD, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:20:34.687Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:20:34.773Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:23.170Z'
+}
+{
+  message: '✅ Socket connected: Q-f9iRbrOhuCn-3CAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:23.621Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:23.791Z'
+}
+{
+  message: '✅ Socket connected: X6rG3K21rWY69HDMAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:23.950Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:24.388Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:29.299Z'
+}
+{
+  message: '✅ Socket connected: SXylPcJVuRWC1V9jAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:30.214Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:30.330Z'
+}
+{
+  message: '✅ Socket connected: AXlAslCwSyLiej1UAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:31.781Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:27:31.841Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:28:16.688Z'
+}
+{
+  message: '✅ Socket connected: 4YtliF8d2ZjnYJ1HAAAB, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:28:18.729Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:28:18.818Z'
+}
+{
+  message: '✅ Socket connected: JZI3bA9O_tTors3hAAAD, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:28:18.940Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:28:19.037Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:29:58.082Z'
+}
+{
+  message: '✅ Socket connected: kMDz2DHQnH--Y_J5AAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:29:59.091Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:29:59.170Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:01.095Z'
+}
+{
+  message: '✅ Socket connected: POKpgYA3xdVV3A4OAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:01.777Z'
+}
+{
+  message: '📤 Sent 3 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:01.849Z'
+}
+{
+  message: '✅ Socket connected: 5GFk8cEMG-cVyS2iAAAD, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:02.203Z'
+}
+{
+  message: '📤 Sent 1 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:02.260Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 2 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:30:02.758Z'
+}
+{
+  message: '❌ Socket disconnected: 5GFk8cEMG-cVyS2iAAAD',
+  level: 'warn',
+  timestamp: '2025-06-18T16:30:45.094Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:33:33.732Z'
+}
+{
+  message: '✅ Socket connected: jad9IVhnCCrDlobcAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:33:36.021Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:33:36.118Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:38:06.475Z'
+}
+{
+  message: '✅ Socket connected: aptjjxetAAam99vLAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:38:08.003Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:38:08.075Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:56:44.248Z'
+}
+{
+  message: '✅ Socket connected: GusqhNTWerjeS42OAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:56:45.027Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:56:45.135Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:32.530Z'
+}
+{
+  message: '✅ Socket connected: HZ2K5ZsNEV0hOH2LAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:34.030Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:34.125Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:43.900Z'
+}
+{
+  message: '✅ Socket connected: g6DmMe8H2znLN4x6AAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:44.000Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:58:44.249Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:01.356Z'
+}
+{
+  message: '✅ Socket connected: lr47uE5GGFvP19Q7AAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:02.972Z'
+}
+{
+  message: '📤 Sent 4 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:03.045Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:03.424Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:40.405Z'
+}
+{
+  message: '✅ Socket connected: -WqGAg__dBOy8oLdAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:43.016Z'
+}
+{
+  message: '📤 Sent 5 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:43.093Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:52.462Z'
+}
+{
+  message: '✅ Socket connected: clF84KmgqzWp8giGAAAB, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:55.016Z'
+}
+{
+  message: '📤 Sent 5 unread notifications to 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T16:59:55.095Z'
+}

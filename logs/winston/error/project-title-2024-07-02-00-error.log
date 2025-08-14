@@ -1,0 +1,8 @@
+Wed Feb 07 2024 0:27:27 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:34:38 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:38:56 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:39:42 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:40:16 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:41:58 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:42:20 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: id_1 dup key: { id: null }
+Wed Feb 07 2024 0:46:52 [right meow!] error: E11000 duplicate key error collection: nusaiba-tech.users index: email_1 dup key: { email: "imran1er585@gmail.com" }

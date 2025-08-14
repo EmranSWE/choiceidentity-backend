@@ -1,0 +1,6 @@
+version: '3'
+services:
+  node-app:
+   image: emranswe/backend-boilerplate-code-cicd:latest
+   container_name: backend-boilerplate-code-cicd
+   network_mode: 'host'

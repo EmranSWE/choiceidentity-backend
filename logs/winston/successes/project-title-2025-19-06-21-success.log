@@ -1,0 +1,94 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:00:32.871Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:00:53.789Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:01:30.608Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:02:02.971Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:02:24.352Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:03:56.989Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:05:01.393Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:17:17.035Z'
+}
+{
+  message: '✅ Socket connected: 9lObaIzCoNL9Ek5BAAAi, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:49.668Z'
+}
+{
+  message: '📤 Sent 9 unread notifications to 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:49.746Z'
+}
+{
+  message: '📥 Notification 68541b76ca7ea59f1bdbf479 marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:55.356Z'
+}
+{
+  message: '📥 Notification 68541b71ca7ea59f1bdbf46d marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:56.061Z'
+}
+{
+  message: '📥 Notification 68541b6cca7ea59f1bdbf461 marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:56.726Z'
+}
+{
+  message: '📥 Notification 68541ae8ca7ea59f1bdbf41f marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-19T15:47:58.740Z'
+}
+{
+  message: '❌ Socket disconnected: 9lObaIzCoNL9Ek5BAAAi',
+  level: 'warn',
+  timestamp: '2025-06-19T15:48:00.775Z'
+}
+{
+  message: '🗑 Removed userId=683ac41a53b089559734e5fc from connected users',
+  level: 'info',
+  timestamp: '2025-06-19T15:48:00.776Z'
+}
+{
+  pagesVisited: [],
+  actionsTaken: [],
+  sessionDuration: 11107,
+  lastInteraction: 2025-06-19T15:47:49.669Z,
+  level: 'info',
+  message: 'Session data saved for 683ac41a53b089559734e5fc session:',
+  timestamp: '2025-06-19T15:48:00.777Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T15:55:28.579Z'
+}

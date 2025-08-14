@@ -1,0 +1,55 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/.ceaccf9216f78125d008f3ceba979894b31d3db0-audit.json",
+    "files": [
+        {
+            "date": 1742686572433,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-23-03-05-error.log",
+            "hash": "a57467ce14f4a0fde3dae43697c1f947f2e1d4ee4c1b95f64199c7a7eb191298"
+        },
+        {
+            "date": 1742688051421,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-23-03-06-error.log",
+            "hash": "2ee447e00d9f3d02aa05e832212590f6763b04d835d1a48469fbca6e6d818dbf"
+        },
+        {
+            "date": 1742709777682,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-23-03-12-error.log",
+            "hash": "349b5a032bbdc3bcba100bb66aa9b4b0f17293fd78303fe8cb0221ba24569a7a"
+        },
+        {
+            "date": 1742731336000,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-23-03-18-error.log",
+            "hash": "6b3bfcff7c0e447a1332057ced353a222db864b200474fa385c98f2533cf3276"
+        },
+        {
+            "date": 1742749853888,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-23-03-23-error.log",
+            "hash": "0f29f18419488ba9819bec99a3cf5d8b9456790ddcde6e2d9ebb9f041cfe08af"
+        },
+        {
+            "date": 1742771629824,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-24-03-05-error.log",
+            "hash": "c48027e9193c0982efd4c43874f48fad4efdf4ee011125a3411f3b14fbc97659"
+        },
+        {
+            "date": 1742794190387,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-24-03-11-error.log",
+            "hash": "662502cf227cec76982c307689a438b7746be2fef03bb12930d71c1401c5181f"
+        },
+        {
+            "date": 1742839564022,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-25-03-00-error.log",
+            "hash": "c1b1318e2671eaf835d05e83ceaab50be1f07ad5943078329d5669d873bfa73c"
+        },
+        {
+            "date": 1743877629877,
+            "name": "/home/imran/E-commerce/eko-kitchen-store-backend/logs/winston/error/project-title-2025-06-04-00-error.log",
+            "hash": "68189f197edbfcf2e6dd580451b05d893b13574223a124d305534c7dcead9ccc"
+        }
+    ],
+    "hashType": "sha256"
+}

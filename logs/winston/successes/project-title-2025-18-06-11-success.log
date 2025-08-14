@@ -1,0 +1,35 @@
+{
+  message: '🔌 Client disconnected: bxJikAE0DW5bNvdJAAAG, reason: transport close',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:15.205Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:15.226Z'
+}
+{
+  message: '⚡ Client connected: G71zMMoKFEvyBv3hAAAK, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:16.487Z'
+}
+{
+  message: '📤 Emitting event "ORDER_PLACED" to roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:20.971Z'
+}
+{
+  message: '📦 Total emitted to recipients: 1 ',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:20.972Z'
+}
+{
+  message: '🔌 Client disconnected: G71zMMoKFEvyBv3hAAAK, reason: transport close',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:32.230Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-18T05:00:32.232Z'
+}

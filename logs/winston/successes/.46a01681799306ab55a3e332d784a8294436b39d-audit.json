@@ -1,0 +1,100 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\.46a01681799306ab55a3e332d784a8294436b39d-audit.json",
+    "files": [
+        {
+            "date": 1737445304983,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-21-01-13-success.log",
+            "hash": "50967a4eb107bae230da7ba13a57c535b80e3034a6853c84474d625f04daab53"
+        },
+        {
+            "date": 1737446782031,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-21-01-14-success.log",
+            "hash": "028ff8a609e51a81fd48f55061f95b9aff912b66d39bc6cb7d5115f9a021bdb6"
+        },
+        {
+            "date": 1737636225204,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-23-01-18-success.log",
+            "hash": "165652243407e220e2d4e02913dc239f1ffcc5cf3a3573a2721e86da6ee6e0a6"
+        },
+        {
+            "date": 1737778354677,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-25-01-10-success.log",
+            "hash": "01e04d47fbc0f1c1652613a82db7b6b6da08f83d42578f611932e80255b19413"
+        },
+        {
+            "date": 1737866039129,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-26-01-10-success.log",
+            "hash": "75bb69134ad0769158360505185024369448e8cc118495703c424067c0304f21"
+        },
+        {
+            "date": 1737932750250,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-27-01-05-success.log",
+            "hash": "520d621c6b0a7f84509a72ffd192386af06644450ba23e3878e17232fc88a4c4"
+        },
+        {
+            "date": 1737961517263,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-27-01-13-success.log",
+            "hash": "37957caba2873ca614c427aa3108934d5734d1eeb0990af7a2c8cd56ff33efa1"
+        },
+        {
+            "date": 1738044546683,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-28-01-12-success.log",
+            "hash": "5f3bcc839299e77bd90720d0da1dbed6e8936c035bb04b319efaa47d33cd2545"
+        },
+        {
+            "date": 1738048741806,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-28-01-13-success.log",
+            "hash": "b96c873fdc4f14b20125f28d3ff06e273dad1c07a765cf1c3ec88508996856e8"
+        },
+        {
+            "date": 1738051211430,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-28-01-14-success.log",
+            "hash": "f8177b3779737c76c3bbf5f8abebe95ad7c307eda950753bf34aed3baa1ad056"
+        },
+        {
+            "date": 1738089518795,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-29-01-00-success.log",
+            "hash": "3d75cbbc72a6bba2260c1f87c2b6ed39ac632c4fb2cddbb7b79088649bd4a24e"
+        },
+        {
+            "date": 1738100447939,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-29-01-03-success.log",
+            "hash": "894df4be0a8be5e2f9d1df1d0c1e0c031e1f0a9ddab2a8d16e6950200c251532"
+        },
+        {
+            "date": 1738102101405,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-29-01-04-success.log",
+            "hash": "d5cf9b575471b747f2a4465cf11390c7c6ed77fa0fc18a083e37ae56027499e9"
+        },
+        {
+            "date": 1738105425042,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-29-01-05-success.log",
+            "hash": "a4ef99554bb88ce03fd198f8575f026f43e32ba7eba5f9de024ec36acb85257d"
+        },
+        {
+            "date": 1738177570536,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-30-01-01-success.log",
+            "hash": "77dd9c3ee42b17a5169e415042e6a7c5a9e1a0a6aa749dc0e748e18e3242faf9"
+        },
+        {
+            "date": 1738180890887,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-30-01-02-success.log",
+            "hash": "5c587cce4b4b379a5e4720009ddec6137e9a42ef1600b2fdeb7c6ead289defff"
+        },
+        {
+            "date": 1738184633334,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-30-01-03-success.log",
+            "hash": "c862c695e6f4d8e0b3b9f9fd77ea8ffe4897f0f1fa9a6006bc8ca9c633706f9b"
+        },
+        {
+            "date": 1738188169247,
+            "name": "C:\\Eko Ranna Store\\eko-ranna-store-backend\\eko-ranna-store-backend-cicd\\logs\\winston\\successes\\project-title-2025-30-01-04-success.log",
+            "hash": "fece0d5a6f800fb8d153275bb733d0440316c96ce64e84024628c8c536a4dcd8"
+        }
+    ],
+    "hashType": "sha256"
+}

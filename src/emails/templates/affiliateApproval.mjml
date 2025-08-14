@@ -1,0 +1,358 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif" />
+      <mj-text font-size="16px" color="#374151" line-height="1.6" />
+      <mj-button background-color="#1E40AF" color="#ffffff" font-weight="600" border-radius="8px" padding="16px 32px" font-size="16px" />
+    </mj-attributes>
+    
+    <mj-style inline="inline">
+      .header-gradient {
+        background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 50%, #1E40AF 100%);
+      }
+      .success-badge {
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 700;
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.25);
+        animation: pulse 2s infinite;
+      }
+      .referral-code-container {
+        background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+        border: 2px solid #1E40AF;
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+        margin: 20px 0;
+        animation: fadeInScale 1s ease-out;
+      }
+      .referral-code {
+        background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+        color: white;
+        font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+        font-size: 22px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        padding: 18px 28px;
+        border-radius: 10px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 20px 0 rgba(30, 64, 175, 0.3);
+        transition: all 0.3s ease;
+        animation: glow 2.5s ease-in-out infinite alternate;
+      }
+      .feature-card {
+        background: #FFFFFF;
+        border: 1px solid #E5E7EB;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 16px 0;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
+        text-align: center;
+        animation: slideInUp 0.8s ease-out;
+      }
+      .feature-icon {
+        background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0 auto 16px auto;
+        animation: bounceIn 1.2s ease-out;
+      }
+      .stats-highlight {
+        background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+        border: 1px solid #F59E0B;
+        border-radius: 12px;
+        padding: 24px;
+        margin: 24px 0;
+        text-align: center;
+        animation: fadeInUp 1s ease-out;
+      }
+      .cta-secondary {
+        background: #FFFFFF;
+        border: 2px solid #1E40AF;
+        color: #1E40AF;
+        padding: 14px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        margin: 8px;
+        transition: all 0.3s ease;
+        animation: slideInLeft 0.8s ease-out;
+      }
+      .security-badge {
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        margin-left: 8px;
+      }
+      .trust-indicators {
+        background: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 20px 0;
+        animation: fadeIn 1.2s ease-out;
+      }
+      .animated-title {
+        animation: slideInDown 0.8s ease-out;
+      }
+      .animated-welcome {
+        animation: fadeInUp 1s ease-out 0.3s both;
+      }
+      .animated-subtitle {
+        animation: fadeInUp 1s ease-out 0.6s both;
+      }
+      
+      /* Animation Keyframes */
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      @keyframes fadeInScale {
+        0% { opacity: 0; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+      @keyframes glow {
+        0% { box-shadow: 0 4px 20px 0 rgba(30, 64, 175, 0.3); }
+        100% { box-shadow: 0 6px 25px 0 rgba(30, 64, 175, 0.5), 0 0 30px 0 rgba(30, 64, 175, 0.2); }
+      }
+      @keyframes slideInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes bounceIn {
+        0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+        50% { transform: scale(1.1) rotate(5deg); }
+        100% { opacity: 1; transform: scale(1) rotate(0deg); }
+      }
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slideInDown {
+        0% { opacity: 0; transform: translateY(-30px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      @keyframes slideInLeft {
+        0% { opacity: 0; transform: translateX(-20px); }
+        100% { opacity: 1; transform: translateX(0); }
+      }
+    </mj-style>
+  </mj-head>
+  
+  <mj-body background-color="#F8FAFC">
+    
+    <!-- Header Section -->
+    <mj-section css-class="header-gradient" padding="0">
+      <mj-column>
+        <mj-spacer height="30px" />
+        <mj-text align="center" font-size="32px" color="#ffffff" font-weight="800" padding="0">
+          🛡️ ChoiceIdentity
+        </mj-text>
+        <mj-text align="center" font-size="16px" color="#BFDBFE" padding="8px 0 30px 0" font-weight="500">
+          Premium Identity Protection & Cybersecurity Solutions
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Approval Badge Section -->
+    <mj-section background-color="#FFFFFF" padding="0" border-radius="16px 16px 0 0">
+      <mj-column>
+        <mj-spacer height="40px" />
+        <mj-text align="center" padding="0 30px">
+          <span class="success-badge">✓ AFFILIATE APPROVED</span>
+        </mj-text>
+        <mj-spacer height="30px" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Welcome Message -->
+    <mj-section background-color="#FFFFFF" padding="0 40px">
+      <mj-column>
+        <mj-text font-size="28px" font-weight="700" color="#111827" align="center" padding-bottom="16px" css-class="animated-welcome">
+          Welcome to Our Partner Network, {{name}}! 🎉
+        </mj-text>
+        
+        <mj-text color="#4B5563" font-size="18px" align="center" padding-bottom="32px" line-height="1.7" css-class="animated-subtitle">
+          Congratulations! Your affiliate application has been <strong>approved</strong> and your account is now active. You're joining an elite network of partners who are making the digital world safer, one referral at a time.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Referral Code Section -->
+    <mj-section background-color="#FFFFFF" padding="0 40px">
+      <mj-column>
+        <mj-text align="center" color="#374151" font-size="16px" font-weight="600" padding-bottom="16px">
+          Your Exclusive Referral Code:
+        </mj-text>
+        
+        <mj-text css-class="referral-code-container">
+          <a href="https://choiceidentity.com/affiliate/dashboard?ref={{referralCode}}" class="referral-code" target="_blank">
+            {{referralCode}}
+          </a>
+          <p style="margin: 16px 0 0 0; color: #6B7280; font-size: 14px;">Click to access your affiliate dashboard</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Commission Highlight -->
+    <mj-section background-color="#FFFFFF" padding="0 40px">
+      <mj-column>
+        <mj-text css-class="stats-highlight">
+          <div style="font-size: 32px; margin-bottom: 8px;">💰</div>
+          <div style="font-size: 20px; font-weight: 700; color: #92400E; margin-bottom: 8px;">
+            Earn Up to 35% Commission
+          </div>
+          <div style="font-size: 16px; color: #78716C;">
+            No caps, no limits. Average partner earns $2,847/month
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Key Benefits Section -->
+    <mj-section background-color="#FFFFFF" padding="0 40px 20px 40px">
+      <mj-column>
+        <mj-text font-size="24px" font-weight="700" color="#111827" align="center" padding="30px 0 20px 0" css-class="animated-title">
+          🚀 Your Partner Benefits
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Benefit 1 -->
+    <mj-section background-color="#FFFFFF" padding="8px 40px">
+      <mj-column>
+        <mj-text css-class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #111827;">Real-Time Analytics Dashboard</h3>
+          <p style="margin: 0; color: #4B5563; line-height: 1.6;">Track clicks, conversions, and earnings in real-time. Get detailed insights into your best-performing campaigns and optimize for maximum revenue.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Benefit 2 -->
+    <mj-section background-color="#FFFFFF" padding="8px 40px">
+      <mj-column>
+        <mj-text css-class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #111827;">Premium Marketing Resources</h3>
+          <p style="margin: 0; color: #4B5563; line-height: 1.6;">Access professionally designed banners, email templates, social media content, and landing pages created by our conversion optimization team.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Benefit 3 -->
+    <mj-section background-color="#FFFFFF" padding="8px 40px">
+      <mj-column>
+        <mj-text css-class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 700; color: #111827;">Dedicated Partner Support</h3>
+          <p style="margin: 0; color: #4B5563; line-height: 1.6;">Get priority support from our affiliate success team, plus exclusive training sessions and strategy calls to maximize your earnings potential.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Trust Indicators -->
+    <mj-section background-color="#FFFFFF" padding="20px 40px">
+      <mj-column>
+        <mj-text css-class="trust-indicators">
+          <div style="text-align: center;">
+            <div style="display: inline-block; margin: 0 16px; color: #10B981; font-weight: 600;">
+              🔒 SOC 2 Certified
+            </div>
+            <div style="display: inline-block; margin: 0 16px; color: #10B981; font-weight: 600;">
+              🛡️ 99.9% Uptime SLA
+            </div>
+            <div style="display: inline-block; margin: 0 16px; color: #10B981; font-weight: 600;">
+              ⭐ 4.9/5 Customer Rating
+            </div>
+          </div>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Primary CTA -->
+    <mj-section background-color="#FFFFFF" padding="20px 40px">
+      <mj-column>
+        <mj-button href="https://choiceidentity.com/affiliate/dashboard?ref={{referralCode}}" target="_blank" font-size="18px" padding="20px 40px" border-radius="10px">
+          🚀 Access My Dashboard
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- Secondary CTAs -->
+    <mj-section background-color="#FFFFFF" padding="0 40px 40px 40px">
+      <mj-column>
+        <mj-text align="center">
+          <a href="https://choiceidentity.com/affiliate/resources" class="cta-secondary" target="_blank">
+            📱 Marketing Kit
+          </a>
+          <a href="https://choiceidentity.com/affiliate/training" class="cta-secondary" target="_blank">
+            🎓 Training Center
+          </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Support Section -->
+    <mj-section background-color="#FFFFFF" padding="0 40px 40px 40px" border-radius="0 0 16px 16px">
+      <mj-column>
+        <mj-divider border-color="#E5E7EB" border-width="1px" padding="30px 0 25px 0" />
+        
+        <mj-text color="#6B7280" font-size="16px" align="center" padding-bottom="20px" line-height="1.6">
+          <strong style="color: #374151;">Questions? We're Here to Help!</strong><br/>
+          Our dedicated affiliate success team is available 24/7 to ensure your success.
+        </mj-text>
+        
+        <mj-text align="center" padding-bottom="25px">
+          <a href="mailto:partners@choiceidentity.com" style="color: #1E40AF; text-decoration: none; font-weight: 600; margin-right: 20px;">📧 partners@choiceidentity.com</a>
+          <a href="https://choiceidentity.com/affiliate/chat" style="color: #1E40AF; text-decoration: none; font-weight: 600;">💬 Live Chat Support</a>
+        </mj-text>
+        
+        <mj-text font-size="18px" color="#1E40AF" align="center" font-weight="600" line-height="1.5">
+          Here's to your success and our shared mission of digital security!<br />
+          <strong style="color: #111827;">The ChoiceIdentity Partnership Team</strong> 🛡️
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section background-color="#F8FAFC" padding="40px 30px">
+      <mj-column>
+        <mj-text font-size="13px" color="#9CA3AF" align="center" line-height="1.8">
+          © 2025 ChoiceIdentity, Inc. All rights reserved.<br />
+          2847 Cyber Security Blvd, Suite 200, Austin, TX 78701<br />
+          Phone: 1-800-SECURE-1 | Web: choiceidentity.com<br /><br />
+          <a href="{{unsubscribeLink}}" style="color:#9CA3AF; text-decoration: underline;">Unsubscribe</a> | 
+          <a href="https://choiceidentity.com/privacy" style="color:#9CA3AF; text-decoration: underline;">Privacy Policy</a> | 
+          <a href="https://choiceidentity.com/terms" style="color:#9CA3AF; text-decoration: underline;">Terms of Service</a> | 
+          <a href="https://choiceidentity.com/affiliate/terms" style="color:#9CA3AF; text-decoration: underline;">Affiliate Agreement</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+  </mj-body>
+</mjml>
