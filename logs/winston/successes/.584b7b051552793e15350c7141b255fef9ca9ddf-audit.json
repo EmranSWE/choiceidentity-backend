@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "G:\\Cloud engineer\\boilarplate-code-backend\\Boilerplate code\\logs\\winston\\successes\\.584b7b051552793e15350c7141b255fef9ca9ddf-audit.json",
+    "files": [
+        {
+            "date": 1715248447826,
+            "name": "G:\\Cloud engineer\\boilarplate-code-backend\\Boilerplate code\\logs\\winston\\successes\\project-title-2024-09-05-15-success.log",
+            "hash": "fb6ecaeda20db6a2ac50042cff5cc4f7ec58eb848fe53670716ef3fcc9b154d5"
+        }
+    ],
+    "hashType": "sha256"
+}

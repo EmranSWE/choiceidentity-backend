@@ -1,0 +1,53 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" />
+      <mj-text font-size="16px" color="#333333" line-height="1.5" />
+      <mj-button background-color="#E02424" color="#ffffff" font-weight="bold" border-radius="6px" padding="15px 30px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f7f9fc">
+    <mj-section padding="20px 0" background-color="#E02424">
+      <mj-column>
+        <mj-text align="center" font-size="24px" color="#ffffff" font-weight="bold" padding="10px 0">
+          ChoiceIdentity
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="30px" border-radius="8px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="bold" color="#111827" padding-bottom="10px">
+          Hello {{name}},
+        </mj-text>
+
+        <mj-text color="#374151" font-size="16px" padding-bottom="20px">
+          Unfortunately, your affiliate account has been <strong>rejected</strong>.
+        </mj-text>
+
+        <mj-text color="#374151" font-size="16px" padding-bottom="20px">
+          Reason: {{reason}}
+        </mj-text>
+
+        <mj-text color="#374151" font-size="16px" padding-top="30px">
+          If you believe this is a mistake or have any questions, please reply to this email or contact our support team.
+        </mj-text>
+
+        <mj-text font-size="16px" color="#E02424" padding-top="30px">
+          Best regards,<br />
+          The ChoiceIdentity Team
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f7f9fc" padding="20px 30px" text-align="center">
+      <mj-column>
+        <mj-text font-size="12px" color="#9ca3af">
+          © 2025 ChoiceIdentity, Inc. All rights reserved.<br />
+          1234 Main St, Suite 100, City, State, ZIP<br />
+          <a href="{{unsubscribeLink}}" style="color:#9ca3af; text-decoration:none;">Unsubscribe</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

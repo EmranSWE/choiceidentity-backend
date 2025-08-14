@@ -1,0 +1,85 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-18T14:31:57.253Z'
+}
+{
+  message: '✅ Socket connected: lQPSgTJmgS6S8EyMAAAB, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:31:57.360Z'
+}
+{
+  message: '✅ Socket connected: WigY_8R40SLRXttlAAAD, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:31:58.371Z'
+}
+{
+  message: '❌ Socket disconnected: WigY_8R40SLRXttlAAAD',
+  level: 'warn',
+  timestamp: '2025-06-18T14:42:54.208Z'
+}
+{
+  message: '✅ Socket connected: SssyyX7GLXzEvTUqAAAH, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:42:55.968Z'
+}
+{
+  message: '✅ Socket connected: j59jPmspYrz-JN8YAAAL, userId: 683ac41a53b089559734e5fc, role: admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:43:07.050Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 2 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:43:11.451Z'
+}
+{
+  message: '📥 Notification 6852d07ebe484d8b2ef0e2dd marked as read by 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T14:43:20.539Z'
+}
+{
+  message: '📥 Notification 6852d07ebe484d8b2ef0e2dd marked as read by 683ac41a53b089559734e5fc',
+  level: 'info',
+  timestamp: '2025-06-18T14:43:25.991Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 2 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:47:22.748Z'
+}
+{
+  message: '📥 Notification 6852d17abe484d8b2ef0e2eb marked as read by 67d07916b75af0a0ba78c34d',
+  level: 'info',
+  timestamp: '2025-06-18T14:47:41.893Z'
+}
+{
+  message: '❌ Socket disconnected: SssyyX7GLXzEvTUqAAAH',
+  level: 'warn',
+  timestamp: '2025-06-18T14:48:24.688Z'
+}
+{
+  message: '✅ Socket connected: wSUyyFClO6L2SMIpAAAP, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:48:26.047Z'
+}
+{
+  message: '❌ Socket disconnected: wSUyyFClO6L2SMIpAAAP',
+  level: 'warn',
+  timestamp: '2025-06-18T14:48:29.147Z'
+}
+{
+  message: '✅ Socket connected: zn0_Dk4DYGUS_B5DAAAT, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:48:29.822Z'
+}
+{
+  message: '❌ Socket disconnected: zn0_Dk4DYGUS_B5DAAAT',
+  level: 'warn',
+  timestamp: '2025-06-18T14:48:45.758Z'
+}
+{
+  message: '✅ Socket connected: kEUtbXG_N34wBemIAAAX, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-18T14:48:46.293Z'
+}

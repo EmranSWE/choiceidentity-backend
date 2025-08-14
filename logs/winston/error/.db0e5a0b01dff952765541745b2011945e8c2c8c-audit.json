@@ -1,0 +1,300 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/.db0e5a0b01dff952765541745b2011945e8c2c8c-audit.json",
+    "files": [
+        {
+            "date": 1750222555491,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-10-error.log",
+            "hash": "1773671e5a21a968be43554f6049ba425a5839303a38269f2afd168994a02bec"
+        },
+        {
+            "date": 1750232457753,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-13-error.log",
+            "hash": "a776bc431c8d86770ba4659f878ac126d7311f48d615d2af0feef91ecc2dccb0"
+        },
+        {
+            "date": 1750233895026,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-14-error.log",
+            "hash": "cd329a800f687a07b3f9b981d806de774a72b3f5fe9444f7e476952d10963dd8"
+        },
+        {
+            "date": 1750241380766,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-16-error.log",
+            "hash": "8e97965be379ac01b2430759fb673f87f0f22e82832ba4570f2e2fe5715c3c50"
+        },
+        {
+            "date": 1750244795909,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-17-error.log",
+            "hash": "12f8c3a8e0ee5b42be757c37548acdc5b892e58c352e6cd183668253664b6267"
+        },
+        {
+            "date": 1750257115343,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-20-error.log",
+            "hash": "4b285c1088f2f568dbc7ba4680184177a7e0b87502a249e17cbac8447497dba6"
+        },
+        {
+            "date": 1750258973312,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-21-error.log",
+            "hash": "6899a280bc9ce0bcd7789bc4db1c61c19b9e73736944735759c56b4f701ce1db"
+        },
+        {
+            "date": 1750262592577,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-22-error.log",
+            "hash": "8994378c65cfa994bbc02d66001c8c21364e6889b374841bd5bc9a91500abd34"
+        },
+        {
+            "date": 1750266060754,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-18-06-23-error.log",
+            "hash": "7887e9ee579f7fa1acdb6d212470d98b673aeabc793d53a42ccb99ba6252c668"
+        },
+        {
+            "date": 1750270103696,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-00-error.log",
+            "hash": "430fae5bca91e330fa2d072b8cf76aeaff14d3f4f4b8d8bf040b73c650413ff6"
+        },
+        {
+            "date": 1750303409780,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-09-error.log",
+            "hash": "8acfb429aa635b39fbede29feb922bbcc0282ac5fe297878316c6539fb2720f0"
+        },
+        {
+            "date": 1750305908631,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-10-error.log",
+            "hash": "984808689d8495a32f3fc9a1dcf1e70315c1eb9576625c179d579dffe3cc7353"
+        },
+        {
+            "date": 1750309363863,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-11-error.log",
+            "hash": "015d805ac716f112955e532bfb920ba94ffcb7d7810dacd445607a4c3c584f0f"
+        },
+        {
+            "date": 1750315790950,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-12-error.log",
+            "hash": "11f832bcccab74545939c38561c0aecaf05f0b23b423603fe23e65a1cb1d8cc9"
+        },
+        {
+            "date": 1750316412722,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-13-error.log",
+            "hash": "0cb9843604083a9ed5941d31262ad70f7e65aa1b068c72763e88ef5249caaac0"
+        },
+        {
+            "date": 1750323754653,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-15-error.log",
+            "hash": "0ccdf77145f40a3fa26712589f5ce06449ac8e1bf96b82dab3bdac4dbf4ba520"
+        },
+        {
+            "date": 1750328230866,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-16-error.log",
+            "hash": "a789b41fbc37270904f200015ee2f8725c89a39fc3bd20b11a4a84a1c290fa6b"
+        },
+        {
+            "date": 1750330835609,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-17-error.log",
+            "hash": "b3ee3daeab60632b6541e05818d2a4d9887c8d406b938e0a9a0b09e671fa35b0"
+        },
+        {
+            "date": 1750341421072,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-19-error.log",
+            "hash": "9ab3bda632c17d87955cdcb1a635dd3c1f3b128f30b6e903276c8a6eb77b47b2"
+        },
+        {
+            "date": 1750343343793,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-20-error.log",
+            "hash": "a914474a585b63a62ccd292060b0c21d5dcfb51b43d51889c3635ec13ee55e3f"
+        },
+        {
+            "date": 1750345231067,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-21-error.log",
+            "hash": "0ee2eeac831c21f555ffedd1448102fcaeb4c10e69105cfe60e6c171191e3664"
+        },
+        {
+            "date": 1750349258907,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-22-error.log",
+            "hash": "1ad12548c9944528368dc503438365efb4931e9d68c426ec5068f4d25395f154"
+        },
+        {
+            "date": 1750352402643,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-19-06-23-error.log",
+            "hash": "0dc45112eab2a44a5f68ceb4c02883b2f9ae360b3ad7aaa61f6dcbac3e013bba"
+        },
+        {
+            "date": 1750356177233,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-00-error.log",
+            "hash": "0b49334288a48ea5d8a3e81b5913865b7c10c72bc123ddd77ef0f74e6b84673d"
+        },
+        {
+            "date": 1750359697529,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-01-error.log",
+            "hash": "ea2be85c722e267cf89ba8f8e5238230a9a8fd8f66afea1b1ac0cc81dd2397d1"
+        },
+        {
+            "date": 1750365165931,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-02-error.log",
+            "hash": "e628ee03cb19c98f37e4903c0b3fac2d018af470f6130b06febbe4c3aa42834d"
+        },
+        {
+            "date": 1750371491775,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-04-error.log",
+            "hash": "e64333ae192158798871745df5b73cb0a479a7edaeedcceca6ea82be7453a3fa"
+        },
+        {
+            "date": 1750401157659,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-12-error.log",
+            "hash": "fa3843df7983224e159cd1f73b71e12280c17e55fe601f480be965bea062557e"
+        },
+        {
+            "date": 1750419211405,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-17-error.log",
+            "hash": "e76bf9b0c884cd6256b3a0761bb2edaeb87e719a2c2377474418adedf6fd59f0"
+        },
+        {
+            "date": 1750425461838,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-19-error.log",
+            "hash": "43d25a253eb648e580454aa0e4dbce9c5660df49c6029c0e49231648e21657e0"
+        },
+        {
+            "date": 1750429724025,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-20-06-20-error.log",
+            "hash": "b389891eb480544794ab318ceea4cb04e033d9daf45e12f5e774a0be60d97cbb"
+        },
+        {
+            "date": 1750443155163,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-00-error.log",
+            "hash": "7f4443af8c4263ed0258656a1802b2a6b088d0556619d6a359e564598e7bd4da"
+        },
+        {
+            "date": 1750446107469,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-01-error.log",
+            "hash": "c0397e65a66bd0aef9dca52469ac70ed62556d07cb183052b1f0efb2f6c75bc3"
+        },
+        {
+            "date": 1750449609763,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-02-error.log",
+            "hash": "8f0f11a1c094cb7e7886b78508c8a4ca088ba5bcc96dc479bc40fadb130fbf37"
+        },
+        {
+            "date": 1750453975780,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-03-error.log",
+            "hash": "5d9a0fcf878a4032113e14b88a051eeca13f59c58dcf0b4f07b2fbfc6092b506"
+        },
+        {
+            "date": 1750463582931,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-05-error.log",
+            "hash": "9f471249453f49b02ef59307bf724be73481312d0fc49379d7489bfad4414ca8"
+        },
+        {
+            "date": 1750465831852,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-06-error.log",
+            "hash": "daa7d5b6696ef25567154e525b4849edfb88b206ed8ec1d12cc0a6da69b4565f"
+        },
+        {
+            "date": 1750480223369,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-10-error.log",
+            "hash": "31340931ceb169dc45874e4d6ea4497937c7d4f18331ea1ff036e0f16e5ea580"
+        },
+        {
+            "date": 1750485080648,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-21-06-11-error.log",
+            "hash": "8fafcc97495c515d1d3a4065a2f6f82f121af01faf1e8bd67b9597de217249f0"
+        },
+        {
+            "date": 1750529930731,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-00-error.log",
+            "hash": "3b5ad7cf1d5dc0b5939a24dbc7da7e928aec86b06113aa4446dec215b4c1537c"
+        },
+        {
+            "date": 1750574196409,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-12-error.log",
+            "hash": "769df71eae3ff2fafad8f75b8b356ebdca4864322ffff763649f2f6ac7f759f8"
+        },
+        {
+            "date": 1750575728684,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-13-error.log",
+            "hash": "5238b970eee7f52f38b008a9d42b6eea596e5fde8afc58dfc618f72db9038cb2"
+        },
+        {
+            "date": 1750580260771,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-14-error.log",
+            "hash": "e390d5ba9ba99c75792952b8ea2eacb45c71207ea52dfa69fdf6501ee734140b"
+        },
+        {
+            "date": 1750606885149,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-21-error.log",
+            "hash": "483e6bd6592ad2b28a601ac8a8389e6f899d68370cfa8706165c734a4e4d8a08"
+        },
+        {
+            "date": 1750608113083,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-22-error.log",
+            "hash": "3ecedc80578391212c4d4909c50c9900dfa796762300e60eb54dc01d8968bdec"
+        },
+        {
+            "date": 1750612472751,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-22-06-23-error.log",
+            "hash": "2f97ac437e582bb3037fd513904879b1bf48e74d517561eb38836360b25acb4f"
+        },
+        {
+            "date": 1750616913246,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-00-error.log",
+            "hash": "ba8fe7ab7b7f870176c92c76226bc5e5a59ab0a105fc9410610ffd2ce0062c3c"
+        },
+        {
+            "date": 1750625635050,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-02-error.log",
+            "hash": "2cfb17e83525fe97a9563529883eda25097a8cbb6b4b30eb5c48ae348b1557b8"
+        },
+        {
+            "date": 1750629839039,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-04-error.log",
+            "hash": "66f0266a360e4134ac4afface92852344f6626ef63f75a54193fa9519cb58747"
+        },
+        {
+            "date": 1750634224130,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-05-error.log",
+            "hash": "96b8ac422083d995ef09eaf63cd0dfccd0567374199a0d9ff2be546eddcd71fa"
+        },
+        {
+            "date": 1750636849861,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-06-error.log",
+            "hash": "3b269cf21b33bbcfc851066ea81ff27b0307aafe8b7ec4eb54a1efe0fd6ddf18"
+        },
+        {
+            "date": 1750643855418,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-07-error.log",
+            "hash": "2cbdc597a81abff32b49610a39f0f35925e28cd00e862e42db97d2afa121a71f"
+        },
+        {
+            "date": 1750644201653,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-08-error.log",
+            "hash": "6e578629a5841120ea9ab9201db480fdb0e1d62f626cd756cd69a9bd681003b7"
+        },
+        {
+            "date": 1750647665510,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-09-error.log",
+            "hash": "b900a92dccdcdb8c8d0cfbb3c12c07887d3efb219297857e0fd66a343dda1965"
+        },
+        {
+            "date": 1750662287982,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-13-error.log",
+            "hash": "fe78b44d2f45aeea00c91d5518618c2ed592552e39d04c54c2aab1210daee6cb"
+        },
+        {
+            "date": 1750686426517,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-23-06-19-error.log",
+            "hash": "d7345754cdf07ed0b8d00f9395b4ed115a89f98261447bce03b01b4b8b258a4c"
+        },
+        {
+            "date": 1751258704968,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-30-06-10-error.log",
+            "hash": "99e2d72a7398c934f4bb91c02f5e21c191fbb483444752376f00bcd8b6acc513"
+        },
+        {
+            "date": 1751269985637,
+            "name": "/home/imran/E-commerce/pawajabe.com-backend/logs/winston/error/project-title-2025-30-06-13-error.log",
+            "hash": "8b7631da554af187292d4711d828f0d99a06887c5ad2b8be7df1b43d8fab32e4"
+        }
+    ],
+    "hashType": "sha256"
+}

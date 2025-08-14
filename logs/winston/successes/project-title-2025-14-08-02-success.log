@@ -1,0 +1,92 @@
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:08:39.552Z'
+}
+{
+  code: 'TIMEOUT',
+  level: 'error',
+  message: 'Non-retryable error on attempt 1 Operation timed out after 5000 ms',
+  stack: 'Error: Operation timed out after 5000 ms\n' +
+    '    at Timeout.<anonymous> (/home/imran/choiceidentity/choiceidentity-backend/src/app/modules/stripe/stripe.utils.ts:243:21)\n' +
+    '    at listOnTimeout (node:internal/timers:594:17)\n' +
+    '    at processTimers (node:internal/timers:529:7)',
+  timestamp: '2025-08-13T20:08:44.589Z'
+}
+{
+  err: Error: Operation timed out after 5000 ms
+      at Timeout.<anonymous> (/home/imran/choiceidentity/choiceidentity-backend/src/app/modules/stripe/stripe.utils.ts:243:21)
+      at listOnTimeout (node:internal/timers:594:17)
+      at processTimers (node:internal/timers:529:7) {
+    code: 'TIMEOUT'
+  },
+  email: 'imr@gmail.com',
+  level: 'error',
+  message: 'Stripe customer creation failed',
+  timestamp: '2025-08-13T20:08:44.592Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:33.893Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:36.352Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:37.211Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:38.095Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:38.663Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:39.078Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:09:40.146Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:49.142Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:49.881Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:50.650Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:51.084Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:51.722Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-13T20:10:52.860Z'
+}

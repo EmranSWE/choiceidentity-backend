@@ -1,0 +1,299 @@
+{
+  message: '✅ Socket connected: OjLiLhVBLgkjEezsAAAE, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:00:28.010Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:00:29.458Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:00:46.576Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:00:49.453Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:01:01.679Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 1 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:01:04.523Z'
+}
+{
+  message: '❌ Socket disconnected: OjLiLhVBLgkjEezsAAAE',
+  level: 'warn',
+  timestamp: '2025-06-19T18:01:07.412Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-19T18:01:07.412Z'
+}
+{
+  pagesVisited: [],
+  actionsTaken: [],
+  sessionDuration: 39396,
+  lastInteraction: 2025-06-19T18:00:28.017Z,
+  level: 'info',
+  message: 'Session data saved for 67d07916b75af0a0ba78c34d session:',
+  timestamp: '2025-06-19T18:01:07.414Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:02:58.849Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:03:01.604Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:03:12.788Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:08:04.822Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:09:13.508Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:10:06.543Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:10:19.822Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:11:49.285Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:11:53.815Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:11:56.940Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:34.114Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:41.184Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:43.517Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:45.041Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:47.251Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:49.002Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:50.740Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:52.769Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:54.908Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:56.978Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:17:58.967Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:18:00.779Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:20:51.082Z'
+}
+{
+  message: '📤 Event "ORDER_PLACED" emitted to 0 user(s) with roles: admin, super_admin',
+  level: 'info',
+  timestamp: '2025-06-19T18:20:53.599Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:24:39.233Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:25:47.306Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:26:23.275Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:28:22.502Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:28:30.858Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:28:42.093Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:29:10.543Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:29:31.797Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:31:51.924Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:32:20.038Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:33:47.955Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:34:03.475Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:36:19.815Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:38:59.456Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:41:38.458Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:41:53.626Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:42:58.900Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:43:02.712Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:43:04.963Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:43:51.957Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:47:06.782Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:49:38.027Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:52:30.408Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:58:50.726Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:58:53.785Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-06-19T18:59:46.275Z'
+}

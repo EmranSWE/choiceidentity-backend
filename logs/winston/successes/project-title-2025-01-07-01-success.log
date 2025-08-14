@@ -1,0 +1,43 @@
+{
+  message: '❌ Socket disconnected: U-4HupmRPDrr2sJOAAAb',
+  level: 'warn',
+  timestamp: '2025-06-30T19:09:50.580Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-30T19:09:50.592Z'
+}
+{
+  pagesVisited: [],
+  actionsTaken: [],
+  sessionDuration: 35090131,
+  lastInteraction: 2025-06-30T09:25:00.461Z,
+  level: 'info',
+  message: 'Session data saved for 67d07916b75af0a0ba78c34d session:',
+  timestamp: '2025-06-30T19:09:50.592Z'
+}
+{
+  message: '✅ Socket connected: lWeCvM27MWGejdliAAAf, userId: 67d07916b75af0a0ba78c34d, role: super_admin',
+  level: 'info',
+  timestamp: '2025-06-30T19:10:33.786Z'
+}
+{
+  message: '❌ Socket disconnected: lWeCvM27MWGejdliAAAf',
+  level: 'warn',
+  timestamp: '2025-06-30T19:11:05.489Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-30T19:11:05.493Z'
+}
+{
+  pagesVisited: [],
+  actionsTaken: [],
+  sessionDuration: 31703,
+  lastInteraction: 2025-06-30T19:10:33.790Z,
+  level: 'info',
+  message: 'Session data saved for 67d07916b75af0a0ba78c34d session:',
+  timestamp: '2025-06-30T19:11:05.493Z'
+}

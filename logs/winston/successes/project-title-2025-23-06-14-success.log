@@ -1,0 +1,19 @@
+{
+  message: '❌ Socket disconnected: 6NNDYsQQm_W02odVAAAE',
+  level: 'warn',
+  timestamp: '2025-06-23T08:03:51.524Z'
+}
+{
+  message: '🗑 Removed userId=67d07916b75af0a0ba78c34d from connected users',
+  level: 'info',
+  timestamp: '2025-06-23T08:03:51.527Z'
+}
+{
+  pagesVisited: [],
+  actionsTaken: [],
+  sessionDuration: 1728397,
+  lastInteraction: 2025-06-23T07:35:03.131Z,
+  level: 'info',
+  message: 'Session data saved for 67d07916b75af0a0ba78c34d session:',
+  timestamp: '2025-06-23T08:03:51.528Z'
+}

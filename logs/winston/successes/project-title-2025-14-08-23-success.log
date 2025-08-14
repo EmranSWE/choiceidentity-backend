@@ -1,0 +1,30 @@
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:00.311Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:01.550Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:02.368Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:02.778Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:03.189Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-08-14T17:55:06.328Z'
+}
