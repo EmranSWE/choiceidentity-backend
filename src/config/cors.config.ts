@@ -69,7 +69,7 @@ export const getCookieOptions = (
     } else if (origin?.includes('affiliate.choiceidentity.com')) {
       baseOptions.domain = 'affiliate.choiceidentity.com'; 
     } else {
-      baseOptions.domain = '.choiceidentity.com';
+      baseOptions.domain = 'choiceidentity.com';
     }
     // ============ END OF ADDITION ============
 
