@@ -29,15 +29,17 @@ router.post('/create-admin', auth_controller_1.UserController.CreateAdmin);
 router.post('/login', (0, validateRequest_1.default)(user_validation_1.AuthValidation.loginZodSchema), 
 // globalRateLimiter,
 auth_controller_1.UserController.loginUser);
-router.post('/refresh-token', (0, validateRequest_1.default)(user_validation_1.AuthValidation.refreshTokenZodSchema), auth_controller_1.UserController.refreshToken);
+router.post('/refresh-token', 
+//   validateRequest(AuthValidation.refreshTokenZodSchema),
+auth_controller_1.UserController.refreshToken);
 router.post('/logout', auth_controller_1.UserController.LogoutUser);
 router.patch('/users/:id/role', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN), (0, validateRequest_1.default)(user_validation_1.AuthValidation.updateRoleSchema), auth_controller_1.UserController.UpdateUserRole);
 // router.post('/forgot-password',  validateRequest(AuthValidation.forgotPasswordSchema),UserController.ForgotPassword);
 router.post('/reset-password', (0, validateRequest_1.default)(user_validation_1.AuthValidation.resetPasswordSchema), auth_controller_1.UserController.ResetPassword);
 // router.post('/verify-email', UserController.verifyEmail);
 // Protected Routes (User)
-router.get('/profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER), auth_controller_1.UserController.GetProfile);
-router.patch('/profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER), (0, validateRequest_1.default)(user_validation_1.AuthValidation.updateUserSchema), auth_controller_1.UserController.UpdateProfile);
+router.get('/profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER, user_1.ENUM_USER_ROLE.AFFILIATE), auth_controller_1.UserController.GetProfile);
+router.patch('/profile', (0, auth_1.default)(user_1.ENUM_USER_ROLE.CUSTOMER, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.AFFILIATE), (0, validateRequest_1.default)(user_validation_1.AuthValidation.updateUserSchema), auth_controller_1.UserController.UpdateProfile);
 router.post('/change-password', (0, auth_1.default)(user_1.ENUM_USER_ROLE.SUPER_ADMIN, user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.CUSTOMER), (0, validateRequest_1.default)(user_validation_1.AuthValidation.ChangePasswordValidation), auth_controller_1.UserController.ChangePassword);
 // router.post('/send-verification-email', auth(ENUM_USER_ROLE.USER), UserController.sendVerificationEmail);
 // router.post('/enable-2fa', auth(ENUM_USER_ROLE.USER), UserController.enableTwoFactorAuth);

@@ -19,6 +19,7 @@ const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const affiliate_service_1 = require("./affiliate.service");
 const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const affiliate_utils_1 = require("./affiliate.utils");
+const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const createAffiliateLink = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //   if (!req.user?.id) {
     //   return res.status(401).json({ message: 'Unauthorized' });
@@ -69,8 +70,45 @@ const affiliateClick = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     }
     return res.redirect(redirectUrl);
 }));
+const getOverview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    if (!user || user.role !== 'affiliate') {
+        return res.status(http_status_1.default.FORBIDDEN).json({
+            success: false,
+            message: 'Unauthorized',
+        });
+    }
+    // Delegate all logic to service
+    const overview = yield affiliate_service_1.AffiliateService.getOverview(user.userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Affiliate Overview fetched successfully',
+        data: overview,
+    });
+}));
+const listLinks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    if (!user || user.role !== 'affiliate') {
+        return res.status(http_status_1.default.FORBIDDEN).json({
+            success: false,
+            message: 'Unauthorized',
+        });
+    }
+    const { paginationOptions, filters } = (0, paginationHelpers_1.getPaginationAndFilters)(req);
+    // Delegate all logic to service
+    const overview = yield affiliate_service_1.AffiliateService.getAffiliateLinksTable(user.userId, paginationOptions, filters);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'Affiliate Overview fetched successfully',
+        data: overview,
+    });
+}));
 exports.AffiliateController = {
     listAffiliateLinks,
     createAffiliateLink,
-    affiliateClick
+    affiliateClick,
+    getOverview,
+    listLinks
 };

@@ -45,7 +45,7 @@ router.post(
 
 router.post(
   '/refresh-token',
-  validateRequest(AuthValidation.refreshTokenZodSchema),
+//   validateRequest(AuthValidation.refreshTokenZodSchema),
   UserController.refreshToken
 );
 router.post('/logout', UserController.LogoutUser);
@@ -61,8 +61,8 @@ router.post('/reset-password',  validateRequest(AuthValidation.resetPasswordSche
 // router.post('/verify-email', UserController.verifyEmail);
 
 // Protected Routes (User)
-router.get('/profile', auth(ENUM_USER_ROLE.SUPER_ADMIN,ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER), UserController.GetProfile);
-router.patch('/profile', auth(ENUM_USER_ROLE.SUPER_ADMIN,ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER),validateRequest(AuthValidation.updateUserSchema), UserController.UpdateProfile);
+router.get('/profile', auth(ENUM_USER_ROLE.SUPER_ADMIN,ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER,ENUM_USER_ROLE.AFFILIATE), UserController.GetProfile);
+router.patch('/profile', auth(ENUM_USER_ROLE.CUSTOMER,ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.AFFILIATE),validateRequest(AuthValidation.updateUserSchema), UserController.UpdateProfile);
 router.post('/change-password', auth(ENUM_USER_ROLE.SUPER_ADMIN,ENUM_USER_ROLE.ADMIN,ENUM_USER_ROLE.CUSTOMER), validateRequest(AuthValidation.ChangePasswordValidation), UserController.ChangePassword);
 // router.post('/send-verification-email', auth(ENUM_USER_ROLE.USER), UserController.sendVerificationEmail);
 // router.post('/enable-2fa', auth(ENUM_USER_ROLE.USER), UserController.enableTwoFactorAuth);

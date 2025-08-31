@@ -28,8 +28,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const auth_service_1 = require("./auth.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const config_1 = __importDefault(require("../../../config"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const cors_config_1 = require("../../../config/cors.config");
 const CreateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     // Remove role from the payload (if present)
@@ -64,20 +64,6 @@ const CreateAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
-// const RegisterAndSubscribe: RequestHandler = catchAsync(
-//   async (req: Request, res: Response) => {
-//     const user = req.body;
-//     // Remove role from the payload (if present)
-//     delete user.role;
-//     const result = await UserService.RegisterAndSubscribe(user);
-//     sendResponse(res, {
-//       statusCode: httpStatus.OK,
-//       success: true,
-//       message: 'User created successfully',
-//       data: result,
-//     });
-//   }
-// );
 // Login User
 const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -114,15 +100,19 @@ const AffiliateLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const result = yield auth_service_1.UserService.AffiliateLogin(loginData);
         const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
         // Set refresh token in cookie
-        const cookieOptions = {
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            path: '/'
-        };
+        // res.cookie('refreshToken', refreshToken, {
+        //   httpOnly: true,
+        //   secure: true,
+        //   sameSite: 'lax',
+        //   maxAge: 7 * 24 * 60 * 60 * 1000,
+        //   path: '/',
+        //   domain: 'localhost',
+        // });
+        // =========== Productions ===============
+        const isProduction = process.env.NODE_ENV === 'production';
+        console.log('req.headers.origin', isProduction, req.headers.origin);
+        const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', refreshToken, cookieOptions);
-        // delete refreshToken
         if ('refreshToken' in result) {
             delete result.refreshToken;
         }
@@ -137,46 +127,32 @@ const AffiliateLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         next(error);
     }
 });
-// const refreshToken: RequestHandler = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { refreshToken } = req.cookies;
-//     console.log("cookie",refreshToken)
-//     const result = await UserService.refreshToken(refreshToken);
-//     // Set refresh token in cookie
-//     const cookieOptions = {
-//       secure: config.env === 'production',
-//       httpOnly: true,
-//     };
-//     res.cookie('refreshToken', refreshToken, cookieOptions);
-//     sendResponse(res, {
-//       statusCode: httpStatus.OK,
-//       success: true,
-//       message: 'User logged in successfully',
-//       data: result,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const { refreshToken } = req.cookies;
-        console.log("Cookies Data", refreshToken);
+        const refreshToken = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.refreshToken;
+        console.log('Request refresh Token ', refreshToken);
+        if (!refreshToken) {
+            return (0, sendResponse_1.default)(res, {
+                statusCode: http_status_1.default.UNAUTHORIZED,
+                success: false,
+                message: 'Refresh token not found',
+            });
+        }
         // Call the service to refresh the token
         const result = yield auth_service_1.UserService.refreshToken(refreshToken);
-        // Set the new refresh token in the cookie
-        const cookieOptions = {
-            secure: config_1.default.env === 'production',
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        };
+        // res.cookie('refreshToken', result.refreshToken, {
+        //   httpOnly: true,
+        //   secure: true,
+        //   sameSite: 'none',
+        //   maxAge: 7 * 24 * 60 * 60 * 1000,
+        //   path: '/',
+        //   domain: 'localhost',
+        // });
+        //========= Productions ===========
+        const isProduction = process.env.NODE_ENV === 'production';
+        const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', result.refreshToken, cookieOptions);
-        // Send the new access token in the response
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
@@ -322,12 +298,12 @@ const DeleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 }));
 // Affiliate Related Handle
 const GetPendingAffiliates = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { status = "pending" } = req.query;
+    const { status = 'pending' } = req.query;
     const affiliates = yield auth_service_1.UserService.GetAffiliatesByStatus(status);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Pending affiliates fetched successfully",
+        message: 'Pending affiliates fetched successfully',
         data: affiliates,
     });
 }));
@@ -337,30 +313,30 @@ const GetAffiliateDetails = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Affiliate details fetched successfully",
+        message: 'Affiliate details fetched successfully',
         data: affiliate,
     });
 }));
 const ApproveAffiliate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const adminId = "imran1111";
+    const adminId = 'imran1111';
     const updatedAffiliate = yield auth_service_1.UserService.ApproveAffiliate(adminId, id);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Affiliate approved successfully",
+        message: 'Affiliate approved successfully',
         data: updatedAffiliate,
     });
 }));
 const RejectAffiliate = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const { reason } = req.body;
-    const adminId = "imran";
+    const adminId = 'imran';
     const updatedAffiliate = yield auth_service_1.UserService.RejectAffiliate(adminId, id, reason);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Affiliate rejected successfully",
+        message: 'Affiliate rejected successfully',
         data: updatedAffiliate,
     });
 }));
@@ -381,7 +357,7 @@ const GetAllAffiliates = (0, catchAsync_1.default)((req, res) => __awaiter(void 
 }));
 const GetAffiliateProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    console.log("Fetching affiliate profile");
+    console.log('Fetching affiliate profile');
     const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId;
     // Call the service to fetch the user's profile
     const userProfile = yield auth_service_1.UserService.GetAffiliateProfile(userId);
@@ -408,7 +384,7 @@ const AdminResendSetup = (0, catchAsync_1.default)((req, res) => __awaiter(void 
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Resent admin setup link successfully",
+        message: 'Resent admin setup link successfully',
         data: result,
     });
 }));
@@ -418,7 +394,7 @@ const AdminCompleteSetup = (0, catchAsync_1.default)((req, res) => __awaiter(voi
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "Resent admin setup link successfully",
+        message: 'Resent admin setup link successfully',
         data: result,
     });
 }));
@@ -448,5 +424,5 @@ exports.UserController = {
     ApproveAffiliate,
     RejectAffiliate,
     GetAllAffiliates,
-    GetAffiliateProfile
+    GetAffiliateProfile,
 };

@@ -42,28 +42,83 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AffiliateConversion = exports.ClickLog = exports.AffiliateLink = void 0;
+exports.AffiliateConversion = exports.ClickLog = exports.AffiliateLink = exports.BILLINGS = exports.PLANS = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const uuid_1 = require("uuid");
+exports.PLANS = ['basic', 'ultimate', 'premium'];
+exports.BILLINGS = ['monthly', 'yearly'];
 const affiliateLinkSchema = new mongoose_1.Schema({
-    affiliateId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    affiliateId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true,
+    },
     affiliateCode: { type: String, required: true, trim: true, index: true },
-    plan: { type: String, enum: ['basic', 'plus', 'elite'], required: true },
-    billing: { type: String, enum: ['monthly', 'yearly'], required: true },
+    plan: { type: String, enum: exports.PLANS, required: true },
+    billing: { type: String, enum: exports.BILLINGS, required: true },
     subId: { type: String, default: null, trim: true, maxlength: 50 },
     generatedUrl: { type: String, required: true, unique: true, trim: true },
-    slug: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true },
-    shortSlug: { type: String, unique: true, trim: true, lowercase: true, index: true },
-    transactionId: { type: String, required: true, unique: true, index: true, trim: true },
-    clickId: { type: String, required: true, unique: true, index: true, trim: true },
-    status: { type: String, enum: ['active', 'paused', 'deleted'], default: 'active', index: true },
+    slug: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
+        lowercase: true,
+        trim: true,
+    },
+    shortSlug: {
+        type: String,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        index: true,
+    },
+    transactionId: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
+        trim: true,
+    },
+    clickId: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true,
+        trim: true,
+    },
+    status: {
+        type: String,
+        enum: ['active', 'paused', 'deleted'],
+        default: 'active',
+        index: true,
+    },
     clickCount: { type: Number, default: 0, min: 0 },
     conversionCount: { type: Number, default: 0, min: 0 },
+    revenue: { type: Number, default: 0, min: 0 },
+    commission: { type: Number, default: 0, min: 0 },
+    commissionRate: { type: Number, default: 0, min: 0 },
+    EPC: { type: Number, default: 0, min: 0 },
     lastClickedAt: { type: Date, default: null },
     lastConvertedAt: { type: Date, default: null },
     createdBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
     modifiedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', default: null },
     expiresAt: { type: Date, default: null, index: true },
+    tags: { type: [String], default: [], index: true },
+    campaign: { type: String, default: null, trim: true, maxlength: 50 },
+    clicksByDevice: {
+        type: Map,
+        of: Number,
+        default: { desktop: 0, mobile: 0, tablet: 0 },
+    },
+    tier: {
+        type: String,
+        enum: ['standard', 'gold', 'platinum'],
+        default: 'standard',
+        index: true,
+    },
+    notes: { type: String, default: null, trim: true, maxlength: 50 },
     customDomain: {
         type: String,
         default: null,
@@ -80,21 +135,20 @@ const affiliateLinkSchema = new mongoose_1.Schema({
 }, { timestamps: true });
 // ✅ Partial unique index for active links
 affiliateLinkSchema.index({ generatedUrl: 1 }, { unique: true, partialFilterExpression: { status: { $ne: 'deleted' } } });
-// ✅ Pre-validate hook (modern async, no next)
+// ✅ Index for potential sharding
+affiliateLinkSchema.index({ affiliateId: 1, _id: 1 });
 affiliateLinkSchema.pre('validate', function () {
     return __awaiter(this, void 0, void 0, function* () {
-        // Auto-generate UUIDs if missing
         if (!this.transactionId)
             this.transactionId = (0, uuid_1.v4)();
         if (!this.clickId)
             this.clickId = (0, uuid_1.v4)();
-        // Only check uniqueness if generatedUrl was modified
         if (this.isModified('generatedUrl')) {
             const AffiliateLinkModel = this.constructor;
             const existing = yield AffiliateLinkModel.findOne({
                 generatedUrl: this.generatedUrl,
                 _id: { $ne: this._id },
-                status: { $ne: 'deleted' },
+                status: { $nin: ['deleted'] }, // Consistent with index
             });
             if (existing) {
                 throw new Error('generatedUrl must be unique among active links');
@@ -105,8 +159,18 @@ affiliateLinkSchema.pre('validate', function () {
 exports.AffiliateLink = mongoose_1.default.model('AffiliateLink', affiliateLinkSchema);
 // Click Log Schema
 const clickLogSchema = new mongoose_1.Schema({
-    affiliateLinkId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'AffiliateLink', required: true, index: true },
-    affiliateId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Affiliate', required: true, index: true },
+    affiliateLinkId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AffiliateLink',
+        required: true,
+        index: true,
+    },
+    affiliateId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true,
+    },
     ip: { type: String, required: true, index: true },
     userAgent: { type: String, required: false, maxlength: 512 },
     clickedAt: { type: Date, default: Date.now, index: true },
@@ -116,30 +180,57 @@ const clickLogSchema = new mongoose_1.Schema({
         city: { type: String },
     },
     deviceFingerprint: { type: String, index: true },
+    referrer: { type: String, required: true, index: false },
+    campaign: { type: String, required: true, index: false },
+    browser: { type: String, default: null, trim: true, maxlength: 50 },
+    os: { type: String, default: null, trim: true, maxlength: 50 },
 }, { timestamps: true });
 clickLogSchema.index({ clickedAt: 1 }, { expireAfterSeconds: 180 * 24 * 60 * 60 });
 exports.ClickLog = mongoose_1.default.model('ClickLog', clickLogSchema);
 // Affiliate Conversion Schema
 const affiliateConversionSchema = new mongoose_1.Schema({
-    affiliateLinkId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'AffiliateLink', required: true, index: true },
-    affiliateId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    affiliateLinkId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'AffiliateLink',
+        required: true,
+        index: true,
+    },
+    affiliateId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+        index: true,
+    },
     // Click → Conversion mapping
-    clickLogId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'ClickLog', required: false, index: true },
+    clickLogId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'ClickLog',
+        required: false,
+        index: true,
+    },
     ip: { type: String, required: true, index: true },
     userAgent: { type: String, maxlength: 512 },
     deviceFingerprint: { type: String, index: true },
     // Customer / order details
     customerId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User', required: true },
     orderId: { type: String, index: true },
-    plan: { type: String, enum: ['basic', 'plus', 'elite'], required: true },
-    billing: { type: String, enum: ['monthly', 'yearly'], required: true },
+    plan: { type: String, enum: exports.PLANS, required: true },
+    billing: { type: String, enum: exports.BILLINGS, required: true },
     revenue: { type: Number, required: true, min: 0 },
     // Commission info
     commissionAmount: { type: Number, required: true, min: 0 },
-    commissionStatus: { type: String, enum: ['pending', 'approved', 'paid', 'rejected'], default: 'pending', index: true },
+    commissionStatus: {
+        type: String,
+        enum: ['pending', 'approved', 'paid', 'rejected'],
+        default: 'pending',
+        index: true,
+    },
+    paidAt: { type: Date, default: null, index: true },
+    payoutId: { type: String, default: null, index: true },
     // Fraud / validation
     fraudFlag: { type: Boolean, default: false, index: true },
     fraudReason: { type: String, default: null },
+    conversionType: { type: String, default: null },
     convertedAt: { type: Date, default: Date.now, index: true },
 }, { timestamps: true });
 // Indexing for fast reporting

@@ -4,7 +4,7 @@ import mongoose, { Types } from 'mongoose';
 export type IAffiliateLink = {
   affiliateId: mongoose.Types.ObjectId;
   affiliateCode: string;
-  plan: 'basic' | 'plus' | 'elite';
+  plan: 'basic' | 'ultimate' | 'premium';
   billing: 'monthly' | 'yearly';
   subId?: string | null;
   generatedUrl: string;
@@ -15,6 +15,10 @@ export type IAffiliateLink = {
   status: 'active' | 'paused' | 'deleted';
   clickCount: number;
   conversionCount: number;
+  revenue?:number;
+  commission?:number;
+  commissionRate?:number;
+  EPC?:number;
   lastClickedAt?: Date | null;
   lastConvertedAt?: Date | null;
   createdBy: mongoose.Types.ObjectId;
@@ -23,6 +27,12 @@ export type IAffiliateLink = {
   customDomain?: string | null;
   createdAt: Date;
   updatedAt: Date;
+  tags?:string;
+  campaign?:string;
+clicksByDevice?: Record<string, number>; // ← add this
+  geoClicks?: Record<string, number>;      // ← add this
+  tier?:string;
+  notes?:string;
 } & Document;
 
 // Click Log Schema
@@ -38,6 +48,10 @@ export type IClickLog = {
     city?: string;
   };
   deviceFingerprint?: string;
+  referrer?:string;
+  campaign?:string;
+  browser?:string;
+  os?:string;
 };
 
 // Affiliate Conversion Schema
@@ -64,6 +78,9 @@ export type IAffiliateConversion = {
   convertedAt: Date;
   createdAt?: Date;
   updatedAt?: Date;
+  paidAt?:Date;
+  payoutId?:string;
+  conversionType?:string;
 };
 
 export type GenerateAffiliateLinkPayload = {
@@ -74,4 +91,43 @@ export type GenerateAffiliateLinkPayload = {
   createdBy?: string;
   customDomain?: string | null;
   expiresAt?: Date | null;
+};
+
+
+
+export type ITableFilters = {
+  searchTerm?: string;           
+  plan?: string;                 
+  billing?: 'monthly' | 'yearly';
+  startDate?: Date;             
+  endDate?: Date;             
+  minClicks?: number;            
+  maxClicks?: number;           
+  minRevenue?: number;           
+  maxRevenue?: number;           
+  minEarning?: number;           
+  maxEarning?: number;           
+};
+
+export type ITableSearchFilters = {
+  searchTerm?: string;           
+  subId?: string;                
+  url?: string;                  
+  campaign?: string;             
+  plan?: string;                 
+  billing?: 'monthly' | 'yearly';
+  dateRange?: {                
+    from: Date;
+    to: Date;
+  };
+  minClicks?: number;            
+  maxClicks?: number;           
+  minRevenue?: number;           
+  maxRevenue?: number;          
+  minEarning?: number;           
+  maxEarning?: number;         
+  sortBy?: string;               
+  sortOrder?: 'asc' | 'desc';    
+  page?: number;                
+  limit?: number;                
 };

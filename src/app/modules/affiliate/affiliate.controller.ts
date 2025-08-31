@@ -5,6 +5,9 @@ import catchAsync from '../../../shared/catchAsync';
 import { AffiliateService } from './affiliate.service';
 import geoip from 'geoip-lite';
 import { generateFingerprint } from './affiliate.utils';
+import { getPaginationAndFilters } from '../../../helpers/paginationHelpers';
+import { IProductFilters } from '../products/products.interface';
+import { ITableFilters } from './affiliate.interface';
 
 const createAffiliateLink: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -82,8 +85,60 @@ const affiliateClick: RequestHandler = catchAsync(async (req, res) => {
   return res.redirect(redirectUrl);
 });
 
+
+
+const getOverview: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = req.user;
+
+    if (!user || user.role !== 'affiliate') {
+      return res.status(httpStatus.FORBIDDEN).json({
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
+
+    // Delegate all logic to service
+    const overview = await AffiliateService.getOverview(user.userId);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Affiliate Overview fetched successfully',
+      data: overview,
+    });
+  }
+  
+);
+
+
+const listLinks: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = req.user;
+
+    if (!user || user.role !== 'affiliate') {
+      return res.status(httpStatus.FORBIDDEN).json({
+        success: false,
+        message: 'Unauthorized',
+      });
+    }
+  const { paginationOptions, filters } = getPaginationAndFilters<ITableFilters>(req);
+    // Delegate all logic to service
+    const overview = await AffiliateService.getAffiliateLinksTable(user.userId,paginationOptions, filters);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Affiliate Overview fetched successfully',
+      data: overview,
+    });
+  }
+  
+);
 export const AffiliateController = {
   listAffiliateLinks,
   createAffiliateLink,
-  affiliateClick
+  affiliateClick,
+  getOverview,
+  listLinks
 };

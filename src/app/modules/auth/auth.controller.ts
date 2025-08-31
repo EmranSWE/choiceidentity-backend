@@ -7,6 +7,7 @@ import config from '../../../config';
 import { ILoginUserResponse, IUser } from './auth.interface';
 import { getPaginationAndFilters } from '../../../helpers/paginationHelpers';
 import { IProductFilters } from '../products/products.interface';
+import { getCookieOptions } from '../../../config/cors.config';
 
 const CreateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -41,7 +42,6 @@ const CreateAffiliateUser: RequestHandler = catchAsync(
   }
 );
 
-
 const CreateAdmin = catchAsync(async (req: Request, res: Response) => {
   const adminPayload: IUser = req.body;
 
@@ -55,22 +55,6 @@ const CreateAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
-
-// const RegisterAndSubscribe: RequestHandler = catchAsync(
-//   async (req: Request, res: Response) => {
-//     const user = req.body;
-//     // Remove role from the payload (if present)
-//     delete user.role;
-//     const result = await UserService.RegisterAndSubscribe(user);
-//     sendResponse(res, {
-//       statusCode: httpStatus.OK,
-//       success: true,
-//       message: 'User created successfully',
-//       data: result,
-//     });
-//   }
-// );
 // Login User
 const loginUser: RequestHandler = async (
   req: Request,
@@ -82,12 +66,12 @@ const loginUser: RequestHandler = async (
     const result = await UserService.loginUser(loginData);
     const { refreshToken, ...others } = result;
 
-// Set refresh token in cookie
+    // Set refresh token in cookie
     const cookieOptions = {
-      secure: process.env.NODE_ENV === 'production', 
+      secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
-      sameSite: 'strict' as const, 
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
+      sameSite: 'strict' as const,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     };
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
@@ -106,8 +90,6 @@ const loginUser: RequestHandler = async (
     next(error);
   }
 };
-
-
 
 // Login User
 const AffiliateLogin: RequestHandler = async (
@@ -120,17 +102,26 @@ const AffiliateLogin: RequestHandler = async (
     const result = await UserService.AffiliateLogin(loginData);
     const { refreshToken, ...others } = result;
 
-// Set refresh token in cookie
-    const cookieOptions = {
-      secure: process.env.NODE_ENV === 'production', 
-      httpOnly: true,
-      sameSite: 'strict' as const, 
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      path:'/'
-    };
+    // Set refresh token in cookie
+
+    // res.cookie('refreshToken', refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'lax',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   path: '/',
+    //   domain: 'localhost',
+    // });
+
+    // =========== Productions ===============
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    console.log('req.headers.origin', isProduction, req.headers.origin);
+
+
+    const cookieOptions = getCookieOptions(req.headers.origin, isProduction);
     res.cookie('refreshToken', refreshToken, cookieOptions);
 
-    // delete refreshToken
     if ('refreshToken' in result) {
       delete result.refreshToken;
     }
@@ -146,58 +137,41 @@ const AffiliateLogin: RequestHandler = async (
   }
 };
 
-
-// const refreshToken: RequestHandler = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { refreshToken } = req.cookies;
-    
-//     console.log("cookie",refreshToken)
-//     const result = await UserService.refreshToken(refreshToken);
-//     // Set refresh token in cookie
-//     const cookieOptions = {
-//       secure: config.env === 'production',
-//       httpOnly: true,
-//     };
-
-//     res.cookie('refreshToken', refreshToken, cookieOptions);
-
-//     sendResponse(res, {
-//       statusCode: httpStatus.OK,
-//       success: true,
-//       message: 'User logged in successfully',
-//       data: result,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 const refreshToken: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { refreshToken } = req.cookies;
+    const refreshToken = req.cookies?.refreshToken;
+    console.log('Request refresh Token ', refreshToken);
 
-    console.log("Cookies Data", refreshToken)
+    if (!refreshToken) {
+      return sendResponse(res, {
+        statusCode: httpStatus.UNAUTHORIZED,
+        success: false,
+        message: 'Refresh token not found',
+      });
+    }
+
     // Call the service to refresh the token
     const result = await UserService.refreshToken(refreshToken);
 
-    // Set the new refresh token in the cookie
-    const cookieOptions = {
-      secure: config.env === 'production', 
-      httpOnly: true, 
-      sameSite: 'strict' as const,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    };
+    // res.cookie('refreshToken', result.refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'none',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   path: '/',
+    //   domain: 'localhost',
+    // });
 
+    //========= Productions ===========
+    const isProduction = process.env.NODE_ENV === 'production';
+    const cookieOptions = getCookieOptions(req.headers.origin, isProduction);
     res.cookie('refreshToken', result.refreshToken, cookieOptions);
 
-    // Send the new access token in the response
+
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -220,7 +194,6 @@ const LogoutUser: RequestHandler = catchAsync(
       sameSite: 'strict',
     });
 
-
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -230,11 +203,10 @@ const LogoutUser: RequestHandler = catchAsync(
   }
 );
 
-
 const UpdateUserRole: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { id } = req.params; 
-    const { role } = req.body; 
+    const { id } = req.params;
+    const { role } = req.body;
 
     // Call the service to update the user's role
     const updatedUser = await UserService.UpdateUserRole(id, role);
@@ -247,7 +219,6 @@ const UpdateUserRole: RequestHandler = catchAsync(
     });
   }
 );
-
 
 const ResetPassword: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -265,7 +236,6 @@ const ResetPassword: RequestHandler = catchAsync(
   }
 );
 
-
 const GetProfile: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user?.userId;
@@ -281,11 +251,9 @@ const GetProfile: RequestHandler = catchAsync(
   }
 );
 
-
-
 const UpdateProfile = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user?.userId; 
-  const updateData = req.body; 
+  const userId = req.user?.userId;
+  const updateData = req.body;
 
   // Call the service to update the user's profile
   const updatedUser = await UserService.UpdateProfile(userId, updateData);
@@ -315,10 +283,10 @@ const ChangePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 const GetAllUsers = catchAsync(async (req: Request, res: Response) => {
   // Extract query parameters for pagination and filtering
-  const { paginationOptions, filters } = getPaginationAndFilters<IProductFilters>(req);
+  const { paginationOptions, filters } =
+    getPaginationAndFilters<IProductFilters>(req);
 
   const result = await UserService.GetAllUsers(paginationOptions, filters);
   // Send response
@@ -329,7 +297,7 @@ const GetAllUsers = catchAsync(async (req: Request, res: Response) => {
     data: {
       data: result.data,
       meta: result.meta,
-    }, 
+    },
   });
 });
 
@@ -349,10 +317,9 @@ const GetAllUsers = catchAsync(async (req: Request, res: Response) => {
 //   }
 // );
 
-
 const UpdateUser = catchAsync(async (req: Request, res: Response) => {
   const userId = req.params.id;
-  const updateData = req.body; 
+  const updateData = req.body;
 
   // Call the service to update the user
   const updatedUser = await UserService.UpdateUser(userId, updateData);
@@ -365,7 +332,6 @@ const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     data: updatedUser,
   });
 });
-
 
 const DeleteUser = catchAsync(async (req: Request, res: Response) => {
   const userId = req.params.id; // Extract user ID from the request parameters
@@ -383,22 +349,23 @@ const DeleteUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Affiliate Related Handle
- const GetPendingAffiliates: RequestHandler = catchAsync(
+const GetPendingAffiliates: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { status = "pending" } = req.query;
-    const affiliates = await UserService.GetAffiliatesByStatus(status as string);
+    const { status = 'pending' } = req.query;
+    const affiliates = await UserService.GetAffiliatesByStatus(
+      status as string
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Pending affiliates fetched successfully",
+      message: 'Pending affiliates fetched successfully',
       data: affiliates,
     });
   }
 );
 
-
- const GetAffiliateDetails: RequestHandler = catchAsync(
+const GetAffiliateDetails: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const affiliate = await UserService.GetAffiliateById(id);
@@ -406,47 +373,51 @@ const DeleteUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Affiliate details fetched successfully",
+      message: 'Affiliate details fetched successfully',
       data: affiliate,
     });
   }
 );
 
- const ApproveAffiliate: RequestHandler = catchAsync(
+const ApproveAffiliate: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const adminId = "imran1111"
+    const adminId = 'imran1111';
     const updatedAffiliate = await UserService.ApproveAffiliate(adminId, id);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Affiliate approved successfully",
+      message: 'Affiliate approved successfully',
       data: updatedAffiliate,
     });
   }
 );
 
- const RejectAffiliate: RequestHandler = catchAsync(
+const RejectAffiliate: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const { reason } = req.body;
-    const adminId="imran"
-    const updatedAffiliate = await UserService.RejectAffiliate(adminId,id, reason);
+    const adminId = 'imran';
+    const updatedAffiliate = await UserService.RejectAffiliate(
+      adminId,
+      id,
+      reason
+    );
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Affiliate rejected successfully",
+      message: 'Affiliate rejected successfully',
       data: updatedAffiliate,
     });
   }
 );
 
-
 const GetAllAffiliates = catchAsync(async (req: Request, res: Response) => {
   // Extract query parameters for pagination and filtering
-  const { paginationOptions, filters } = getPaginationAndFilters<IProductFilters>(req);
+  const { paginationOptions, filters } =
+    getPaginationAndFilters<IProductFilters>(req);
 
   const result = await UserService.GetAllAffiliates(paginationOptions, filters);
   // Send response
@@ -457,14 +428,13 @@ const GetAllAffiliates = catchAsync(async (req: Request, res: Response) => {
     data: {
       data: result.data,
       meta: result.meta,
-    }, 
+    },
   });
 });
 
-
 const GetAffiliateProfile: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    console.log("Fetching affiliate profile");
+    console.log('Fetching affiliate profile');
     const userId = req.user?.userId;
     // Call the service to fetch the user's profile
     const userProfile = await UserService.GetAffiliateProfile(userId);
@@ -478,11 +448,10 @@ const GetAffiliateProfile: RequestHandler = catchAsync(
   }
 );
 
-
 const AdminRequestSetup: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-  const { email } = req.body;
-    const AdminSetup = await UserService.AdminRequestSetup(email );
+    const { email } = req.body;
+    const AdminSetup = await UserService.AdminRequestSetup(email);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -495,33 +464,32 @@ const AdminRequestSetup: RequestHandler = catchAsync(
 
 const AdminResendSetup: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-   const { email } = req.body;
+    const { email } = req.body;
 
     const result = await UserService.AdminResendSetup(email);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Resent admin setup link successfully",
+      message: 'Resent admin setup link successfully',
       data: result,
     });
-}
+  }
 );
-
 
 const AdminCompleteSetup: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-   const { token,password } = req.body;
+    const { token, password } = req.body;
 
-    const result = await UserService.AdminCompleteSetup(token,password);
+    const result = await UserService.AdminCompleteSetup(token, password);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "Resent admin setup link successfully",
+      message: 'Resent admin setup link successfully',
       data: result,
     });
-}
+  }
 );
 export const UserController = {
   CreateUser,
@@ -543,11 +511,11 @@ export const UserController = {
   GetAllUsers,
   UpdateUser,
   DeleteUser,
-//   RegisterAndSubscribe,
+  //   RegisterAndSubscribe,
   GetPendingAffiliates,
   GetAffiliateDetails,
   ApproveAffiliate,
   RejectAffiliate,
   GetAllAffiliates,
-  GetAffiliateProfile
+  GetAffiliateProfile,
 };

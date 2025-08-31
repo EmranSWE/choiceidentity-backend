@@ -199,17 +199,17 @@ const AffiliateLogin = async (
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
 
-  const { email: youremail, _id, role } = isUserExist;
+  const { email: userEmail, _id, role } = isUserExist;
 
   // Access token
   const accessToken = jwtHelpers.createToken(
-    { userId: _id, youremail, role },
+    { userId: _id, email:userEmail, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelpers.createToken(
-    { youremail, role },
+    {  email:userEmail, role },
     config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
@@ -222,7 +222,6 @@ const AffiliateLogin = async (
 
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   // Verify the refresh token
-  console.log('Cookies Data in service', token);
 
   let verifiedToken = null;
   try {
@@ -234,11 +233,12 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   } catch (error) {
     throw new ApiError(httpStatus.FORBIDDEN, 'Invalid refresh token');
   }
-
-  const { youremail } = verifiedToken;
-  console.log('Verified email check', youremail);
+  const { email } = verifiedToken;
+   if (!email) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token payload');
+  }
   // Check if the user exists
-  const isUserExist = await User.isUserExist(youremail);
+  const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
@@ -257,11 +257,10 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   // Generate a new refresh token
   const newRefreshToken = jwtHelpers.createToken(
     {
-      userId: isUserExist._id,
       email: isUserExist.email,
       role: isUserExist.role,
     },
-    config.jwt.secret as Secret,
+   config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
 

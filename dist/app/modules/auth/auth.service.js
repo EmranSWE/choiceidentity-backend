@@ -165,10 +165,10 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
         !(yield auth_model_1.User.isPasswordMatched(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password))) {
         throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Password is incorrect');
     }
-    const { email: youremail, _id, role } = isUserExist;
+    const { email: userEmail, _id, role } = isUserExist;
     // Access token
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId: _id, youremail, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
-    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ youremail, role }, config_1.default.jwt.refresh_Secret, config_1.default.jwt.refresh_secret_Expires);
+    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId: _id, email: userEmail, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ email: userEmail, role }, config_1.default.jwt.refresh_Secret, config_1.default.jwt.refresh_secret_Expires);
     return {
         accessToken,
         refreshToken,
@@ -176,7 +176,6 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
 });
 const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     // Verify the refresh token
-    console.log('Cookies Data in service', token);
     let verifiedToken = null;
     try {
         verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.refresh_Secret);
@@ -185,10 +184,12 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         throw new apiErrors_1.default(http_status_1.default.FORBIDDEN, 'Invalid refresh token');
     }
-    const { youremail } = verifiedToken;
-    console.log('Verified email check', youremail);
+    const { email } = verifiedToken;
+    if (!email) {
+        throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid token payload');
+    }
     // Check if the user exists
-    const isUserExist = yield auth_model_1.User.isUserExist(youremail);
+    const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
     }
@@ -200,10 +201,9 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
     // Generate a new refresh token
     const newRefreshToken = jwtHelpers_1.jwtHelpers.createToken({
-        userId: isUserExist._id,
         email: isUserExist.email,
         role: isUserExist.role,
-    }, config_1.default.jwt.secret, config_1.default.jwt.refresh_secret_Expires);
+    }, config_1.default.jwt.refresh_Secret, config_1.default.jwt.refresh_secret_Expires);
     return {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,

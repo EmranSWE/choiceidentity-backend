@@ -1,5 +1,11 @@
 import Stripe from 'stripe';
-import { AttachAndUpdatePaymentMethodParams, CreatePaymentIntentParams, CreateSubscriptionParams, PriceMapping, StripeCustomerInput } from './stripe.interface';
+import {
+  AttachAndUpdatePaymentMethodParams,
+  CreatePaymentIntentParams,
+  CreateSubscriptionParams,
+  PriceMapping,
+  StripeCustomerInput,
+} from './stripe.interface';
 import config from '../../../config';
 import { logger } from '../../../shared/logger';
 import ApiError from '../../../errors/apiErrors';
@@ -64,92 +70,149 @@ export const PRICE_MAPPINGS: PriceMapping[] = [
 export const PROTECTION_PLANS = {
   BASIC: {
     id: 'prod_BASIC_ID',
-    // basic=>monthl=>amount:799=>["avbcd","def"]
     monthly: {
       priceId: process.env.STRIPE_BASIC_MONTHLY_PRICE_ID!,
-      amount: 799,
+      amount: 3999,
+      baseAmount: 100,
+      setupFee: 0,
       features: [
-        'Dark web monitoring',
-        'Single-bureau credit monitoring',
-        '$25K identity theft insurance',
-        'Email alerts',
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
       ],
     },
     yearly: {
       priceId: process.env.STRIPE_BASIC_YEARLY_PRICE_ID!,
-      amount: 7900,
+      amount: 41988,
+      baseAmount: 100,
+      setupFee: 0,
       features: [
-        '2 months free compared to monthly',
-        'All Basic Protection features',
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
       ],
     },
   },
-  ADVANCED: {
-    id: 'prod_ADVANCED_ID',
-    monthly: {
-      priceId: process.env.STRIPE_ADVANCED_MONTHLY_PRICE_ID!,
-      amount: 1499,
-      features: [
-        'All Basic features',
-        'Triple-bureau credit monitoring',
-        '$100K insurance',
-        'Fraud alerts',
-        'Credit score tracking',
-      ],
-    },
-    yearly: {
-      priceId: process.env.STRIPE_ADVANCED_YEARLY_PRICE_ID!,
-      amount: 14900,
-      features: [
-        '2 months free compared to monthly',
-        'All Advanced Protection features',
-      ],
-    },
-  },
+
   ULTIMATE: {
     id: 'prod_ULTIMATE_ID',
     monthly: {
       priceId: process.env.STRIPE_ULTIMATE_MONTHLY_PRICE_ID!,
-      amount: 2499,
+      amount: 5999,
+      baseAmount: 100,
+      setupFee: 0,
       features: [
-        'All Advanced features',
-        '$1M insurance',
-        'Real-time SSN & bank monitoring',
-        'Family coverage (2 adults + kids)',
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
+        'Fraud Prevention',
+        'Email Validation API',
+        'Email Finder',
+        'Email Scoring',
       ],
     },
     yearly: {
       priceId: process.env.STRIPE_ULTIMATE_YEARLY_PRICE_ID!,
-      amount: 24900,
+      amount: 62988,
+      baseAmount: 100,
+      setupFee: 0,
       features: [
-        '2 months free compared to monthly',
-        'All Ultimate Protection features',
+        "Identity & Document Verification",
+        "Biometric & Face Recognition",
+        "KYC & AML Compliance",
+        "Age Verification",
+        "NFC Verification",
+        "Assisted Image Capture",
+        "Fraud Prevention",
+        "Email Validation API",
+        "Email Finder",
+        "Email Scoring"
+
       ],
     },
   },
-  ELITE: {
+  PREMIUM: {
     id: 'prod_ELITE_ID',
     monthly: {
-      priceId: process.env.STRIPE_ELITE_MONTHLY_PRICE_ID!,
-      amount: 3999,
+    priceId: process.env.STRIPE_ELITE_MONTHLY_PRICE_ID!,
+    amount: 7999,
+      baseAmount: 100,
+      setupFee: 17900,
       features: [
-        'All Ultimate features',
-        'VPN service',
-        '24/7 priority recovery support',
-        'Dark web & social media monitoring',
-        'Concierge recovery assistance',
+         "Identity & Document Verification",
+        "Biometric & Face Recognition",
+        "KYC & AML Compliance",
+        "Age Verification",
+        "NFC Verification",
+        "Assisted Image Capture",
+        "Fraud Prevention",
+        "Email Validation API",
+        "Email Finder",
+        "Email Scoring",
+        "Email Appending",
+        "Activity Data",
+        "Catch-All Domain Detection",
+        "Abuse Email Detection",
+        "AI Email Classifier",
+        "Real-time API & SDK Integration",
+        "Webhook for verification status",
+        "Identity Monitoring",
+        "Credit Alerts",
+        "Dark Web Scan",
+        "Dark Web Monitoring",
+        "Simple Background Check",
+        "Social Security Watch",
+        "Bank Account Guard",
+        "Recovery Assistance",
+        "Website Protection Services"
       ],
     },
     yearly: {
       priceId: process.env.STRIPE_ELITE_YEARLY_PRICE_ID!,
-      amount: 39900,
+      amount: 86988,
+      baseAmount: 100,
+      setupFee: 17900,
       features: [
-        '2 months free compared to monthly',
-        'All Elite Protection features',
+        "Identity & Document Verification",
+        "Biometric & Face Recognition",
+        "KYC & AML Compliance",
+        "Age Verification",
+        "NFC Verification",
+        "Assisted Image Capture",
+        "Fraud Prevention",
+        "Email Validation API",
+        "Email Finder",
+        "Email Scoring",
+        "Email Appending",
+        "Activity Data",
+        "Catch-All Domain Detection",
+        "Abuse Email Detection",
+        "AI Email Classifier",
+        "Real-time API & SDK Integration",
+        "Webhook for verification status",
+        "Identity Monitoring",
+        "Credit Alerts",
+        "Dark Web Scan",
+        "Dark Web Monitoring",
+        "Simple Background Check",
+        "Social Security Watch",
+        "Bank Account Guard",
+        "Recovery Assistance",
+        "Website Protection Services"
       ],
     },
   },
 } as const;
+
 
 export type PlanType = keyof typeof PROTECTION_PLANS;
 
@@ -235,8 +298,10 @@ export function isRetryableError(error: unknown): boolean {
   return false;
 }
 
-
-export async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+export async function withTimeout<T>(
+  promise: Promise<T>,
+  ms: number
+): Promise<T> {
   let timer: NodeJS.Timeout;
 
   const timeoutPromise = new Promise<never>((_, reject) => {
@@ -253,7 +318,6 @@ export async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T
     clearTimeout(timer!);
   }
 }
-
 
 // =======================
 // Retry Utility
@@ -366,7 +430,6 @@ export const createStripeCustomer = async (user: StripeCustomerInput) => {
       ...user.extraMetadata,
     };
     if (user.affiliateId) metadata.affiliateId = user.affiliateId;
-
 
     const fullName =
       user.name ||
@@ -482,7 +545,7 @@ export const createPaymentIntent = async ({
       setup_fee: setupFee.toString(),
       ...extraMetadata,
     };
- const paymentDescription =
+    const paymentDescription =
       description ||
       `Payment for ${planType} plan (${billingInterval})${
         setupFee > 0 ? ` + setup fee` : ''
@@ -496,7 +559,7 @@ export const createPaymentIntent = async ({
           customer: customerId,
           payment_method: paymentMethodId,
           confirm,
-          description:paymentDescription,
+          description: paymentDescription,
           metadata,
           automatic_payment_methods: {
             enabled: true,
@@ -516,7 +579,6 @@ export const createPaymentIntent = async ({
   }
 };
 
-
 export const createStripeSubscription = async ({
   customerId,
   planPriceId,
@@ -527,7 +589,6 @@ export const createStripeSubscription = async ({
   paymentMethodId,
   setupFeeAmount,
 }: CreateSubscriptionParams) => {
-
   try {
     const safeMetadata: Record<string, string> = {};
     for (const [k, v] of Object.entries(metadata)) safeMetadata[k] = String(v);
