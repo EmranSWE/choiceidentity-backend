@@ -33,7 +33,7 @@ exports.corsOptions = {
         try {
             const url = new URL(origin);
             if (url.hostname === 'choiceidentity.com' ||
-                url.hostname.endsWith('.choiceidentity.com')) {
+                url.hostname.endsWith('choiceidentity.com')) {
                 return callback(null, true);
             }
         }
@@ -63,7 +63,7 @@ const getCookieOptions = (origin, isProduction) => {
             baseOptions.domain = 'affiliate.choiceidentity.com';
         }
         else {
-            baseOptions.domain = '.choiceidentity.com';
+            baseOptions.domain = 'choiceidentity.com';
         }
         // ============ END OF ADDITION ============
         baseOptions.sameSite = 'lax';

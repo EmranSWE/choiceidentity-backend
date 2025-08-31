@@ -34,7 +34,7 @@ export const corsOptions: CorsOptions = {
 
       if (
         url.hostname === 'choiceidentity.com' ||
-        url.hostname.endsWith('.choiceidentity.com')
+        url.hostname.endsWith('choiceidentity.com')
       ) {
         return callback(null, true);
       }
@@ -69,7 +69,7 @@ export const getCookieOptions = (
     } else if (origin?.includes('affiliate.choiceidentity.com')) {
       baseOptions.domain = 'affiliate.choiceidentity.com'; 
     } else {
-      baseOptions.domain = '.choiceidentity.com';
+      baseOptions.domain = 'choiceidentity.com';
     }
     // ============ END OF ADDITION ============
 
