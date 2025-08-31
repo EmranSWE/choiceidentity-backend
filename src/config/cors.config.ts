@@ -7,7 +7,7 @@ const allowedOrigins = isProduction
       'https://choiceidentity.com',
       'https://affiliate.choiceidentity.com',
       'https://admin.choiceidentity.com',
-      'https://app.choiceidentity.com', 
+      'https://app.choiceidentity.com',
     ]
   : [
       'http://localhost:3000',
@@ -30,13 +30,9 @@ export const corsOptions: CorsOptions = {
       return callback(new Error('Not allowed by CORS'));
     }
 
-    try {
-      const url = new URL(origin);
-
-      if (
-        url.hostname === 'choiceidentity.com' ||
-        url.hostname.endsWith('choiceidentity.com')
-      ) {
+    try {      
+      // Strict origin matching - no wildcard subdomains
+      if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
     } catch (e) {
@@ -49,6 +45,7 @@ export const corsOptions: CorsOptions = {
 };
 
 export const corsMiddleware = cors(corsOptions);
+
 
 export const getCookieOptions = (
   origin: string | undefined,
@@ -67,23 +64,21 @@ export const getCookieOptions = (
       const url = new URL(origin);
       const hostname = url.hostname;
 
-      console.log('Setting cookie for hostname:', hostname);
+      console.log('Setting cookie for exact hostname:', hostname);
 
-      // ISOLATE COOKIES BY SPECIFIC DOMAIN
-      // Only set domain for subdomains, NOT for main domain
-      if (hostname === 'admin.choiceidentity.com') {
-        baseOptions.domain = 'admin.choiceidentity.com';
-      } else if (hostname === 'affiliate.choiceidentity.com') {
+      if (hostname === 'affiliate.choiceidentity.com') {
         baseOptions.domain = 'affiliate.choiceidentity.com';
+      } else if (hostname === 'admin.choiceidentity.com') {
+        baseOptions.domain = 'admin.choiceidentity.com';
+      } else if (hostname === 'choiceidentity.com') {
+        baseOptions.domain = 'choiceidentity.com'; 
       } else if (hostname === 'app.choiceidentity.com') {
         baseOptions.domain = 'app.choiceidentity.com';
       }
-      // For main domain (choiceidentity.com), don't set domain property at all
-      // This isolates cookies to the exact domain
+      // NO fallback to parent domain
 
     } catch (e) {
-      console.warn('Failed to parse origin URL, using strict isolation:', origin);
-      // On error, don't set domain for strict isolation
+      console.warn('Failed to parse origin URL, cookie will be restricted to api domain');
     }
   } else {
     // Development environment
@@ -94,10 +89,15 @@ export const getCookieOptions = (
         const url = new URL(origin);
         const hostname = url.hostname;
 
-        // For local development with subdomains
-        if (hostname.includes('localhost') && hostname !== 'localhost') {
-          baseOptions.domain = hostname;
+        // Development subdomain isolation
+        if (hostname === 'affiliate.localhost') {
+          baseOptions.domain = 'affiliate.localhost';
+        } else if (hostname === 'admin.localhost') {
+          baseOptions.domain = 'admin.localhost';
+        } else if (hostname === 'app.localhost') {
+          baseOptions.domain = 'app.localhost';
         }
+        // localhost and 127.0.0.1 get no domain setting
       } catch (e) {
         console.warn('Failed to parse origin URL for cookie settings:', origin);
       }
@@ -108,26 +108,3 @@ export const getCookieOptions = (
   return baseOptions;
 };
 
-export const getCookieName = (origin: string | undefined): string => {
-  if (!origin) return 'refreshToken';
-  
-  try {
-    const url = new URL(origin);
-    const hostname = url.hostname;
-
-    // Use different cookie names for different domains
-    if (hostname === 'affiliate.choiceidentity.com' || hostname.includes('affiliate.localhost')) {
-      return 'affiliateRefreshToken';
-    }
-    if (hostname === 'admin.choiceidentity.com' || hostname.includes('admin.localhost')) {
-      return 'adminRefreshToken';
-    }
-    if (hostname === 'app.choiceidentity.com' || hostname.includes('app.localhost')) {
-      return 'appRefreshToken';
-    }
-    
-    return 'refreshToken'; // default for main domain
-  } catch (e) {
-    return 'refreshToken';
-  }
-};

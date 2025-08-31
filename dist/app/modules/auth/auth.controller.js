@@ -99,18 +99,10 @@ const AffiliateLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const loginData = req.body;
         const result = yield auth_service_1.UserService.AffiliateLogin(loginData);
         const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
-        // Set refresh token in cookie
-        // res.cookie('refreshToken', refreshToken, {
-        //   httpOnly: true,
-        //   secure: true,
-        //   sameSite: 'lax',
-        //   maxAge: 7 * 24 * 60 * 60 * 1000,
-        //   path: '/',
-        //   domain: 'localhost',
-        // });
         // =========== Productions ===============
         const isProduction = process.env.NODE_ENV === 'production';
-        console.log('req.headers.origin', isProduction, req.headers.origin);
+        console.log('req.headers.origin', req.headers.origin, isProduction);
+        // Get domain-specific cookie name and options
         const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', refreshToken, cookieOptions);
         if ('refreshToken' in result) {
@@ -153,6 +145,7 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         const isProduction = process.env.NODE_ENV === 'production';
         const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', result.refreshToken, cookieOptions);
+        console.log('req.headers.origin', req.headers.origin, isProduction);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,

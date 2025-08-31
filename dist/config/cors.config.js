@@ -18,6 +18,7 @@ const allowedOrigins = isProduction
         'http://127.0.0.1:3000',
         'http://affiliate.localhost:3000',
         'http://admin.localhost:3000',
+        'http://app.localhost:3000',
     ];
 exports.corsOptions = {
     origin: (origin, callback) => {
@@ -31,9 +32,8 @@ exports.corsOptions = {
             return callback(new Error('Not allowed by CORS'));
         }
         try {
-            const url = new URL(origin);
-            if (url.hostname === 'choiceidentity.com' ||
-                url.hostname.endsWith('choiceidentity.com')) {
+            // Strict origin matching - no wildcard subdomains
+            if (allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
         }
@@ -49,42 +49,58 @@ const getCookieOptions = (origin, isProduction) => {
     const baseOptions = {
         httpOnly: true,
         secure: isProduction,
-        sameSite: isProduction ? 'lax' : 'lax',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000,
         path: '/',
     };
-    if (isProduction) {
-        // ============ ADD THIS SECTION ============
-        // Set domain-specific cookies
-        if (origin === null || origin === void 0 ? void 0 : origin.includes('admin.choiceidentity.com')) {
-            baseOptions.domain = 'admin.choiceidentity.com';
+    if (isProduction && origin) {
+        try {
+            const url = new URL(origin);
+            const hostname = url.hostname;
+            console.log('Setting cookie for exact hostname:', hostname);
+            if (hostname === 'affiliate.choiceidentity.com') {
+                baseOptions.domain = 'affiliate.choiceidentity.com';
+            }
+            else if (hostname === 'admin.choiceidentity.com') {
+                baseOptions.domain = 'admin.choiceidentity.com';
+            }
+            else if (hostname === 'choiceidentity.com') {
+                baseOptions.domain = 'choiceidentity.com';
+            }
+            else if (hostname === 'app.choiceidentity.com') {
+                baseOptions.domain = 'app.choiceidentity.com';
+            }
+            // NO fallback to parent domain
         }
-        else if (origin === null || origin === void 0 ? void 0 : origin.includes('affiliate.choiceidentity.com')) {
-            baseOptions.domain = 'affiliate.choiceidentity.com';
+        catch (e) {
+            console.warn('Failed to parse origin URL, cookie will be restricted to api domain');
         }
-        else {
-            baseOptions.domain = 'choiceidentity.com';
-        }
-        // ============ END OF ADDITION ============
-        baseOptions.sameSite = 'lax';
     }
     else {
+        // Development environment
         baseOptions.secure = false;
-        baseOptions.sameSite = 'lax';
         if (origin) {
             try {
                 const url = new URL(origin);
-                if (url.hostname.includes('localhost') &&
-                    url.hostname !== 'localhost' &&
-                    url.hostname !== '127.0.0.1') {
-                    baseOptions.domain = url.hostname;
+                const hostname = url.hostname;
+                // Development subdomain isolation
+                if (hostname === 'affiliate.localhost') {
+                    baseOptions.domain = 'affiliate.localhost';
                 }
+                else if (hostname === 'admin.localhost') {
+                    baseOptions.domain = 'admin.localhost';
+                }
+                else if (hostname === 'app.localhost') {
+                    baseOptions.domain = 'app.localhost';
+                }
+                // localhost and 127.0.0.1 get no domain setting
             }
             catch (e) {
                 console.warn('Failed to parse origin URL for cookie settings:', origin);
             }
         }
     }
+    console.log('Final cookie options:', baseOptions);
     return baseOptions;
 };
 exports.getCookieOptions = getCookieOptions;

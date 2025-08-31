@@ -3,11 +3,10 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import { UserService } from './auth.service';
 import sendResponse from '../../../shared/sendResponse';
-import config from '../../../config';
 import { ILoginUserResponse, IUser } from './auth.interface';
 import { getPaginationAndFilters } from '../../../helpers/paginationHelpers';
 import { IProductFilters } from '../products/products.interface';
-import { getCookieName, getCookieOptions } from '../../../config/cors.config';
+import {  getCookieOptions } from '../../../config/cors.config';
 
 const CreateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -102,25 +101,17 @@ const AffiliateLogin: RequestHandler = async (
     const result = await UserService.AffiliateLogin(loginData);
     const { refreshToken, ...others } = result;
 
+    
     // =========== Productions ===============
     const isProduction = process.env.NODE_ENV === 'production';
 
-    console.log('req.headers.origin', isProduction, req.headers.origin);
+    console.log('req.headers.origin', req.headers.origin,isProduction);
 
-    // Get domain-specific cookie name and options
-    const cookieName = getCookieName(req.headers.origin);
+
+ // Get domain-specific cookie name and options
     const cookieOptions = getCookieOptions(req.headers.origin, isProduction);
-
-    res.cookie(cookieName, refreshToken, cookieOptions);
-
-    console.log(
-      'cookieName',
-      cookieName,
-      'refreshToken',
-      refreshToken,
-      'cookieOptions',
-      cookieOptions
-    );
+    
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     if ('refreshToken' in result) {
       delete result.refreshToken;
@@ -143,37 +134,8 @@ const refreshToken: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    // const refreshToken = req.cookies?.refreshToken;
-    // console.log('Request refresh Token ', refreshToken);
-
-    // if (!refreshToken) {
-    //   return sendResponse(res, {
-    //     statusCode: httpStatus.UNAUTHORIZED,
-    //     success: false,
-    //     message: 'Refresh token not found',
-    //   });
-    // }
-
-    // // Call the service to refresh the token
-    // const result = await UserService.refreshToken(refreshToken);
-
-    // res.cookie('refreshToken', result.refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: 'none',
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    //   path: '/',
-    //   domain: 'localhost',
-    // });
-
-    //========= Productions ===========
-      // Get the correct cookie name based on origin
-    const cookieName = getCookieName(req.headers.origin);
-    const refreshToken = req.cookies?.[cookieName];
-    
+    const refreshToken = req.cookies?.refreshToken;
     console.log('Request refresh Token ', refreshToken);
-    console.log('Looking for cookie name:', cookieName);
-    console.log('Available cookies:', Object.keys(req.cookies || {}));
 
     if (!refreshToken) {
       return sendResponse(res, {
@@ -186,12 +148,21 @@ const refreshToken: RequestHandler = async (
     // Call the service to refresh the token
     const result = await UserService.refreshToken(refreshToken);
 
-    // Set the new refresh token with proper domain isolation
+    // res.cookie('refreshToken', result.refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'none',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   path: '/',
+    //   domain: 'localhost',
+    // });
+
+    //========= Productions ===========
     const isProduction = process.env.NODE_ENV === 'production';
     const cookieOptions = getCookieOptions(req.headers.origin, isProduction);
-    
-    console.log("cookieOptions",cookieOptions,cookieName)
-    res.cookie(cookieName, result.refreshToken, cookieOptions);
+    res.cookie('refreshToken', result.refreshToken, cookieOptions);
+ console.log('req.headers.origin', req.headers.origin,isProduction);
+
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
