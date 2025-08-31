@@ -11,6 +11,7 @@ const allowedOrigins = isProduction
         'https://choiceidentity.com',
         'https://affiliate.choiceidentity.com',
         'https://admin.choiceidentity.com',
+        'https://app.choiceidentity.com',
     ]
     : [
         'http://localhost:3000',
@@ -53,7 +54,18 @@ const getCookieOptions = (origin, isProduction) => {
         path: '/',
     };
     if (isProduction) {
-        baseOptions.domain = '.choiceidentity.com';
+        // ============ ADD THIS SECTION ============
+        // Set domain-specific cookies
+        if (origin === null || origin === void 0 ? void 0 : origin.includes('admin.choiceidentity.com')) {
+            baseOptions.domain = 'admin.choiceidentity.com';
+        }
+        else if (origin === null || origin === void 0 ? void 0 : origin.includes('affiliate.choiceidentity.com')) {
+            baseOptions.domain = 'affiliate.choiceidentity.com';
+        }
+        else {
+            baseOptions.domain = '.choiceidentity.com';
+        }
+        // ============ END OF ADDITION ============
         baseOptions.sameSite = 'lax';
     }
     else {
