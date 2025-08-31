@@ -63,7 +63,7 @@ const getCookieOptions = (origin, isProduction) => {
             baseOptions.domain = 'affiliate.choiceidentity.com';
         }
         else {
-            baseOptions.domain = 'choiceidentity.com';
+            baseOptions.domain = '.choiceidentity.com';
         }
         // ============ END OF ADDITION ============
         baseOptions.sameSite = 'lax';
