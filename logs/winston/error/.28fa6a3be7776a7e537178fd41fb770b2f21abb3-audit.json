@@ -219,6 +219,16 @@
             "date": 1756656017949,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-31-08-22-error.log",
             "hash": "6da87bdda8130f5cbfb37ddc1954c28e3289fb7ccb956cbff5ba8996f881e658"
+        },
+        {
+            "date": 1756665829261,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-01-09-00-error.log",
+            "hash": "c5d2beaefc72471a7bb63831a3beab111398ce4ff8ad155ce52ccf7969fddcce"
+        },
+        {
+            "date": 1756673040962,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-01-09-02-error.log",
+            "hash": "b6713762d1735bacdce9242041dca9654d195ab1539fe7bb2429fbb57f00ff2e"
         }
     ],
     "hashType": "sha256"

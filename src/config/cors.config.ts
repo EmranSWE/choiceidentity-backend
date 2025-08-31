@@ -2,49 +2,51 @@ import cors, { CorsOptions } from 'cors';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// ✅ COMPLETE list of allowed origins
 const allowedOrigins = isProduction
   ? [
       'https://choiceidentity.com',
+      'https://www.choiceidentity.com',
       'https://affiliate.choiceidentity.com',
       'https://admin.choiceidentity.com',
       'https://app.choiceidentity.com',
+      'https://api.choiceidentity.com',
     ]
   : [
       'http://localhost:3000',
       'http://127.0.0.1:3000',
+      'http://localhost:4000',
+      'http://127.0.0.1:4000',
       'http://affiliate.localhost:3000',
       'http://admin.localhost:3000',
       'http://app.localhost:3000',
+      'http://www.localhost:3000', 
+      'http://api.localhost:3000',
     ];
 
+// ✅ Debug CORS configuration
 export const corsOptions: CorsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) {
-      return callback(null, true);
-    }
+  origin: function (origin, callback) {
+    console.log('CORS Origin check:', origin);
 
-    if (!isProduction) {
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error('Not allowed by CORS'));
-    }
+    // Allow requests with no origin
+    if (!origin) return callback(null, true);
 
-    try {      
-      // Strict origin matching - no wildcard subdomains
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-    } catch (e) {
-      return callback(new Error('Invalid origin'));
+    // Check if origin is allowed
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
     }
-
-    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 export const corsMiddleware = cors(corsOptions);
+
+
 
 
 export const getCookieOptions = (
@@ -64,47 +66,23 @@ export const getCookieOptions = (
       const url = new URL(origin);
       const hostname = url.hostname;
 
-      console.log('Setting cookie for exact hostname:', hostname);
-
-      if (hostname === 'affiliate.choiceidentity.com') {
+      if (hostname.includes('affiliate')) {
         baseOptions.domain = 'affiliate.choiceidentity.com';
-      } else if (hostname === 'admin.choiceidentity.com') {
+      } else if (hostname.includes('admin')) {
         baseOptions.domain = 'admin.choiceidentity.com';
-      } else if (hostname === 'choiceidentity.com') {
-        baseOptions.domain = 'choiceidentity.com'; 
-      } else if (hostname === 'app.choiceidentity.com') {
+      } else if (hostname.includes('app')) {
         baseOptions.domain = 'app.choiceidentity.com';
+      } else if (hostname.includes('www')) {
+        baseOptions.domain = 'www.choiceidentity.com';
+      } else {
+        baseOptions.domain = 'choiceidentity.com';
       }
-      // NO fallback to parent domain
-
     } catch (e) {
       console.warn('Failed to parse origin URL, cookie will be restricted to api domain');
     }
   } else {
-    // Development environment
     baseOptions.secure = false;
-    
-    if (origin) {
-      try {
-        const url = new URL(origin);
-        const hostname = url.hostname;
-
-        // Development subdomain isolation
-        if (hostname === 'affiliate.localhost') {
-          baseOptions.domain = 'affiliate.localhost';
-        } else if (hostname === 'admin.localhost') {
-          baseOptions.domain = 'admin.localhost';
-        } else if (hostname === 'app.localhost') {
-          baseOptions.domain = 'app.localhost';
-        }
-        // localhost and 127.0.0.1 get no domain setting
-      } catch (e) {
-        console.warn('Failed to parse origin URL for cookie settings:', origin);
-      }
-    }
   }
 
-  console.log('Final cookie options:', baseOptions);
   return baseOptions;
 };
-
