@@ -14,6 +14,7 @@ const allowedOrigins = isProduction
       'http://127.0.0.1:3000',
       'http://affiliate.localhost:3000',
       'http://admin.localhost:3000',
+      'http://app.localhost:3000',
     ];
 
 export const corsOptions: CorsOptions = {
@@ -56,37 +57,46 @@ export const getCookieOptions = (
   const baseOptions: any = {
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction ? 'lax' : 'lax',
+    sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000,
     path: '/',
   };
 
-  if (isProduction) {
-    // ============ ADD THIS SECTION ============
-    // Set domain-specific cookies
-    if (origin?.includes('admin.choiceidentity.com')) {
-      baseOptions.domain = 'admin.choiceidentity.com'; 
-    } else if (origin?.includes('affiliate.choiceidentity.com')) {
-      baseOptions.domain = 'affiliate.choiceidentity.com'; 
-    } else {
-      baseOptions.domain = 'choiceidentity.com';
-    }
-    // ============ END OF ADDITION ============
+  if (isProduction && origin) {
+    try {
+      const url = new URL(origin);
+      const hostname = url.hostname;
 
-    baseOptions.sameSite = 'lax';
+      console.log('Setting cookie for hostname:', hostname);
+
+      // ISOLATE COOKIES BY SPECIFIC DOMAIN
+      // Only set domain for subdomains, NOT for main domain
+      if (hostname === 'admin.choiceidentity.com') {
+        baseOptions.domain = 'admin.choiceidentity.com';
+      } else if (hostname === 'affiliate.choiceidentity.com') {
+        baseOptions.domain = 'affiliate.choiceidentity.com';
+      } else if (hostname === 'app.choiceidentity.com') {
+        baseOptions.domain = 'app.choiceidentity.com';
+      }
+      // For main domain (choiceidentity.com), don't set domain property at all
+      // This isolates cookies to the exact domain
+
+    } catch (e) {
+      console.warn('Failed to parse origin URL, using strict isolation:', origin);
+      // On error, don't set domain for strict isolation
+    }
   } else {
+    // Development environment
     baseOptions.secure = false;
-    baseOptions.sameSite = 'lax';
+    
     if (origin) {
       try {
         const url = new URL(origin);
+        const hostname = url.hostname;
 
-        if (
-          url.hostname.includes('localhost') &&
-          url.hostname !== 'localhost' &&
-          url.hostname !== '127.0.0.1'
-        ) {
-          baseOptions.domain = url.hostname;
+        // For local development with subdomains
+        if (hostname.includes('localhost') && hostname !== 'localhost') {
+          baseOptions.domain = hostname;
         }
       } catch (e) {
         console.warn('Failed to parse origin URL for cookie settings:', origin);
@@ -94,5 +104,30 @@ export const getCookieOptions = (
     }
   }
 
+  console.log('Final cookie options:', baseOptions);
   return baseOptions;
+};
+
+export const getCookieName = (origin: string | undefined): string => {
+  if (!origin) return 'refreshToken';
+  
+  try {
+    const url = new URL(origin);
+    const hostname = url.hostname;
+
+    // Use different cookie names for different domains
+    if (hostname === 'affiliate.choiceidentity.com' || hostname.includes('affiliate.localhost')) {
+      return 'affiliateRefreshToken';
+    }
+    if (hostname === 'admin.choiceidentity.com' || hostname.includes('admin.localhost')) {
+      return 'adminRefreshToken';
+    }
+    if (hostname === 'app.choiceidentity.com' || hostname.includes('app.localhost')) {
+      return 'appRefreshToken';
+    }
+    
+    return 'refreshToken'; // default for main domain
+  } catch (e) {
+    return 'refreshToken';
+  }
 };
