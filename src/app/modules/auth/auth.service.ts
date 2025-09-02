@@ -121,7 +121,7 @@ const loginUser = async (
   // Check is user exist
   const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid credentials.');
   }
 
   //Matching the password
@@ -129,20 +129,19 @@ const loginUser = async (
     isUserExist.password &&
     !(await User.isPasswordMatched(password, isUserExist?.password))
   ) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect');
   }
-
-  const { email: youremail, _id, role } = isUserExist;
+  const { email: userEmail, _id, role } = isUserExist;
 
   // Access token
   const accessToken = jwtHelpers.createToken(
-    { userId: _id, youremail, role },
+    { userId: _id, email:userEmail, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelpers.createToken(
-    { youremail, role },
+    {  email:userEmail, role },
     config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
@@ -162,7 +161,7 @@ const AffiliateLogin = async (
   const isUserExist = await User.isUserExist(email);
 
   if (!isUserExist) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid credentials.');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid credentials.');
   }
 
   //@ts-ignore
@@ -196,7 +195,7 @@ const AffiliateLogin = async (
     isUserExist.password &&
     !(await User.isPasswordMatched(password, isUserExist?.password))
   ) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect');
   }
 
   const { email: userEmail, _id, role } = isUserExist;
@@ -221,7 +220,8 @@ const AffiliateLogin = async (
 };
 
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
-  // Verify the refresh token
+
+    console.log("RefreshToken In Service",token)
 
   let verifiedToken = null;
   try {

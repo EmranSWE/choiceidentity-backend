@@ -27,7 +27,6 @@ const allowedOrigins = isProduction
 // ✅ Debug CORS configuration
 export const corsOptions: CorsOptions = {
   origin: function (origin, callback) {
-    console.log('CORS Origin check:', origin);
 
     // Allow requests with no origin
     if (!origin) return callback(null, true);
@@ -36,7 +35,6 @@ export const corsOptions: CorsOptions = {
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },

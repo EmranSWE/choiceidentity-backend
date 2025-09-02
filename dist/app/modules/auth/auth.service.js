@@ -122,17 +122,17 @@ const loginUser = (loginData) => __awaiter(void 0, void 0, void 0, function* () 
     // Check is user exist
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
-        throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid credentials.');
     }
     //Matching the password
     if (isUserExist.password &&
         !(yield auth_model_1.User.isPasswordMatched(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password))) {
-        throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Password is incorrect');
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Password is incorrect');
     }
-    const { email: youremail, _id, role } = isUserExist;
+    const { email: userEmail, _id, role } = isUserExist;
     // Access token
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId: _id, youremail, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
-    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ youremail, role }, config_1.default.jwt.refresh_Secret, config_1.default.jwt.refresh_secret_Expires);
+    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId: _id, email: userEmail, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ email: userEmail, role }, config_1.default.jwt.refresh_Secret, config_1.default.jwt.refresh_secret_Expires);
     return {
         accessToken,
         refreshToken,
@@ -144,7 +144,7 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
     // Check is user exist
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
-        throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid credentials.');
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid credentials.');
     }
     //@ts-ignore
     if (isUserExist.accountStatus === 'banned') {
@@ -163,7 +163,7 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
     //Matching the password
     if (isUserExist.password &&
         !(yield auth_model_1.User.isPasswordMatched(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password))) {
-        throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Password is incorrect');
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Password is incorrect');
     }
     const { email: userEmail, _id, role } = isUserExist;
     // Access token
@@ -175,7 +175,7 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
     };
 });
 const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    // Verify the refresh token
+    console.log("RefreshToken In Service", token);
     let verifiedToken = null;
     try {
         verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.refresh_Secret);

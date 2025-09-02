@@ -70,15 +70,11 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const loginData = req.body;
         const result = yield auth_service_1.UserService.loginUser(loginData);
         const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
-        // Set refresh token in cookie
-        const cookieOptions = {
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        };
+        // =========== Productions ===============
+        const isProduction = process.env.NODE_ENV === 'production';
+        // Get domain-specific cookie name and options
+        const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', refreshToken, cookieOptions);
-        // delete refreshToken
         if ('refreshToken' in result) {
             delete result.refreshToken;
         }
@@ -101,7 +97,6 @@ const AffiliateLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
         // =========== Productions ===============
         const isProduction = process.env.NODE_ENV === 'production';
-        console.log('req.headers.origin', req.headers.origin, isProduction);
         // Get domain-specific cookie name and options
         const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -123,7 +118,6 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     var _a;
     try {
         const refreshToken = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.refreshToken;
-        console.log('Request refresh Token ', refreshToken);
         if (!refreshToken) {
             return (0, sendResponse_1.default)(res, {
                 statusCode: http_status_1.default.UNAUTHORIZED,
@@ -133,19 +127,10 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         }
         // Call the service to refresh the token
         const result = yield auth_service_1.UserService.refreshToken(refreshToken);
-        // res.cookie('refreshToken', result.refreshToken, {
-        //   httpOnly: true,
-        //   secure: true,
-        //   sameSite: 'none',
-        //   maxAge: 7 * 24 * 60 * 60 * 1000,
-        //   path: '/',
-        //   domain: 'localhost',
-        // });
         //========= Productions ===========
         const isProduction = process.env.NODE_ENV === 'production';
         const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
         res.cookie('refreshToken', result.refreshToken, cookieOptions);
-        console.log('req.headers.origin', req.headers.origin, isProduction);
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.OK,
             success: true,
@@ -160,7 +145,6 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 const LogoutUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Clear the refresh token cookie
     res.clearCookie('refreshToken', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
