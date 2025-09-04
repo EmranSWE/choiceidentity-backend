@@ -9,6 +9,8 @@ const products_route_1 = require("../modules/products/products.route");
 // import { NotificationRoutes } from '../modules/notifications/notifications.route';
 const stripe_route_1 = require("../modules/stripe/stripe.route");
 const affiliate_route_1 = require("../modules/affiliate/affiliate.route");
+const passwordHealth_route_1 = require("../modules/features/passwordHealth/passwordHealth.route");
+const creditMonitoring_route_1 = require("../modules/features/creditMonitoring/creditMonitoring.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -30,6 +32,14 @@ const moduleRoutes = [
     {
         path: '/affiliate',
         route: affiliate_route_1.affiliateRoutes,
+    },
+    {
+        path: '/password',
+        route: passwordHealth_route_1.PasswordRoutes,
+    },
+    {
+        path: '/credit',
+        route: creditMonitoring_route_1.CreditRoutes,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));

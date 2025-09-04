@@ -4,6 +4,8 @@ import { ProductRoutes } from '../modules/products/products.route';
 // import { NotificationRoutes } from '../modules/notifications/notifications.route';
 import { PaymentRouter } from '../modules/stripe/stripe.route';
 import { affiliateRoutes } from '../modules/affiliate/affiliate.route';
+import { PasswordRoutes } from '../modules/features/passwordHealth/passwordHealth.route';
+import { CreditRoutes } from '../modules/features/creditMonitoring/creditMonitoring.route';
 
 const router = express.Router();
 
@@ -28,6 +30,14 @@ const moduleRoutes = [
    {
     path: '/affiliate',
     route: affiliateRoutes,
+  },
+    {
+    path: '/password',
+    route: PasswordRoutes,
+  },
+    {
+    path: '/credit',
+    route: CreditRoutes,
   },
 
 ];
