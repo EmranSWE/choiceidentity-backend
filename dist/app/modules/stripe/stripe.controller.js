@@ -32,6 +32,7 @@ const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const stripe_service_1 = require("./stripe.service");
 const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
+const cors_config_1 = require("../../../config/cors.config");
 /**
  * Creates a Checkout Session
  * POST /api/v1/stripe/create-checkout-session
@@ -188,28 +189,38 @@ const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
  * GET /api/v1/stripe/user/:userId/payment-intents
  */
 const createTrialSubscription = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const _a = req.body, { paymentMethodId, email, password, firstName, lastName, selectedPlan, billingInterval } = _a, rest = __rest(_a, ["paymentMethodId", "email", "password", "firstName", "lastName", "selectedPlan", "billingInterval"]);
+    const _a = req.body, { paymentMethodId, email, password, firstName, selectedPlan, billingInterval, affiliateId } = _a, rest = __rest(_a, ["paymentMethodId", "email", "password", "firstName", "selectedPlan", "billingInterval", "affiliateId"]);
     const key = res.locals.idempotencyKey;
     if (!key)
-        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, "Missing Idempotency-Key");
-    if (!paymentMethodId || !email || !password || !firstName) {
-        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, "Required fields missing");
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Missing Idempotency-Key');
+    if (!paymentMethodId ||
+        !email ||
+        !password ||
+        !firstName ||
+        !selectedPlan ||
+        !billingInterval) {
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Required fields missing');
     }
-    // ✅ Format full name
-    const name = `${firstName} ${lastName || ""}`.trim();
     // 🚀 Create subscription (Service handles PCI compliance)
+    const subscriptionAffiliateId = affiliateId || 'd4rOZ2aYq';
     const subscriptionData = Object.assign({ key,
         paymentMethodId,
         email,
-        name,
-        password, planType: selectedPlan || "ELITE", billingInterval: billingInterval || "monthly" }, rest);
+        firstName,
+        password, planType: selectedPlan || 'ELITE', billingInterval: billingInterval || 'monthly', affiliateId: subscriptionAffiliateId }, rest);
     const result = yield stripe_service_1.StripeService.createTrialSubscription(subscriptionData);
-    // 📬 Send response
+    const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
+    // =========== Productions ===============
+    const isProduction = process.env.NODE_ENV === 'production';
+    // Get domain-specific cookie name and options
+    const cookieOptions = (0, cors_config_1.getCookieOptions)(req.headers.origin, isProduction);
+    // Set refresh token in HTTP-only cookie
+    res.cookie('refreshToken', refreshToken, cookieOptions);
     (0, sendResponse_1.default)(res, {
-        statusCode: http_status_1.default.CREATED,
+        statusCode: http_status_1.default.OK,
         success: true,
-        message: "User created & trial subscription started",
-        data: result,
+        message: 'User created & trial subscription started',
+        data: others,
     });
 }));
 const GetPlans = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -13,9 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ensureAdmin = ensureAdmin;
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // services/adminSetup.ts
 const crypto_1 = __importDefault(require("crypto"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
+//  @ts-ignore
 const auth_model_1 = require("./auth.model");
 function ensureAdmin() {
     return __awaiter(this, void 0, void 0, function* () {

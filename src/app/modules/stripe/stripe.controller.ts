@@ -11,8 +11,9 @@ import {
   StripeRequestBody,
   StripeCheckoutRequestBody,
 } from './stripe.interface';
-import {isValidPriceId } from './stripe.utils';
+import { isValidPriceId } from './stripe.utils';
 import ApiError from '../../../errors/apiErrors';
+import { getCookieOptions } from '../../../config/cors.config';
 
 /**
  * Creates a Checkout Session
@@ -202,44 +203,62 @@ const createTrialSubscription: RequestHandler = catchAsync(async (req, res) => {
     email,
     password,
     firstName,
-    lastName,
     selectedPlan,
     billingInterval,
+    affiliateId,
     ...rest
   } = req.body;
 
   const key = res.locals.idempotencyKey;
 
-    if (!key) throw new ApiError(httpStatus.BAD_REQUEST, "Missing Idempotency-Key");
+  if (!key)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Missing Idempotency-Key');
 
-  if (!paymentMethodId || !email || !password || !firstName) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Required fields missing");
+  if (
+    !paymentMethodId ||
+    !email ||
+    !password ||
+    !firstName ||
+    !selectedPlan ||
+    !billingInterval
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Required fields missing');
   }
 
-  // ✅ Format full name
-  const name = `${firstName} ${lastName || ""}`.trim();
-
   // 🚀 Create subscription (Service handles PCI compliance)
-
-    const subscriptionData = {
+  const subscriptionAffiliateId = affiliateId || 'd4rOZ2aYq';
+  const subscriptionData = {
     key,
     paymentMethodId,
     email,
-    name,
+    firstName,
     password,
-    planType: selectedPlan || "ELITE",
-    billingInterval: billingInterval || "monthly",
+    planType: selectedPlan || 'ELITE',
+    billingInterval: billingInterval || 'monthly',
+    affiliateId: subscriptionAffiliateId,
     ...rest,
   };
 
-  const result = await StripeService.createTrialSubscription(subscriptionData);
 
-  // 📬 Send response
+  const result = await StripeService.createTrialSubscription(subscriptionData);
+  const { refreshToken, ...others } = result;
+
+  // =========== Productions ===============
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  // Get domain-specific cookie name and options
+  const cookieOptions = getCookieOptions(req.headers.origin, isProduction);
+
+  // Set refresh token in HTTP-only cookie
+  res.cookie('refreshToken', refreshToken, cookieOptions);
+
+
+
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
-    message: "User created & trial subscription started",
-    data: result,
+    message: 'User created & trial subscription started',
+    data: others,
   });
 });
 
@@ -255,11 +274,11 @@ const GetPlans: RequestHandler = catchAsync(async (req, res) => {
 });
 
 export const StripeController = {
-//   createCheckoutSession,
-//   getCheckoutSession,
-//   createPaymentIntent,
-//   getPaymentIntent,
-//   getUserPaymentIntents,
+  //   createCheckoutSession,
+  //   getCheckoutSession,
+  //   createPaymentIntent,
+  //   getPaymentIntent,
+  //   getUserPaymentIntents,
   createTrialSubscription,
   GetPlans,
 };

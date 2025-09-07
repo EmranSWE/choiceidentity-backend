@@ -480,6 +480,7 @@ export const attachAndSetDefaultPaymentMethod = async ({
     if (!customerId || !paymentMethodId)
       throw new Error('customerId and paymentMethodId are required.');
 
+
     const attached = await retry(() =>
       stripe.paymentMethods.attach(
         paymentMethodId,
@@ -487,6 +488,7 @@ export const attachAndSetDefaultPaymentMethod = async ({
         { idempotencyKey: `attach_pm_${key}` }
       )
     );
+
     const updatedCustomer = await retry(() =>
       stripe.customers.update(
         customerId,

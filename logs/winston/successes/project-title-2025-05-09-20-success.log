@@ -1,0 +1,97 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-05T14:12:14.165Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-05T14:22:10.222Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:47.918Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:48.760Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:49.511Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:49.978Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:50.491Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:54:51.494Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:57:54.494Z'
+}
+{
+  code: 'TIMEOUT',
+  level: 'error',
+  message: 'Non-retryable error on attempt 1 Operation timed out after 5000 ms',
+  stack: 'Error: Operation timed out after 5000 ms\n' +
+    '    at Timeout.<anonymous> (/home/imran/choiceidentity/choiceidentity-backend/src/app/modules/stripe/stripe.utils.ts:309:21)\n' +
+    '    at listOnTimeout (node:internal/timers:594:17)\n' +
+    '    at processTimers (node:internal/timers:529:7)',
+  timestamp: '2025-09-05T14:57:59.504Z'
+}
+{
+  err: Error: Operation timed out after 5000 ms
+      at Timeout.<anonymous> (/home/imran/choiceidentity/choiceidentity-backend/src/app/modules/stripe/stripe.utils.ts:309:21)
+      at listOnTimeout (node:internal/timers:594:17)
+      at processTimers (node:internal/timers:529:7) {
+    code: 'TIMEOUT'
+  },
+  email: 'rakib21@gmail.com',
+  level: 'error',
+  message: 'Stripe customer creation failed',
+  timestamp: '2025-09-05T14:57:59.506Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:43.526Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:44.041Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:44.861Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:45.372Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:45.885Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-05T14:58:46.801Z'
+}

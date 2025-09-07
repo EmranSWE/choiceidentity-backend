@@ -1,0 +1,1079 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:02.210Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:15.306Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:34.941Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:35.766Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:36.673Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:37.184Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:00:37.696Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:02:00.429Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:02:14.027Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:02:48.368Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:02:56.336Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:06.783Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:07.507Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:08.476Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:08.935Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:09.346Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:10.370Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_IYHqiOV8B0oS0v?t=1757170990',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:03:10 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+      'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+      'original-request': 'req_IYHqiOV8B0oS0v',
+      'request-id': 'req_IYHqiOV8B0oS0v',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_IYHqiOV8B0oS0v'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:03:10 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+    'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+    'original-request': 'req_IYHqiOV8B0oS0v',
+    'request-id': 'req_IYHqiOV8B0oS0v',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_IYHqiOV8B0oS0v',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 1, retrying after 1000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:03:11.169Z'
+}
+{
+  message: 'Retry attempt 2 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:12.170Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_UGQqVqWLR1LYVb?t=1757170992',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:03:12 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+      'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+      'original-request': 'req_UGQqVqWLR1LYVb',
+      'request-id': 'req_UGQqVqWLR1LYVb',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_UGQqVqWLR1LYVb'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:03:12 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+    'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+    'original-request': 'req_UGQqVqWLR1LYVb',
+    'request-id': 'req_UGQqVqWLR1LYVb',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_UGQqVqWLR1LYVb',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 2, retrying after 2000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:03:12.617Z'
+}
+{
+  message: 'Retry attempt 3 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:14.623Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_bZJoiBzXme2MXV?t=1757170994',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+      'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+      'original-request': 'req_bZJoiBzXme2MXV',
+      'request-id': 'req_bZJoiBzXme2MXV',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_bZJoiBzXme2MXV'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+    'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+    'original-request': 'req_bZJoiBzXme2MXV',
+    'request-id': 'req_bZJoiBzXme2MXV',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_bZJoiBzXme2MXV',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 3, retrying after 4000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:03:15.017Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_bZJoiBzXme2MXV?t=1757170994',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+      'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+      'original-request': 'req_bZJoiBzXme2MXV',
+      'request-id': 'req_bZJoiBzXme2MXV',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_bZJoiBzXme2MXV'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+    'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+    'original-request': 'req_bZJoiBzXme2MXV',
+    'request-id': 'req_bZJoiBzXme2MXV',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_bZJoiBzXme2MXV',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'error',
+  message: "All retry attempts failed No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:03:15.018Z'
+}
+{
+  err: StripeInvalidRequestError: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'
+      at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)
+      at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    type: 'StripeInvalidRequestError',
+    raw: {
+      code: 'resource_missing',
+      doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+      message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+      param: 'items[0][price]',
+      request_log_url: 'https://dashboard.stripe.com/test/logs/req_bZJoiBzXme2MXV?t=1757170994',
+      type: 'invalid_request_error',
+      headers: {
+        server: 'nginx',
+        date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+        'content-type': 'application/json',
+        'content-length': '355',
+        connection: 'keep-alive',
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+        'access-control-max-age': '300',
+        'cache-control': 'no-cache, no-store',
+        'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+        'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+        'original-request': 'req_bZJoiBzXme2MXV',
+        'request-id': 'req_bZJoiBzXme2MXV',
+        'stripe-version': '2025-06-30.basil',
+        vary: 'Origin',
+        'x-stripe-priority-routing-enabled': 'true',
+        'x-stripe-routing-context-priority-tier': 'api-testmode',
+        'x-wc': 'ABGHIJ',
+        'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+      },
+      statusCode: 400,
+      requestId: 'req_bZJoiBzXme2MXV'
+    },
+    rawType: 'invalid_request_error',
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    param: 'items[0][price]',
+    detail: undefined,
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:03:15 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=pYbrTOhoHH_McbO1JLHcezE4Jquh0z72K2zz2mfptHut38fHp1wC8UY0tbFJdN0FfnUWBvBEWmT-DyP7",
+      'idempotency-key': 'subscription_c67aefa2-e8be-40e1-b065-7ceccc91c67d',
+      'original-request': 'req_bZJoiBzXme2MXV',
+      'request-id': 'req_bZJoiBzXme2MXV',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    requestId: 'req_bZJoiBzXme2MXV',
+    statusCode: 400,
+    userMessage: undefined,
+    charge: undefined,
+    decline_code: undefined,
+    payment_intent: undefined,
+    payment_method: undefined,
+    payment_method_type: undefined,
+    setup_intent: undefined,
+    source: undefined
+  },
+  customerId: 'cus_T0OQ2cLKRarof7',
+  level: 'error',
+  message: 'Stripe subscription creation failed',
+  timestamp: '2025-09-06T15:03:15.020Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:15.110Z'
+}
+{
+  message: 'Deleted customer cus_T0OQ2cLKRarof7',
+  level: 'info',
+  timestamp: '2025-09-06T15:03:15.696Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:05.709Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:39.389Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:40.174Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:40.990Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:41.584Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:41.979Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:04:42.952Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:05:21.891Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:06:05.854Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:07:09.282Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:07:44.353Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:08:16.193Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:08:36.714Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:08:50.869Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:10:12.426Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:29.326Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:30.009Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:30.819Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:31.326Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:31.838Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:32.968Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_A5g2YHktT3Z09d?t=1757171733',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:15:33 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+      'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+      'original-request': 'req_A5g2YHktT3Z09d',
+      'request-id': 'req_A5g2YHktT3Z09d',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_A5g2YHktT3Z09d'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:15:33 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+    'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+    'original-request': 'req_A5g2YHktT3Z09d',
+    'request-id': 'req_A5g2YHktT3Z09d',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_A5g2YHktT3Z09d',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 1, retrying after 1000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:15:33.478Z'
+}
+{
+  message: 'Retry attempt 2 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:34.482Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_IDnYtP3b0Ee6s8?t=1757171734',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:15:34 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+      'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+      'original-request': 'req_IDnYtP3b0Ee6s8',
+      'request-id': 'req_IDnYtP3b0Ee6s8',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_IDnYtP3b0Ee6s8'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:15:34 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+    'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+    'original-request': 'req_IDnYtP3b0Ee6s8',
+    'request-id': 'req_IDnYtP3b0Ee6s8',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_IDnYtP3b0Ee6s8',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 2, retrying after 2000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:15:34.908Z'
+}
+{
+  message: 'Retry attempt 3 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:36.910Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_PWs3tqVkWnYi2S?t=1757171737',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+      'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+      'original-request': 'req_PWs3tqVkWnYi2S',
+      'request-id': 'req_PWs3tqVkWnYi2S',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_PWs3tqVkWnYi2S'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+    'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+    'original-request': 'req_PWs3tqVkWnYi2S',
+    'request-id': 'req_PWs3tqVkWnYi2S',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_PWs3tqVkWnYi2S',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: "Retryable error on attempt 3, retrying after 4000ms No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:15:37.365Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_PWs3tqVkWnYi2S?t=1757171737',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+      'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+      'original-request': 'req_PWs3tqVkWnYi2S',
+      'request-id': 'req_PWs3tqVkWnYi2S',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_PWs3tqVkWnYi2S'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+    'content-type': 'application/json',
+    'content-length': '355',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+    'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+    'original-request': 'req_PWs3tqVkWnYi2S',
+    'request-id': 'req_PWs3tqVkWnYi2S',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_PWs3tqVkWnYi2S',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'error',
+  message: "All retry attempts failed No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+  stack: "Error: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'\n" +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-06T15:15:37.368Z'
+}
+{
+  err: StripeInvalidRequestError: No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'
+      at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)
+      at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    type: 'StripeInvalidRequestError',
+    raw: {
+      code: 'resource_missing',
+      doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+      message: "No such price: 'price_1S41xWA1bvHesp63eR7Lf6Oj'",
+      param: 'items[0][price]',
+      request_log_url: 'https://dashboard.stripe.com/test/logs/req_PWs3tqVkWnYi2S?t=1757171737',
+      type: 'invalid_request_error',
+      headers: {
+        server: 'nginx',
+        date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+        'content-type': 'application/json',
+        'content-length': '355',
+        connection: 'keep-alive',
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+        'access-control-max-age': '300',
+        'cache-control': 'no-cache, no-store',
+        'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+        'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+        'original-request': 'req_PWs3tqVkWnYi2S',
+        'request-id': 'req_PWs3tqVkWnYi2S',
+        'stripe-version': '2025-06-30.basil',
+        vary: 'Origin',
+        'x-stripe-priority-routing-enabled': 'true',
+        'x-stripe-routing-context-priority-tier': 'api-testmode',
+        'x-wc': 'ABGHIJ',
+        'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+      },
+      statusCode: 400,
+      requestId: 'req_PWs3tqVkWnYi2S'
+    },
+    rawType: 'invalid_request_error',
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    param: 'items[0][price]',
+    detail: undefined,
+    headers: {
+      server: 'nginx',
+      date: 'Sat, 06 Sep 2025 15:15:37 GMT',
+      'content-type': 'application/json',
+      'content-length': '355',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=xbQLr7sqXS8WJteODzMHbWHIt3PA2ZPGlYm-Kd6D-_6mDodi6f1s9T9Q1kfItSXwY27DsrOX4D9OhWTu",
+      'idempotency-key': 'subscription_5b57d155-43ee-439f-9205-64204e83d6fd',
+      'original-request': 'req_PWs3tqVkWnYi2S',
+      'request-id': 'req_PWs3tqVkWnYi2S',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    requestId: 'req_PWs3tqVkWnYi2S',
+    statusCode: 400,
+    userMessage: undefined,
+    charge: undefined,
+    decline_code: undefined,
+    payment_intent: undefined,
+    payment_method: undefined,
+    payment_method_type: undefined,
+    setup_intent: undefined,
+    source: undefined
+  },
+  customerId: 'cus_T0OduEe1qPmXL8',
+  level: 'error',
+  message: 'Stripe subscription creation failed',
+  timestamp: '2025-09-06T15:15:37.371Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:37.465Z'
+}
+{
+  message: 'Deleted customer cus_T0OduEe1qPmXL8',
+  level: 'info',
+  timestamp: '2025-09-06T15:15:37.980Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:16.624Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:17.622Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:18.342Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:18.853Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:19.673Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-06T15:19:20.697Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-06T15:26:20.569Z'
+}

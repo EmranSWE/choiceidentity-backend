@@ -7,6 +7,6 @@ import { PasswordController } from './passwordHealth.controller';
 const router = express.Router();
 
 
-router.get('/features/password-score',auth(ENUM_USER_ROLE.AFFILIATE), PasswordController.fetchPasswordScore);
+router.get('/features/password-score',auth(ENUM_USER_ROLE.CUSTOMER), PasswordController.fetchPasswordScore);
 
 export const PasswordRoutes = router;

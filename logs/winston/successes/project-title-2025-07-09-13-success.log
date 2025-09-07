@@ -1,0 +1,567 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:00:52.106Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:20.021Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:44.995Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:46.115Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:46.882Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:47.743Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:48.265Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:01:49.287Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:04:37.416Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:05:35.462Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:06:02.075Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:06:10.832Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:06:42.790Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:06:50.843Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:07:35.395Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:08:13.010Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:03.929Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:46.610Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:47.299Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:48.008Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:48.520Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:48.930Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:09:49.955Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:40.212Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:40.798Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:41.468Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:41.880Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:42.275Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:13:43.365Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:51:25.554Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:51:58.374Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+    param: 'metadata',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_GoJzyZKbnOobsM?t=1757231518',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 07 Sep 2025 07:51:59 GMT',
+      'content-type': 'application/json',
+      'content-length': '375',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+      'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+      'original-request': 'req_GoJzyZKbnOobsM',
+      'request-id': 'req_GoJzyZKbnOobsM',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_GoJzyZKbnOobsM'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'metadata',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 07 Sep 2025 07:51:59 GMT',
+    'content-type': 'application/json',
+    'content-length': '375',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+    'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+    'original-request': 'req_GoJzyZKbnOobsM',
+    'request-id': 'req_GoJzyZKbnOobsM',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_GoJzyZKbnOobsM',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 1, retrying after 1000ms Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+  stack: 'Error: Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-07T07:51:59.059Z'
+}
+{
+  message: 'Retry attempt 2 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:52:00.065Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+    param: 'metadata',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_GMtPy3KGkngcGW?t=1757231520',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 07 Sep 2025 07:52:00 GMT',
+      'content-type': 'application/json',
+      'content-length': '375',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+      'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+      'original-request': 'req_GMtPy3KGkngcGW',
+      'request-id': 'req_GMtPy3KGkngcGW',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_GMtPy3KGkngcGW'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'metadata',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 07 Sep 2025 07:52:00 GMT',
+    'content-type': 'application/json',
+    'content-length': '375',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+    'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+    'original-request': 'req_GMtPy3KGkngcGW',
+    'request-id': 'req_GMtPy3KGkngcGW',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_GMtPy3KGkngcGW',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 2, retrying after 2000ms Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+  stack: 'Error: Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-07T07:52:00.444Z'
+}
+{
+  message: 'Retry attempt 3 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-07T07:52:02.447Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+    param: 'metadata',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_1p2SfYSfk9R7Ze?t=1757231522',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+      'content-type': 'application/json',
+      'content-length': '375',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+      'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+      'original-request': 'req_1p2SfYSfk9R7Ze',
+      'request-id': 'req_1p2SfYSfk9R7Ze',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_1p2SfYSfk9R7Ze'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'metadata',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+    'content-type': 'application/json',
+    'content-length': '375',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+    'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+    'original-request': 'req_1p2SfYSfk9R7Ze',
+    'request-id': 'req_1p2SfYSfk9R7Ze',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_1p2SfYSfk9R7Ze',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 3, retrying after 4000ms Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+  stack: 'Error: Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-07T07:52:02.799Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+    param: 'metadata',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_1p2SfYSfk9R7Ze?t=1757231522',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+      'content-type': 'application/json',
+      'content-length': '375',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+      'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+      'original-request': 'req_1p2SfYSfk9R7Ze',
+      'request-id': 'req_1p2SfYSfk9R7Ze',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_1p2SfYSfk9R7Ze'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'metadata',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+    'content-type': 'application/json',
+    'content-length': '375',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+    'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+    'original-request': 'req_1p2SfYSfk9R7Ze',
+    'request-id': 'req_1p2SfYSfk9R7Ze',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_1p2SfYSfk9R7Ze',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'error',
+  message: 'All retry attempts failed Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+  stack: 'Error: Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-07T07:52:02.802Z'
+}
+{
+  err: StripeInvalidRequestError: Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}
+      at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)
+      at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    type: 'StripeInvalidRequestError',
+    raw: {
+      message: 'Metadata values must be strings, but for key `headers` you passed in a value of type `hash`. Invalid value: {:"Idempotency-Key"=>"47a0ec64-3e51-48f1-a4a7-2dbcae801310"}',
+      param: 'metadata',
+      request_log_url: 'https://dashboard.stripe.com/test/logs/req_1p2SfYSfk9R7Ze?t=1757231522',
+      type: 'invalid_request_error',
+      headers: {
+        server: 'nginx',
+        date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+        'content-type': 'application/json',
+        'content-length': '375',
+        connection: 'keep-alive',
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+        'access-control-max-age': '300',
+        'cache-control': 'no-cache, no-store',
+        'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+        'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+        'original-request': 'req_1p2SfYSfk9R7Ze',
+        'request-id': 'req_1p2SfYSfk9R7Ze',
+        'stripe-version': '2025-06-30.basil',
+        vary: 'Origin',
+        'x-stripe-priority-routing-enabled': 'true',
+        'x-stripe-routing-context-priority-tier': 'api-testmode',
+        'x-wc': 'ABGHIJ',
+        'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+      },
+      statusCode: 400,
+      requestId: 'req_1p2SfYSfk9R7Ze'
+    },
+    rawType: 'invalid_request_error',
+    code: undefined,
+    doc_url: undefined,
+    param: 'metadata',
+    detail: undefined,
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 07 Sep 2025 07:52:02 GMT',
+      'content-type': 'application/json',
+      'content-length': '375',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=6ZAgESVknRj5UXO-K2F9R4kj-j_-XfomgKC_tUm2WdQD2ryYs5QbXCnHMexHDnD3RMDaNuT4w35NEP3V",
+      'idempotency-key': 'create_customer_47a0ec64-3e51-48f1-a4a7-2dbcae801310',
+      'original-request': 'req_1p2SfYSfk9R7Ze',
+      'request-id': 'req_1p2SfYSfk9R7Ze',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    requestId: 'req_1p2SfYSfk9R7Ze',
+    statusCode: 400,
+    userMessage: undefined,
+    charge: undefined,
+    decline_code: undefined,
+    payment_intent: undefined,
+    payment_method: undefined,
+    payment_method_type: undefined,
+    setup_intent: undefined,
+    source: undefined
+  },
+  email: 'heal2@gmail.com',
+  level: 'error',
+  message: 'Stripe customer creation failed',
+  timestamp: '2025-09-07T07:52:02.803Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-07T07:55:20.020Z'
+}

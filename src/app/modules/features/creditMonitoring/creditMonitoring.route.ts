@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get(
   '/report',
-  auth(ENUM_USER_ROLE.AFFILIATE),
+  auth(ENUM_USER_ROLE.CUSTOMER),
   CreditController.fetchCreditReport
 );
 

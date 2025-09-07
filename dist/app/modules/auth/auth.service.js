@@ -49,6 +49,7 @@ exports.UserService = exports.AdminCompleteSetup = exports.validateToken = void 
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 const http_status_1 = __importDefault(require("http-status"));
 const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
+//@ts-ignore
 const auth_model_1 = require("./auth.model");
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config"));
@@ -63,6 +64,7 @@ const crypto_1 = require("crypto");
 const emailClient_1 = require("../../../emails/emailClient");
 const CreateUser = (UserData) => __awaiter(void 0, void 0, void 0, function* () {
     // Check if email already exists
+    //@ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(UserData.email);
     if (isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Signup failed. Please check your details and try again.');
@@ -76,11 +78,13 @@ const CreateUser = (UserData) => __awaiter(void 0, void 0, void 0, function* () 
     if (!createUser) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Signup failed. Please try again.');
     }
+    //@ts-ignore
     return createUser;
 });
 const CreateAffiliate = (affiliateData) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Affiliate data', affiliateData);
     // 1. Check if email already exists
+    //@ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(affiliateData.email);
     if (isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Signup failed. Email already in use.');
@@ -99,10 +103,12 @@ const CreateAffiliate = (affiliateData) => __awaiter(void 0, void 0, void 0, fun
     if (!createdAffiliate) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Affiliate signup failed. Please try again.');
     }
+    //@ts-ignore
     return createdAffiliate;
 });
 const CreateAdmin = (adminPayload) => __awaiter(void 0, void 0, void 0, function* () {
     // Ensure email is not already used
+    //@ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(adminPayload.email);
     if (isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Email already in use');
@@ -114,18 +120,21 @@ const CreateAdmin = (adminPayload) => __awaiter(void 0, void 0, void 0, function
     if (!createAdmin) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Failed to create admin account');
     }
+    //@ts-ignore
     return createAdmin;
 });
 //Login user
 const loginUser = (loginData) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = loginData;
     // Check is user exist
+    //@ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid credentials.');
     }
     //Matching the password
     if (isUserExist.password &&
+        //@ts-ignore
         !(yield auth_model_1.User.isPasswordMatched(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password))) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Password is incorrect');
     }
@@ -142,6 +151,7 @@ const loginUser = (loginData) => __awaiter(void 0, void 0, void 0, function* () 
 const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = loginData;
     // Check is user exist
+    //  @ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid credentials.');
@@ -162,6 +172,7 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
     }
     //Matching the password
     if (isUserExist.password &&
+        //@ts-ignore
         !(yield auth_model_1.User.isPasswordMatched(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password))) {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Password is incorrect');
     }
@@ -189,6 +200,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
         throw new apiErrors_1.default(http_status_1.default.UNAUTHORIZED, 'Invalid token payload');
     }
     // Check if the user exists
+    //@ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
         throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
@@ -369,6 +381,7 @@ const GetAllUsers = (paginationOptions, filters) => __awaiter(void 0, void 0, vo
         throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, 'No users found');
     }
     return {
+        //  @ts-ignore
         data: users,
         meta: {
             page: paginationOptions.page || 1,
@@ -564,6 +577,7 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
                 referralCode: yield (0, auth_lib_1.generateUniqueReferralCode)(),
                 commissionBalance: 0,
                 payoutHistory: [],
+                //  @ts-ignore
                 performanceMetrics: {
                     clicks: 0,
                     signups: 0,
@@ -599,7 +613,9 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
         yield session.commitTransaction();
         session.endSession();
         // Send approval email asynchronously (don't block DB)
-        yield (0, sendAffiliateEmail_1.sendAffiliateApprovalEmail)(affiliate.email, affiliate.name, affiliate.affiliateDetails.referralCode).catch(err => {
+        yield (0, sendAffiliateEmail_1.sendAffiliateApprovalEmail)(affiliate.email, affiliate.name, 
+        //  @ts-ignore
+        affiliate.affiliateDetails.referralCode).catch(err => {
             // Log but don’t block user approval if email fails
             console.error('Failed to send approval email:', err);
         });
@@ -671,6 +687,7 @@ const GetAllAffiliates = (paginationOptions, filters) => __awaiter(void 0, void 
     const total = yield auth_model_1.User.countDocuments(whereConditions);
     // Return empty data array if none found, avoid throwing error here
     return {
+        //  @ts-ignore
         data: users,
         meta: {
             page: paginationOptions.page || 1,

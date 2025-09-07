@@ -349,6 +349,7 @@ export type StripeCustomerInput = {
   name?: string;
   phone?: string;
   country?: string;
+  dob?:string;
   address?: {
     street?: string;
     city?: string;
@@ -408,5 +409,26 @@ export type SubscriptionData = {
   billingInterval: 'monthly' | 'yearly';
   name?: string;
   password?: string;
+  affiliateId?:string;
   [key: string]: any;
 };
+
+
+
+export type TrialSubscriptionResult = {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    name: string;
+    userId: string;
+    customerId: string;
+    subscriptionId: string;
+    paymentIntentId: string;
+    planDetails: {
+      name: string;
+      billingInterval: string;
+      features: string[];
+      price: number;
+    };
+  };
+}
