@@ -703,7 +703,7 @@ const AddressSchema = new mongoose_1.Schema({
     street: { type: String, required: true },
     apartment: { type: String },
     zipCode: { type: String, required: true },
-    city: { type: String, required: true },
+    city: { type: String },
     state: { type: String },
     country: { type: String, default: 'USA' },
 }, { _id: false });

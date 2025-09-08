@@ -547,6 +547,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
             throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Missing required fields');
         }
         const plan = stripe_utils_1.PROTECTION_PLANS[planType][billingInterval];
+        console.log('Service plan', plan);
         if (!plan)
             throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid plan type');
         yield session.withTransaction(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -556,6 +557,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
             if (isUserExist) {
                 throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Signup failed. Please check your details and try again.');
             }
+            console.log("isUserExist", isUserExist);
             const extraMetadata = Object.assign({}, rest);
             const name = `${firstName} ${lastName || ''}`.trim();
             stripeCustomer = yield (0, stripe_utils_1.createStripeCustomer)({
@@ -571,6 +573,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 affiliateId,
                 extraMetadata,
             });
+            console.log("Stripe customer", stripeCustomer);
             //@ts-ignore
             const { attached } = yield (0, stripe_utils_1.attachAndSetDefaultPaymentMethod)({
                 customerId: stripeCustomer.id,
@@ -578,6 +581,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 key,
                 extraMetadata,
             });
+            console.log("Stripe attached", attached);
             const paymentIntent = yield (0, stripe_utils_1.createPaymentIntent)({
                 customerId: stripeCustomer.id,
                 paymentMethodId,
@@ -589,6 +593,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 billingInterval: 'yearly',
                 extraMetadata,
             });
+            console.log("Stripe paymentIntent", paymentIntent);
             if (paymentIntent.status === 'requires_action' &&
                 ((_a = paymentIntent.next_action) === null || _a === void 0 ? void 0 : _a.type) === 'use_stripe_sdk') {
                 throw new apiErrors_1.default(http_status_1.default.PAYMENT_REQUIRED, 'Payment requires additional authentication', JSON.stringify({
@@ -607,6 +612,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 trialPeriodDays: 7,
                 metadata: extraMetadata,
             });
+            console.log("subscription", subscription);
             // Handle incomplete or past_due subscription
             if (['incomplete', 'past_due'].includes(subscription.status)) {
                 throw new apiErrors_1.default(http_status_1.default.PAYMENT_REQUIRED, `Subscription is ${subscription.status}, requires attention`, JSON.stringify({
@@ -617,6 +623,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 referredAffiliate = yield auth_model_1.User.findOne({
                     'affiliateDetails.referralCode': affiliateId,
                 }).session(session);
+                console.log("referredAffiliate", referredAffiliate);
                 if (referredAffiliate) {
                     // Self-referral prevention
                     if (referredAffiliate.email === email) {

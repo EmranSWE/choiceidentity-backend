@@ -622,6 +622,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
     }
 
     const plan = PROTECTION_PLANS[planType][billingInterval];
+      console.log('Service plan', plan);
     if (!plan) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid plan type');
 
     await session.withTransaction(async () => {
@@ -634,6 +635,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         );
       }
 
+      console.log("isUserExist",isUserExist)
       const extraMetadata = {
         ...rest,
       };
@@ -653,6 +655,9 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         affiliateId,
         extraMetadata,
       });
+
+      console.log("Stripe customer",stripeCustomer)
+
         //@ts-ignore
       const { attached } =
         await attachAndSetDefaultPaymentMethod({
@@ -661,7 +666,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
           key,
           extraMetadata,
         });
-
+      console.log("Stripe attached",attached)
 
       const paymentIntent = await createPaymentIntent({
         customerId: stripeCustomer.id,
@@ -674,6 +679,9 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         billingInterval: 'yearly',
         extraMetadata,
       });
+
+      console.log("Stripe paymentIntent",paymentIntent)
+
       if (
         paymentIntent.status === 'requires_action' &&
         paymentIntent.next_action?.type === 'use_stripe_sdk'
@@ -704,6 +712,8 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         metadata: extraMetadata,
       });
 
+      console.log("subscription",subscription)
+
       // Handle incomplete or past_due subscription
       if (['incomplete', 'past_due'].includes(subscription.status)) {
         throw new ApiError(
@@ -721,6 +731,8 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
           'affiliateDetails.referralCode': affiliateId,
         }).session(session);
 
+
+        console.log("referredAffiliate",referredAffiliate)
         if (referredAffiliate) {
           // Self-referral prevention
           if (referredAffiliate.email === email) {
