@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const affiliate_controller_1 = require("./affiliate.controller");
 const user_1 = require("../../../enums/user");
 const auth_1 = __importDefault(require("../../middleware/auth"));
+// import { idempotencyMiddleware } from '../../middleware/idempotencyMiddleware';
 const router = express_1.default.Router();
 router.post('/generate', affiliate_controller_1.AffiliateController.createAffiliateLink);
 router.get('/:affiliateCode', affiliate_controller_1.AffiliateController.listAffiliateLinks);

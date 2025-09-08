@@ -24,7 +24,10 @@ const createAffiliateLink = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     //   if (!req.user?.id) {
     //   return res.status(401).json({ message: 'Unauthorized' });
     // }
-    const payload = Object.assign(Object.assign({}, req.body), { createdBy: "6898cdb4c727f16be6f94324" });
+    // const idempotencyKey = res.locals.idempotencyKey;
+    // if (!idempotencyKey)
+    //   throw new ApiError(httpStatus.BAD_REQUEST, 'Missing Idempotency-Key');
+    const payload = Object.assign({}, req.body);
     const link = yield affiliate_service_1.AffiliateService.generateAffiliateLink(payload);
     return (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -40,24 +43,28 @@ const listAffiliateLinks = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         statusCode: http_status_1.default.OK,
         success: true,
         message: 'Affiliate links retrieved successfully',
-        data: links
+        data: links,
     });
 }));
 const affiliateClick = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const { slug } = req.params;
-    const ip = ((_a = req.headers['x-forwarded-for']) === null || _a === void 0 ? void 0 : _a.split(',')[0].trim())
-        || req.connection.remoteAddress
-        || req.ip
-        || '';
+    const ip = ((_a = req.headers['x-forwarded-for']) === null || _a === void 0 ? void 0 : _a.split(',')[0].trim()) ||
+        req.connection.remoteAddress ||
+        req.ip ||
+        '';
     const userAgent = req.get('User-Agent') || '';
+    const referrer = req.get('Referer') || req.headers.referer || null;
     // GeoIP enrichment
-    const geo = geoip_lite_1.default.lookup(ip);
+    const geo = geoip_lite_1.default.lookup(ip) || { country: null, region: null, city: null };
     // Optional: device fingerprint from header or compute here
-    const deviceFingerprint = req.headers['x-device-fingerprint'] || (0, affiliate_utils_1.generateFingerprint)(ip, userAgent);
-    const redirectUrl = yield affiliate_service_1.AffiliateService.affiliateClick(slug, ip, userAgent, geo, deviceFingerprint);
+    const deviceFingerprint = req.headers['x-device-fingerprint'] ||
+        (0, affiliate_utils_1.generateFingerprint)(ip, userAgent);
+    const redirectUrl = yield affiliate_service_1.AffiliateService.affiliateClick(slug, ip, userAgent, geo, deviceFingerprint, referrer);
+    console.log('redirectUrl', redirectUrl);
     // Parse redirect URL and set secure signed cookie
     const url = new URL(redirectUrl);
+    console.log(url);
     const affiliateCode = url.searchParams.get('affiliate');
     if (affiliateCode) {
         res.cookie('affiliate_code', affiliateCode, {
@@ -110,5 +117,5 @@ exports.AffiliateController = {
     createAffiliateLink,
     affiliateClick,
     getOverview,
-    listLinks
+    listLinks,
 };

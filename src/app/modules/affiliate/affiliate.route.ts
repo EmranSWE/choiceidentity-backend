@@ -2,10 +2,11 @@ import express from 'express';
 import { AffiliateController } from './affiliate.controller';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import auth from '../../middleware/auth';
+// import { idempotencyMiddleware } from '../../middleware/idempotencyMiddleware';
 
 const router = express.Router();
 
-router.post('/generate', AffiliateController.createAffiliateLink); 
+router.post('/generate',AffiliateController.createAffiliateLink); 
 router.get('/:affiliateCode', AffiliateController.listAffiliateLinks); 
 router.get('/click/:slug', AffiliateController.affiliateClick); 
 

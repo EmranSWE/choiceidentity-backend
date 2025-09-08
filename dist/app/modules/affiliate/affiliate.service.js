@@ -21,10 +21,102 @@ const uuid_1 = require("uuid");
 const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
 const nanoid_1 = require("nanoid");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const http_status_1 = __importDefault(require("http-status"));
+// const generateAffiliateLink = async (
+//   payload: GenerateAffiliateLinkPayload
+// ): Promise<IAffiliateLink> => {
+//   const {
+//     affiliateCode,
+//     plan,
+//     billing,
+//     subId = null,
+//     createdBy,
+//     customDomain = null,
+//     expiresAt = null,
+//   } = payload;
+//   if (!affiliateCode || typeof affiliateCode !== 'string') {
+//     throw new Error('Invalid affiliateCode');
+//   }
+//   // 1. Lookup affiliate user by affiliateCode (assuming referralCode field in User)
+//   const affiliateUser = await User.findOne({
+//     'affiliateDetails.referralCode': affiliateCode,
+//     'affiliateProfile.approvalStatus': 'approved',
+//     accountStatus: 'active',
+//     role: 'affiliate',
+//   }).select('_id +affiliateDetails');
+//   if (!affiliateUser) {
+//     throw new Error(
+//       `Affiliate with code '${affiliateCode}' not found or inactive`
+//     );
+//   }
+//   // 2. Check if active link already exists for this affiliate + plan + billing + subId
+//   const existingLink = await AffiliateLink.findOne({
+//     affiliateCode,
+//     plan,
+//     billing,
+//     subId,
+//     status: { $ne: 'deleted' },
+//   });
+//   if (existingLink) return existingLink;
+//   // 3. Generate a unique slug with retry
+//   const slug = await generateUniqueSlug(affiliateCode, plan, billing);
+//   // 4. Compose generated URL using customDomain if provided, else fallback domain
+//   // const baseDomain = customDomain ?? 'https://your-affiliate-domain.com';
+//   // const generatedUrl = `${baseDomain}/ref/${slug}`;
+//   // const generatedUrl = `${baseDomain}/ref/${slug}`;
+//   const generatedUrl = `http://localhost:3000/click/${slug}${
+//     subId ? `?subId=${encodeURIComponent(subId)}` : ''
+//   }`;
+//   // 5. Create new affiliate link document in a session to avoid race condition
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
+//   try {
+//     // Double-check no duplicate link with same params or URL exists in transaction
+//     const duplicateLink = await AffiliateLink.findOne({
+//       $or: [
+//         { affiliateCode, plan, billing, subId, status: { $ne: 'deleted' } },
+//         { generatedUrl, status: { $ne: 'deleted' } },
+//       ],
+//     }).session(session);
+//     if (duplicateLink) {
+//       await session.abortTransaction();
+//       session.endSession();
+//       return duplicateLink;
+//     }
+//     const newLink = new AffiliateLink({
+//       affiliateId: affiliateUser._id,
+//       affiliateCode,
+//       plan,
+//       billing,
+//       subId,
+//       slug,
+//       generatedUrl,
+//       status: 'active',
+//       clickCount: 0,
+//       conversionCount: 0,
+//       createdBy,
+//       modifiedBy: createdBy,
+//       expiresAt,
+//       customDomain,
+//     });
+//     await newLink.save({ session });
+//     await session.commitTransaction();
+//     session.endSession();
+//     return newLink;
+//   } catch (err) {
+//     await session.abortTransaction();
+//     session.endSession();
+//     throw err;
+//   }
+// };
 const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { affiliateCode, plan, billing, subId = null, createdBy, customDomain = null, expiresAt = null, source = 'affiliate_platform', } = payload;
+    const { affiliateCode, plan, billing, subId = null, createdBy, customDomain, expiresAt = null, source = 'affiliate_platform', } = payload;
+    //   const normalizedSubId = subId ? normalizeSubId(subId) : null;
     if (!affiliateCode || typeof affiliateCode !== 'string') {
-        throw new apiErrors_1.default(400, 'Invalid affiliateCode');
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid affiliateCode');
+    }
+    if (!plan || !billing) {
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'plan and billing are required');
     }
     // 1️⃣ Lookup affiliate user
     const affiliateUser = yield auth_model_1.User.findOne({
@@ -32,9 +124,9 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
         'affiliateProfile.approvalStatus': 'approved',
         accountStatus: 'active',
         role: 'affiliate',
-    }).select('_id +affiliateDetails');
-    if (!affiliateUser) {
-        throw new apiErrors_1.default(404, `Affiliate with code '${affiliateCode}' not found or inactive`);
+    }, { _id: 1, affiliateDetails: 1 }).lean();
+    if (!(affiliateUser === null || affiliateUser === void 0 ? void 0 : affiliateUser._id)) {
+        throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, `Affiliate with code '${affiliateCode}' not found or inactive`);
     }
     // 2️⃣ Check if active link already exists
     const existingLink = yield affiliate_model_1.AffiliateLink.findOne({
@@ -43,25 +135,25 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
         billing,
         subId,
         status: { $ne: 'deleted' },
-    });
+    }, { generatedUrl: 1, shortSlug: 1, slug: 1, plan: 1, billing: 1 }).lean();
     if (existingLink) {
+        const baseDomain = customDomain || affiliate_utils_1.DEFAULT_DOMAIN;
         return {
             longLink: existingLink.generatedUrl,
-            shortLink: `${customDomain !== null && customDomain !== void 0 ? customDomain : 'https://choiceidentity.com'}/click/${existingLink.shortSlug}`,
+            shortLink: `${baseDomain}/click/${existingLink.shortSlug}`,
             affiliateLink: existingLink,
         };
     }
     // 3️⃣ Generate slugs
     const slug = yield (0, affiliate_utils_1.generateUniqueSlug)(affiliateCode, plan, billing);
     const shortSlug = (0, nanoid_1.nanoid)();
-    // 4️⃣ Generate UUIDs
     const clickId = (0, uuid_1.v4)();
     const transactionId = (0, uuid_1.v4)();
     const ts = Math.floor(Date.now() / 1000);
     // 5️⃣ Construct long enterprise URL
-    const BASE_DOMAIN = customDomain !== null && customDomain !== void 0 ? customDomain : 'http://localhost:3000';
-    const longQuery = new URLSearchParams(Object.assign(Object.assign({ aff_id: affiliateCode, click_id: clickId }, (subId ? { sub_id: subId } : {})), { transaction_id: transactionId, campaign: `${plan}-${billing}`, source, ts: ts.toString() }));
-    const generatedUrl = `${BASE_DOMAIN}/click/${slug}?${longQuery.toString()}`;
+    const baseDomain = customDomain || affiliate_utils_1.DEFAULT_DOMAIN;
+    const queryParams = new URLSearchParams(Object.assign(Object.assign({ aff_id: affiliateCode, click_id: clickId }, (subId ? { sub_id: subId } : {})), { transaction_id: transactionId, campaign: `${plan}-${billing}`, source, ts: ts.toString() }));
+    const generatedUrl = `${baseDomain}/click/${slug}?${queryParams.toString()}`;
     // 6️⃣ Save link inside transaction
     const session = yield mongoose_1.default.startSession();
     session.startTransaction();
@@ -69,16 +161,18 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
         const duplicateLink = yield affiliate_model_1.AffiliateLink.findOne({
             $or: [
                 { affiliateCode, plan, billing, subId, status: { $ne: 'deleted' } },
-                { generatedUrl, status: { $ne: 'deleted' } },
+                { slug, status: { $ne: 'deleted' } },
                 { shortSlug, status: { $ne: 'deleted' } },
             ],
-        }).session(session);
+        }, { generatedUrl: 1, shortSlug: 1 })
+            .session(session)
+            .lean();
         if (duplicateLink) {
             yield session.abortTransaction();
             session.endSession();
             return {
                 longLink: duplicateLink.generatedUrl,
-                shortLink: `${BASE_DOMAIN}/click/${duplicateLink.shortSlug}`,
+                shortLink: `${baseDomain}/click/${duplicateLink.shortSlug}`,
                 affiliateLink: duplicateLink,
             };
         }
@@ -96,16 +190,17 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
             status: 'active',
             clickCount: 0,
             conversionCount: 0,
-            createdBy,
+            createdBy: affiliateUser._id,
             modifiedBy: createdBy,
             expiresAt,
             customDomain,
         });
+        console.log('Create New', newLink);
         yield newLink.save({ session });
         yield session.commitTransaction();
         session.endSession();
         const longLink = newLink.generatedUrl;
-        const shortLink = `${BASE_DOMAIN}/click/${newLink.shortSlug}`;
+        const shortLink = `${baseDomain}/click/${newLink.shortSlug}`;
         return { longLink, shortLink, affiliateLink: newLink };
     }
     catch (err) {
@@ -128,44 +223,87 @@ const getAllAffiliateLinks = (affiliateCode) => __awaiter(void 0, void 0, void 0
     }).sort({ createdAt: -1 });
     return links;
 });
-const affiliateClick = (slug, ip, userAgent, geoData, deviceFingerprint) => __awaiter(void 0, void 0, void 0, function* () {
+const affiliateClick = (slug, ip, userAgent, geo, deviceFingerprint, referrer) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('%cAnalytics Debug:', 'color: red; font-weight: bold;', {
+        '🔗 Slug': slug,
+        '🌐 IP': ip,
+        '🖥️ User Agent': userAgent,
+        '🗺️ Geo': geo,
+        '📱 Device Fingerprint': deviceFingerprint,
+        '↩️ Referrer': referrer,
+    });
     const session = yield mongoose_1.default.startSession();
+    session.startTransaction();
     try {
-        session.startTransaction();
-        // Exact match on slug (no regex)
         const affiliateLink = yield affiliate_model_1.AffiliateLink.findOne({
-            slug,
+            $or: [{ slug }, { shortSlug: slug }],
             status: 'active',
         }).session(session);
+        console.log('%cAnalytics affiliateLink Debug:', 'color: yellow; font-weight: bold;', {
+            '🔗 affiliateLink': affiliateLink,
+        });
         if (!affiliateLink)
-            throw new Error('Affiliate link not found or inactive');
-        yield affiliate_model_1.ClickLog.create([
+            throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, `Affiliate Link not found or inactive`);
+        const recentClick = yield affiliate_model_1.ClickLog.findOne({
+            affiliateLinkId: affiliateLink._id,
+            deviceFingerprint,
+            ip,
+            clickedAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        }).session(session);
+        console.log("%c🔗 recentClick Debug:", "color: #facc15; font-weight: bold; background: #1f2937; padding: 2px 6px; border-radius: 4px;", {
+            linkId: recentClick === null || recentClick === void 0 ? void 0 : recentClick.affiliateLinkId,
+            clickId: recentClick === null || recentClick === void 0 ? void 0 : recentClick.clickId,
+            ip: recentClick === null || recentClick === void 0 ? void 0 : recentClick.ip,
+            device: recentClick === null || recentClick === void 0 ? void 0 : recentClick.deviceType,
+        });
+        if (recentClick) {
+            yield session.commitTransaction();
+            return (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, recentClick.clickId);
+        }
+        // ✅ Generate new clickId
+        const clickId = (0, uuid_1.v4)();
+        console.log("%c🔗 clickId Debug:", "color: #10b981; font-weight: bold;", { clickId });
+        // ✅ Atomically update click count
+        yield affiliate_model_1.AffiliateLink.updateOne({ _id: affiliateLink._id }, {
+            $inc: { clickCount: 1 },
+            $set: { lastClickedAt: new Date() },
+        }, { session });
+        // ✅ Log click (raw event log, append-only)
+        const deviceInfo = (0, affiliate_utils_1.parseUserAgent)(userAgent);
+        console.log("%c🔗 deviceInfo Debug:", "color: #3b82f6; font-weight: bold;", { deviceInfo });
+        const clickLoger = yield affiliate_model_1.ClickLog.create([
             {
+                clickId,
                 affiliateLinkId: affiliateLink._id,
                 affiliateId: affiliateLink.affiliateId,
+                affiliateCode: affiliateLink.affiliateCode,
+                plan: affiliateLink.plan,
+                billing: affiliateLink.billing,
+                subId: affiliateLink.subId,
+                source: "affiliate_platform",
+                status: "clicked",
                 ip,
-                userAgent,
-                geoLocation: geoData,
+                geo,
                 deviceFingerprint,
+                deviceType: deviceInfo.deviceType,
+                browser: deviceInfo.browser,
+                browserVersion: deviceInfo.browserVersion,
+                os: deviceInfo.os,
+                osVersion: deviceInfo.osVersion,
+                referrer,
+                campaign: affiliateLink.campaign || `${affiliateLink.plan}-${affiliateLink.billing}`,
                 clickedAt: new Date(),
-            },
+            }
         ], { session });
-        affiliateLink.clickCount += 1;
-        affiliateLink.lastClickedAt = new Date();
-        yield affiliateLink.save({ session });
+        console.log("Click Log Created:", clickLoger);
         yield session.commitTransaction();
-        const baseUrl = process.env.FRONTEND_BASE_URL || 'http://localhost:3000/register';
-        const params = new URLSearchParams({
-            affiliate: affiliateLink.affiliateCode,
-            plan: affiliateLink.plan,
-            billing: affiliateLink.billing,
-        });
-        return `${baseUrl}?${params.toString()}`;
+        // ✅ Build redirect URL
+        return (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, clickId);
     }
     catch (err) {
         yield session.abortTransaction();
         console.error('Affiliate click error:', err);
-        return process.env.FRONTEND_BASE_URL || 'http://localhost:3000/register';
+        return 'https://www.choiceidentity.com/register';
     }
     finally {
         session.endSession();
@@ -286,14 +424,14 @@ const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function*
     };
 });
 const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("PaginationmOptions", paginationOptions);
-    console.log("filters", filters);
+    console.log('PaginationmOptions', paginationOptions);
+    console.log('filters', filters);
     const { skip, limit, sortBy, sortOrder } = (0, paginationHelpers_1.calculatePagination)(paginationOptions);
     // Build match stage
     const match = { affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId) };
     // --- Text search ---
     if (filters.searchTerm) {
-        const regex = { $regex: filters.searchTerm, $options: "i" };
+        const regex = { $regex: filters.searchTerm, $options: 'i' };
         match.$or = [
             { subId: regex },
             { generatedUrl: regex },
@@ -314,7 +452,7 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
         match.billing = filters.billing;
     // --- Multi-date ranges filter ---
     if (filters.dateRanges && filters.dateRanges.length) {
-        match.$or = filters.dateRanges.map((range) => ({
+        match.$or = filters.dateRanges.map(range => ({
             createdAt: {
                 $gte: new Date(range.from),
                 $lte: new Date(range.to),
@@ -334,38 +472,60 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
         // Lookup conversions per link
         {
             $lookup: {
-                from: "affiliateconversions",
-                localField: "_id",
-                foreignField: "affiliateLinkId",
-                as: "conversions",
+                from: 'affiliateconversions',
+                localField: '_id',
+                foreignField: 'affiliateLinkId',
+                as: 'conversions',
             },
         },
         // Add calculated fields
         {
             $addFields: {
-                clicks: { $ifNull: ["$clickCount", 0] },
-                leads: { $size: "$conversions" },
-                revenue: { $sum: "$conversions.revenue" },
-                commission: { $sum: "$conversions.commissionAmount" },
+                clicks: { $ifNull: ['$clickCount', 0] },
+                leads: { $size: '$conversions' },
+                revenue: { $sum: '$conversions.revenue' },
+                commission: { $sum: '$conversions.commissionAmount' },
             },
         },
         {
             $addFields: {
                 cr: {
-                    $cond: [{ $eq: ["$clicks", 0] }, 0, { $multiply: [{ $divide: ["$leads", "$clicks"] }, 100] }],
+                    $cond: [
+                        { $eq: ['$clicks', 0] },
+                        0,
+                        { $multiply: [{ $divide: ['$leads', '$clicks'] }, 100] },
+                    ],
                 },
                 epc: {
-                    $cond: [{ $eq: ["$clicks", 0] }, 0, { $divide: ["$revenue", "$clicks"] }],
+                    $cond: [
+                        { $eq: ['$clicks', 0] },
+                        0,
+                        { $divide: ['$revenue', '$clicks'] },
+                    ],
                 },
             },
         },
         // Filter by performance thresholds
         {
-            $match: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (filters.minClicks !== undefined ? { clicks: { $gte: filters.minClicks } } : {})), (filters.maxClicks !== undefined ? { clicks: { $lte: filters.maxClicks } } : {})), (filters.minRevenue !== undefined ? { revenue: { $gte: filters.minRevenue } } : {})), (filters.maxRevenue !== undefined ? { revenue: { $lte: filters.maxRevenue } } : {})), (filters.minEarning !== undefined ? { commission: { $gte: filters.minEarning } } : {})), (filters.maxEarning !== undefined ? { commission: { $lte: filters.maxEarning } } : {})),
+            $match: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (filters.minClicks !== undefined
+                ? { clicks: { $gte: filters.minClicks } }
+                : {})), (filters.maxClicks !== undefined
+                ? { clicks: { $lte: filters.maxClicks } }
+                : {})), (filters.minRevenue !== undefined
+                ? { revenue: { $gte: filters.minRevenue } }
+                : {})), (filters.maxRevenue !== undefined
+                ? { revenue: { $lte: filters.maxRevenue } }
+                : {})), (filters.minEarning !== undefined
+                ? { commission: { $gte: filters.minEarning } }
+                : {})), (filters.maxEarning !== undefined
+                ? { commission: { $lte: filters.maxEarning } }
+                : {})),
         },
         // Sort dynamically
         {
-            $sort: { [sortBy || "createdAt"]: sortOrder === "asc" ? 1 : -1 },
+            $sort: {
+                [sortBy || 'createdAt']: sortOrder === 'asc' ? 1 : -1,
+            },
         },
         // Pagination (skip & limit only if not exporting)
         ...(paginationOptions.export ? [] : [{ $skip: skip }, { $limit: limit }]),
@@ -395,7 +555,9 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
     ];
     const data = yield affiliate_model_1.AffiliateLink.aggregate(pipeline);
     // Total count for pagination (only when not exporting)
-    const total = paginationOptions.export ? data.length : yield affiliate_model_1.AffiliateLink.countDocuments(match);
+    const total = paginationOptions.export
+        ? data.length
+        : yield affiliate_model_1.AffiliateLink.countDocuments(match);
     return {
         data,
         meta: {
@@ -411,5 +573,5 @@ exports.AffiliateService = {
     generateAffiliateLink,
     affiliateClick,
     getOverview,
-    getAffiliateLinksTable: exports.getAffiliateLinksTable
+    getAffiliateLinksTable: exports.getAffiliateLinksTable,
 };

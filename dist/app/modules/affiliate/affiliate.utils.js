@@ -12,12 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTrackingCode = exports.generateReferralCode = void 0;
+exports.generateTrackingCode = exports.generateReferralCode = exports.DEFAULT_DOMAIN = void 0;
 exports.generateUniqueSlug = generateUniqueSlug;
 exports.generateFingerprint = generateFingerprint;
+exports.normalizeSubId = normalizeSubId;
+exports.buildRedirectUrl = buildRedirectUrl;
+exports.parseUserAgent = parseUserAgent;
 const nanoid_1 = require("nanoid");
 const crypto_1 = __importDefault(require("crypto"));
 const affiliate_model_1 = require("./affiliate.model");
+const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
+const http_status_1 = __importDefault(require("http-status"));
+const ua_parser_js_1 = require("ua-parser-js");
+exports.DEFAULT_DOMAIN = process.env.NEXT_PUBLIC_CLIENT_URL || 'https://choiceidentity.com';
 const nano = (0, nanoid_1.customAlphabet)('abcdefghijklmnopqrstuvwxyz0123456789', 8);
 const generateReferralCode = () => nano();
 exports.generateReferralCode = generateReferralCode;
@@ -30,17 +37,46 @@ function generateUniqueSlug(affiliateCode, plan, billing) {
             const randomSuffix = Math.random().toString(36).substring(2, 8);
             const slug = `${affiliateCode}-${plan}-${billing}-${randomSuffix}`.toLowerCase();
             // Strict exact match on slug suffix in URL (avoid regex if possible)
-            const exists = yield affiliate_model_1.AffiliateLink.findOne({
-                generatedUrl: { $regex: new RegExp(`/${slug}$`, 'i') }, // ends with slug
+            const exists = yield affiliate_model_1.AffiliateLink.exists({
+                slug,
                 status: { $ne: 'deleted' },
             });
             if (!exists)
                 return slug;
         }
-        throw new Error('Failed to generate unique slug after multiple attempts');
+        throw new apiErrors_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Failed to generate unique slug');
     });
 }
 function generateFingerprint(ip, userAgent) {
     const data = `${ip}|${userAgent}`;
     return crypto_1.default.createHash('sha256').update(data).digest('hex');
+}
+function normalizeSubId(input) {
+    return input
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-zA-Z0-9-_]/g, '');
+}
+// Build redirect URL with params
+function buildRedirectUrl(affiliateLink, clickId) {
+    const url = new URL("https://www.choiceidentity.com/register");
+    url.searchParams.set("affiliate", affiliateLink.affiliateCode);
+    url.searchParams.set("plan", affiliateLink.plan);
+    url.searchParams.set("billing", affiliateLink.billing);
+    if (affiliateLink.subId)
+        url.searchParams.set("sub_id", affiliateLink.subId);
+    url.searchParams.set("click_id", clickId);
+    return url.toString();
+}
+function parseUserAgent(ua) {
+    var _a;
+    const parser = new ua_parser_js_1.UAParser(ua);
+    const result = parser.getResult();
+    return {
+        deviceType: result.device.type || "desktop",
+        browser: result.browser.name || "unknown",
+        browserVersion: ((_a = result.browser.version) === null || _a === void 0 ? void 0 : _a.split(".")[0]) || "unknown",
+        os: result.os.name || "unknown",
+        osVersion: result.os.version || "unknown",
+    };
 }

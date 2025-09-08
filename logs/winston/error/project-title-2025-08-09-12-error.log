@@ -1,0 +1,7 @@
+Mon Sep 08 2025 12:21:47 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:25:9 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:26:24 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:26:53 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:28:1 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:28:42 [right meow!] error: querySrv ESERVFAIL _mongodb._tcp.cluster0.ygrukeo.mongodb.net
+Mon Sep 08 2025 12:29:28 [right meow!] error: querySrv ETIMEOUT _mongodb._tcp.cluster0.ygrukeo.mongodb.net
