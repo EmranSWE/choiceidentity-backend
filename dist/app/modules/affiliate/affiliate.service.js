@@ -111,6 +111,7 @@ const http_status_1 = __importDefault(require("http-status"));
 // };
 const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { affiliateCode, plan, billing, subId = null, createdBy, customDomain, expiresAt = null, source = 'affiliate_platform', } = payload;
+    console.log('Generate Link Payload:', payload);
     //   const normalizedSubId = subId ? normalizeSubId(subId) : null;
     if (!affiliateCode || typeof affiliateCode !== 'string') {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid affiliateCode');

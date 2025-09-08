@@ -19,9 +19,14 @@ const createAffiliateLink: RequestHandler = catchAsync(
 
     // if (!idempotencyKey)
     //   throw new ApiError(httpStatus.BAD_REQUEST, 'Missing Idempotency-Key');
-
+ const customDomain =
+      config.env === 'production'
+        ? 'https://choiceidentity.com'
+        : 'http://localhost:3000';
+        
     const payload = {
       ...req.body,
+      customDomain
       //   idempotencyKey,
       //   createdBy: req.user._id,
     };
@@ -73,6 +78,7 @@ const affiliateClick: RequestHandler = catchAsync(
       (req.headers['x-device-fingerprint'] as string) ||
       generateFingerprint(ip, userAgent);
 
+      
     const redirectUrl = await AffiliateService.affiliateClick(
       slug,
       ip,

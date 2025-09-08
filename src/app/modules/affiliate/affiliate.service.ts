@@ -148,6 +148,8 @@ const generateAffiliateLink = async (
     source = 'affiliate_platform',
   } = payload;
 
+
+  console.log('Generate Link Payload:', payload);
   //   const normalizedSubId = subId ? normalizeSubId(subId) : null;
   if (!affiliateCode || typeof affiliateCode !== 'string') {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid affiliateCode');

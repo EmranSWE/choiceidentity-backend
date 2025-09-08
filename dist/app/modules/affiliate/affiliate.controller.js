@@ -20,6 +20,7 @@ const affiliate_service_1 = require("./affiliate.service");
 const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const affiliate_utils_1 = require("./affiliate.utils");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
+const config_1 = __importDefault(require("../../../config"));
 const createAffiliateLink = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //   if (!req.user?.id) {
     //   return res.status(401).json({ message: 'Unauthorized' });
@@ -27,7 +28,13 @@ const createAffiliateLink = (0, catchAsync_1.default)((req, res) => __awaiter(vo
     // const idempotencyKey = res.locals.idempotencyKey;
     // if (!idempotencyKey)
     //   throw new ApiError(httpStatus.BAD_REQUEST, 'Missing Idempotency-Key');
-    const payload = Object.assign({}, req.body);
+    const customDomain = config_1.default.env === 'production'
+        ? 'https://choiceidentity.com'
+        : 'http://localhost:3000';
+    const payload = Object.assign(Object.assign({}, req.body), { customDomain
+        //   idempotencyKey,
+        //   createdBy: req.user._id,
+     });
     const link = yield affiliate_service_1.AffiliateService.generateAffiliateLink(payload);
     return (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
