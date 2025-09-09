@@ -45,7 +45,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = exports.AdminCompleteSetup = exports.validateToken = void 0;
+exports.UserService = exports.AdminCompleteSetup = void 0;
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 const http_status_1 = __importDefault(require("http-status"));
 const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
@@ -62,6 +62,8 @@ const sendAffiliateEmail_1 = require("../../../emails/sendAffiliateEmail");
 const sendAffiliateRejectEmail_1 = require("../../../emails/sendAffiliateRejectEmail");
 const crypto_1 = require("crypto");
 const emailClient_1 = require("../../../emails/emailClient");
+const auth_utils_1 = require("./auth.utils");
+const affiliate_utils_1 = require("../affiliate/affiliate.utils");
 const CreateUser = (UserData) => __awaiter(void 0, void 0, void 0, function* () {
     // Check if email already exists
     //@ts-ignore
@@ -80,31 +82,6 @@ const CreateUser = (UserData) => __awaiter(void 0, void 0, void 0, function* () 
     }
     //@ts-ignore
     return createUser;
-});
-const CreateAffiliate = (affiliateData) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Affiliate data', affiliateData);
-    // 1. Check if email already exists
-    //@ts-ignore
-    const isUserExist = yield auth_model_1.User.isUserExist(affiliateData.email);
-    if (isUserExist) {
-        throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Signup failed. Email already in use.');
-    }
-    // 2. Force role to affiliate
-    affiliateData.role = user_1.ENUM_USER_ROLE.AFFILIATE;
-    // 3. Optional: validate affiliateProfile exists and required fields (can be moved to validation layer)
-    if (!affiliateData.affiliateProfile) {
-        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Affiliate profile details are required.');
-    }
-    if (!affiliateData.affiliateProfile.agreeTerms) {
-        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'You must agree to the terms.');
-    }
-    // 4. Create user using existing create method
-    const createdAffiliate = yield auth_model_1.User.create(affiliateData);
-    if (!createdAffiliate) {
-        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Affiliate signup failed. Please try again.');
-    }
-    //@ts-ignore
-    return createdAffiliate;
 });
 const CreateAdmin = (adminPayload) => __awaiter(void 0, void 0, void 0, function* () {
     // Ensure email is not already used
@@ -150,7 +127,6 @@ const loginUser = (loginData) => __awaiter(void 0, void 0, void 0, function* () 
 //Login user
 const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = loginData;
-    // Check is user exist
     //  @ts-ignore
     const isUserExist = yield auth_model_1.User.isUserExist(email);
     if (!isUserExist) {
@@ -186,7 +162,7 @@ const AffiliateLogin = (loginData) => __awaiter(void 0, void 0, void 0, function
     };
 });
 const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("RefreshToken In Service", token);
+    console.log('RefreshToken In Service', token);
     let verifiedToken = null;
     try {
         verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.refresh_Secret);
@@ -443,98 +419,6 @@ const DeleteUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
         throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, 'User not found');
     }
 });
-// export const RegisterAndSubscribe = async (userData: any) => {
-//   console.log('User data', userData);
-//   const { name, email, password, priceId } = userData;
-//   try {
-//     //     // Step 1: Create the user with pending status
-//     //     const user = await User.create({
-//     //       name,
-//     //       email,
-//     //       password, // Ensure it's hashed in a pre-save middleware!
-//     //       isActive: false,
-//     //       subscriptionStatus: 'pending',
-//     //     });
-//     // console.log("Userr",user)
-//     // Step 2: Create Stripe Customer
-//     // const customer = await stripe.customers.create({
-//     //   email,
-//     //   metadata: {
-//     //     userId: "1312424252",
-//     //   },
-//     // });
-//     // // Step 3: Create Stripe Checkout Session
-//     // const session = await stripe.checkout.sessions.create({
-//     //   mode: 'subscription',
-//     //   customer: customer.id,
-//     //   payment_method_types: ['card'],
-//     //   line_items: [
-//     //     {
-//     //       price: priceId,
-//     //       quantity: 1,
-//     //     },
-//     //   ],
-//     //   success_url: `http://localhost:3000/register/success?session_id={CHECKOUT_SESSION_ID}`,
-//     //   cancel_url: `http://localhost:3000/register/cancel`,
-//     // });
-//     const priceMapping = getPriceMapping(userData.priceId);
-//     if (!priceMapping) {
-//       throw new ApiError(
-//         httpStatus.BAD_REQUEST,
-//         `Invalid price ID: ${userData.priceId}`
-//       );
-//     }
-//     const mode =
-//       userData.mode ||
-//       (priceMapping.type === 'recurring' ? 'subscription' : 'payment');
-//     const lineItems = [
-//       {
-//         price_data: {
-//           currency: priceMapping.currency,
-//           unit_amount: priceMapping.amount,
-//           ...(mode === 'subscription' && {
-//             recurring: {
-//               interval: priceMapping.interval || 'month',
-//             },
-//           }),
-//           product_data: {
-//             name: priceMapping.name,
-//           },
-//         },
-//         quantity: 1,
-//       },
-//     ];
-//     const session = await stripe.checkout.sessions.create({
-//       mode,
-//       line_items: lineItems,
-//       success_url: `http://localhost:3000/register/success?session_id={CHECKOUT_SESSION_ID}`,
-//       cancel_url: `http://localhost:3000/register/cancel`,
-//       metadata: {
-//         priceId: userData.priceId,
-//         userId: userData.userId || 'anonymous',
-//         planName: priceMapping.name,
-//         ...userData.metadata,
-//       },
-//       expires_at: Math.floor(Date.now() / 1000) + 1800,
-//       ...(userData.userId && {
-//         customer_email: undefined,
-//       }),
-//     });
-//     console.log('Customer data', session);
-//     // Step 4: Update user with Stripe details
-//     // user.stripeCustomerId = customer.id;
-//     // user.checkoutSessionId = session.id;
-//     // await user.save();
-//     // Return session URL to `redirect frontend
-//     return { checkoutUrl: session.url };
-//   } catch (error: any) {
-//     console.error('RegisterAndSubscribe Error:', error);
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       error?.message || 'Registration and subscription failed'
-//     );
-//   }
-// };
 const GetAffiliatesByStatus = (status) => __awaiter(void 0, void 0, void 0, function* () {
     return auth_model_1.User.find({
         role: 'affiliate',
@@ -572,7 +456,9 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
             throw new apiErrors_1.default(400, 'Affiliate already approved');
         }
         // Ensure affiliateDetails exists, create if not
+        //@ts-ignore
         if (!affiliate.affiliateDetails) {
+            //@ts-ignore
             affiliate.affiliateDetails = {
                 referralCode: yield (0, auth_lib_1.generateUniqueReferralCode)(),
                 commissionBalance: 0,
@@ -584,9 +470,11 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
                     conversions: 0,
                 },
             };
+            //@ts-ignore
         }
         else if (!affiliate.affiliateDetails.referralCode) {
             // Only generate referral code if missing
+            //@ts-ignore
             affiliate.affiliateDetails.referralCode =
                 yield (0, auth_lib_1.generateUniqueReferralCode)();
         }
@@ -605,6 +493,7 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
             timestamp: new Date(),
             ip: '',
             userAgent: '',
+            //@ts-ignore
             details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateDetails.referralCode}`,
         });
         // Save the affiliate with the session
@@ -703,21 +592,25 @@ const GetAffiliateProfile = (userId) => __awaiter(void 0, void 0, void 0, functi
     }
     return user;
 });
-const AdminRequestSetup = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const adminEmail = email || process.env.ADMIN_EMAIL;
-    if (!adminEmail)
+const AdminRequestSetup = (AdminEmail) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = AdminEmail || process.env.ADMIN_EMAIL;
+    if (!email)
         throw new apiErrors_1.default(400, 'Admin email not set in .env');
     // Check if already SUPER_ADMIN exists
-    const existingAdmin = yield auth_model_1.User.findOne({ role: 'SUPER_ADMIN' });
+    const existingAdmin = yield auth_model_1.User.findOne({ role: 'super_admin' });
     if (existingAdmin)
         throw new apiErrors_1.default(http_status_1.default.METHOD_NOT_ALLOWED, 'SUPER_ADMIN already exists');
     // Generate token
     const token = (0, crypto_1.randomBytes)(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-    const tokenDoc = yield auth_model_1.AdminSetupToken.create({ email: adminEmail, token, expiresAt });
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const tokenDoc = yield auth_model_1.AdminSetupToken.create({
+        email,
+        token,
+        expiresAt,
+    });
     // Send email
     const setupLink = `${process.env.FRONTEND_ADMIN_URL}/setup?token=${token}`;
-    yield (0, emailClient_1.sendEmail)(adminEmail, 'Your Admin Setup Link', `Click here to setup your SUPER_ADMIN account: ${setupLink}`);
+    yield (0, emailClient_1.sendEmail)(AdminEmail, 'Your Admin Setup Link', `Click here to setup your SUPER_ADMIN account: ${setupLink}`);
     return tokenDoc;
 });
 const AdminResendSetup = (email) => __awaiter(void 0, void 0, void 0, function* () {
@@ -728,46 +621,165 @@ const AdminResendSetup = (email) => __awaiter(void 0, void 0, void 0, function* 
     if (tokenDoc && tokenDoc.expiresAt > new Date()) {
         // Token still valid, resend
         const setupLink = `${process.env.FRONTEND_URL}/admin/setup?token=${tokenDoc.token}`;
-        yield (0, emailClient_1.sendEmail)(email, "Your Admin Setup Link", `Click here to setup: ${setupLink}`);
+        yield (0, emailClient_1.sendEmail)(email, 'Your Admin Setup Link', `Click here to setup: ${setupLink}`);
         return tokenDoc;
     }
     // Generate new token
     return yield AdminRequestSetup(email);
 });
-// Validate token
-const validateToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
-    const tokenDoc = yield auth_model_1.AdminSetupToken.findOne({ token });
-    if (!tokenDoc)
-        throw new Error("Invalid token");
-    if (tokenDoc.used)
-        throw new Error("Token already used");
-    if (tokenDoc.expiresAt < new Date())
-        throw new Error("Token expired");
-    return tokenDoc;
-});
-exports.validateToken = validateToken;
 const AdminCompleteSetup = (token, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const tokenDoc = yield (0, exports.validateToken)(token);
-    const existingAdmin = yield auth_model_1.User.findOne({ role: "admin" });
+    const tokenDoc = yield (0, auth_utils_1.validateToken)(token);
+    const existingAdmin = yield auth_model_1.User.findOne({ role: 'admin' });
     if (existingAdmin)
-        throw new Error("ADMIN already exists");
+        throw new Error('ADMIN already exists');
     const adminUser = yield auth_model_1.User.create({
-        name: "admin",
+        name: 'admin',
         email: tokenDoc.email,
         password,
-        role: "admin"
+        role: 'admin',
+        isVerified: true,
     });
     tokenDoc.used = true;
     yield tokenDoc.save();
     return adminUser;
 });
 exports.AdminCompleteSetup = AdminCompleteSetup;
+// ==================== 🎯 BACKGROUND TASK QUEUES ====================
+const queueWelcomeSequence = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('Queueing welcome sequence for:', email);
+    // Implement your email service integration
+});
+const logSuspiciousActivity = (affiliateData, ipReputation) => {
+    console.warn('Suspicious registration attempt:', {
+        email: affiliateData.email,
+        ip: affiliateData.ipAddress,
+        riskScore: ipReputation.riskScore,
+    });
+};
+const AffiliateRegister = (affiliateData) => __awaiter(void 0, void 0, void 0, function* () {
+    const { ip, userAgent, geo, email, address, affiliateProfile } = affiliateData;
+    if (!affiliateData.password)
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Password is required');
+    const session = yield auth_model_1.User.startSession();
+    try {
+        session.startTransaction();
+        // 🌍 GLOBAL FRAUD PREVENTION
+        const [existingCheck, ipReputation] = yield Promise.all([
+            //@ts-ignore
+            auth_model_1.User.isUserExist(email, session),
+            (0, auth_utils_1.checkIPReputation)(ip),
+        ]);
+        if (existingCheck) {
+            throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'Account already exists with this email');
+        }
+        const deviceInfo = (0, affiliate_utils_1.parseUserAgent)(userAgent);
+        if (ipReputation.riskScore > 0.9 ||
+            ipReputation.isVPN ||
+            ipReputation.isHostingProvider) {
+            logSuspiciousActivity(affiliateData, ipReputation);
+            throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Registration not permitted');
+        }
+        // 💰 INDUSTRY-LEADING AFFILIATE PROFILE
+        const affiliateProfileData = {
+            firstName: affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.firstName,
+            lastName: affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.lastName,
+            companyName: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.companyName) || '',
+            skypeId: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.skypeId) || '',
+            yourWebsite: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.yourWebsite) || '',
+            trafficSources: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.trafficSources) || [],
+            channels: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.channels) || [],
+            howPromote: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.howPromote) || '',
+            describeExperience: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.describeExperience) || '',
+            pastExperience: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.pastExperience) || '',
+            lookingCampaign: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.lookingCampaign) || '',
+            whenYouFree: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.whenYouFree) || '',
+            timeZone: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.timeZone) || '',
+            didYouHear: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.didYouHear) || '',
+            phone: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.phone) || '',
+            alternativePhone: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.alternativePhone) || '',
+        };
+        // 🚀 CREATE AFFILIATE ACCOUNT
+        const affiliateAccount = {
+            name: affiliateData.name.trim(),
+            email: affiliateData.email.toLowerCase(),
+            password: affiliateData.password,
+            phone: affiliateData.phone || '',
+            address: address || {},
+            timeZone: (affiliateProfile === null || affiliateProfile === void 0 ? void 0 : affiliateProfile.timeZone) || '',
+            agreeTerms: affiliateData.agreeTerms,
+            role: user_1.ENUM_USER_ROLE.AFFILIATE || 'affiliate',
+            affiliateProfile: affiliateProfileData,
+            communicationPreferences: {
+                email: true,
+                sms: false,
+                push: true,
+                whatsapp: false,
+            },
+            ip: ip,
+            userAgent: userAgent,
+            geo: geo,
+            deviceFingerprint: affiliateData.userAgent,
+            deviceInfo: {
+                deviceType: deviceInfo.deviceType,
+                browser: deviceInfo.browser,
+                browserVersion: deviceInfo.browserVersion,
+                os: deviceInfo.os,
+                osVersion: deviceInfo.osVersion,
+            },
+        };
+        const createdAffiliate = yield auth_model_1.Affiliate.create([affiliateAccount], {
+            session,
+        });
+        yield session.commitTransaction();
+        // ⚡ REAL-TIME BACKGROUND PROCESSING
+        //@ts-ignore
+        yield Promise.allSettled([queueWelcomeSequence(createdAffiliate[0].email)]);
+        // 📈 RETURN WORLD-CLASS RESPONSE
+        const response = createdAffiliate[0].toObject();
+        //@ts-ignore
+        delete response.password;
+        //@ts-ignore
+        delete response.ip;
+        //@ts-ignore
+        response.meta = {
+            nextSteps: [
+                { action: 'verify_email', priority: 'high', deadline: '24 hours' },
+                { action: 'upload_documents', priority: 'high', deadline: '72 hours' },
+                {
+                    action: 'complete_onboarding',
+                    priority: 'medium',
+                    deadline: '7 days',
+                },
+            ],
+            expectedTimeline: {
+                approval: '2-3 business days',
+                firstPayout: '30-45 days',
+                accountManagerContact: '24 hours',
+            },
+            support: {
+                immediate: 'help@affiliate.com',
+                accountManager: affiliateProfile.accountManager,
+                emergency: '+1-555-URGENT',
+            },
+        };
+        return response;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        if (error instanceof apiErrors_1.default)
+            throw error;
+        throw new apiErrors_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Registration processing failed. Our team has been notified.');
+    }
+    finally {
+        session.endSession();
+    }
+});
 exports.UserService = {
     CreateUser,
     AdminRequestSetup,
     AdminResendSetup,
     AdminCompleteSetup: exports.AdminCompleteSetup,
-    CreateAffiliate,
+    AffiliateRegister,
     CreateAdmin,
     loginUser,
     AffiliateLogin,
@@ -780,7 +792,6 @@ exports.UserService = {
     GetAllUsers,
     UpdateUser,
     DeleteUser,
-    //   RegisterAndSubscribe,
     GetAffiliatesByStatus,
     GetAffiliateById,
     ApproveAffiliate,

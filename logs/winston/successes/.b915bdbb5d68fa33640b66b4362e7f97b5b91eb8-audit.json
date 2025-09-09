@@ -6,26 +6,6 @@
     "auditLog": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/.b915bdbb5d68fa33640b66b4362e7f97b5b91eb8-audit.json",
     "files": [
         {
-            "date": 1756149113349,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-26-08-01-success.log",
-            "hash": "727c643d87cfc9ffdeee9f8ed605df2bb9ba517c47ba933504ebccd4e0f34e40"
-        },
-        {
-            "date": 1756163664179,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-26-08-05-success.log",
-            "hash": "8e5704c99d7a2c30054e26aaace2d75edf01f2ffde267c380e310512575d19a4"
-        },
-        {
-            "date": 1756208150618,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-26-08-17-success.log",
-            "hash": "ebbe93d91d34ae70ae67a64fa06c1b55cf6c04c76913249853bfa46445df0f7b"
-        },
-        {
-            "date": 1756210334449,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-26-08-18-success.log",
-            "hash": "09f83d629e169617442f30993ee81ad29b1a0fd8d5ae3d0c3eb5baece60a6078"
-        },
-        {
             "date": 1756238827293,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-27-08-02-success.log",
             "hash": "227378078bcdfc63e3b430e1580a8c5efe9f394000d0807fe003f34e1fe1185f"
@@ -574,6 +554,96 @@
             "date": 1757322489458,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-08-09-15-success.log",
             "hash": "1f20237c1b66d0066ba5d343880ca97aee380c691644807c9168c9335f8e700e"
+        },
+        {
+            "date": 1757349298440,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-08-09-22-success.log",
+            "hash": "448a2dbdfe6051a415a83274cbd2fc4d4bc60a9297966bdf0a01593169827b78"
+        },
+        {
+            "date": 1757358386956,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-01-success.log",
+            "hash": "c18415c1e7f5257a815482e4315bb0ffd2d870fc5f27961fa5eafa59a5d4eb7c"
+        },
+        {
+            "date": 1757361826166,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-02-success.log",
+            "hash": "334e573009368174aee9caf7a205e0e0c66aea5693325d50268f073aa264f39b"
+        },
+        {
+            "date": 1757365349361,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-03-success.log",
+            "hash": "8735a445a178604f68d0b9ea216655d9ee00a653ac3b03e35b4f277fed4f1763"
+        },
+        {
+            "date": 1757368821633,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-04-success.log",
+            "hash": "6ee8e08ea3c50cc2fd9abf647e56365f323edbf05beda61877b45e1f1e64725b"
+        },
+        {
+            "date": 1757372519497,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-05-success.log",
+            "hash": "7cae8eae5c209db745b5cfbd2d7e8eea4024b1c127699b1a49fea10b17c0950c"
+        },
+        {
+            "date": 1757398931844,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-12-success.log",
+            "hash": "22c7b62aea635ce65736d22df68255f7b7d914a1308a6d6f96a862d51c5e1c28"
+        },
+        {
+            "date": 1757401815895,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-13-success.log",
+            "hash": "16c1fc38cc3aea83a13451e8d9d4ee191fe998f145a2d8d7199a189c559e8adc"
+        },
+        {
+            "date": 1757405444150,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-14-success.log",
+            "hash": "054ec19195934fe93514b11b2317970497445031bd58681defdb086583bbe435"
+        },
+        {
+            "date": 1757410623819,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-15-success.log",
+            "hash": "0971e91dd3cfd0b26f98a937d3998a73713e98e15c6deac3f835b175df81a42a"
+        },
+        {
+            "date": 1757412001569,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-16-success.log",
+            "hash": "0d9adfcb3671f7ae5b4a74e829ea29e8381b06d2870b7f6e009013069633ffdf"
+        },
+        {
+            "date": 1757420217529,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-18-success.log",
+            "hash": "857f235401b2ded98f4d684012d09d78b87a889f0d27384498db7b5aca679afa"
+        },
+        {
+            "date": 1757423229416,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-19-success.log",
+            "hash": "7e988412c30478159fea4cb2b9e5b02ead703f0cc2092ae1f77e176a90c473ac"
+        },
+        {
+            "date": 1757426405861,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-20-success.log",
+            "hash": "c4a8a381ee894dab3f1031d951c37f48112ca723c7a58ef02c90e68b3aa1325c"
+        },
+        {
+            "date": 1757430115048,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-21-success.log",
+            "hash": "70f6043264fc3aa84d795a4661bdc645685afbea4754d859207597312b3bc982"
+        },
+        {
+            "date": 1757433651346,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-09-09-22-success.log",
+            "hash": "e08a8477faf31012b20528ae35fac766713c29c35744171a2b3f30bb0e3cea61"
+        },
+        {
+            "date": 1757441797908,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-10-09-00-success.log",
+            "hash": "01ee88d402485dadaf38a146fdf0107aeaaaeea18f4ab4334eea607aff4b22a6"
+        },
+        {
+            "date": 1757444496727,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-10-09-01-success.log",
+            "hash": "82036a84c015184db0e69ad982e523ec5c3020e2f438772cb4f3cd7a4a6ed2a5"
         }
     ],
     "hashType": "sha256"

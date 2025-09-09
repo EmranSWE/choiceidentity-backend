@@ -20,7 +20,7 @@ async function bootstrap() {
 
 
     server.listen(config.port, () => {
-      console.log(`Example app listening on port ${config.port}`);
+      console.info(`Example app listening on port ${config.port}`);
     });
   } catch (error) {
     errorLogger.error(error);

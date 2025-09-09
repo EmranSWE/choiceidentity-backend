@@ -5,6 +5,7 @@ import { AuthValidation } from './user.validation';
 import auth from '../../middleware/auth';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 import { globalRateLimiter } from '../../middleware/globalRateLimiter';
+import { idempotencyMiddleware } from '../../middleware/idempotencyMiddleware';
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.post(
 
 router.post(
   '/affiliate/signup',
+  idempotencyMiddleware(),
 //   globalRateLimiter,
   UserController.CreateAffiliateUser
 );

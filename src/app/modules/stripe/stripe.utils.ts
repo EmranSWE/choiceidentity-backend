@@ -1,10 +1,14 @@
 import Stripe from 'stripe';
 import {
   AttachAndUpdatePaymentMethodParams,
+  BillingInterval,
   CreatePaymentIntentParams,
   CreateSubscriptionParams,
+  DunningStatus,
+  ISubscription,
   PriceMapping,
   StripeCustomerInput,
+  SubscriptionStatus,
 } from './stripe.interface';
 import config from '../../../config';
 import { logger } from '../../../shared/logger';
@@ -645,3 +649,94 @@ export const createStripeSubscription = async ({
     throw err;
   }
 };
+
+
+
+
+export function getSubscriptionDates(
+  subscription: Stripe.Subscription, 
+  billingInterval: string
+): {
+  currentPeriodStart: Date;
+  currentPeriodEnd: Date;
+  trialStart?: Date;
+  trialEnd?: Date;
+  isTrial: boolean;
+} {
+  
+  const isTrial = subscription.status === 'trialing';
+  const periodStart = subscription.billing_cycle_anchor || subscription.created;
+  
+  // Use trial end date if currently in trial, otherwise calculate billing period
+  const periodEnd = isTrial && subscription.trial_end 
+    ? subscription.trial_end 
+    : calculatePeriodEnd(periodStart, billingInterval);
+
+  return {
+    currentPeriodStart: new Date(periodStart * 1000),
+    currentPeriodEnd: new Date(periodEnd * 1000),
+    trialStart: safeStripeDateConvert(subscription.trial_start),
+    trialEnd: safeStripeDateConvert(subscription.trial_end),
+    isTrial
+  };
+}
+
+// Enhanced safe date conversion with validation
+export function safeStripeDateConvert(timestamp: number | null | undefined): Date | undefined {
+  if (!timestamp) return undefined;
+  
+  const date = new Date(timestamp * 1000);
+  return isNaN(date.getTime()) ? undefined : date;
+}
+
+
+// Helper function for period end calculation
+function calculatePeriodEnd(periodStart: number, billingInterval: string): number {
+  switch (billingInterval.toLowerCase()) {
+    case 'monthly':
+      return periodStart + 30 * 24 * 60 * 60;
+    case 'yearly':
+      return periodStart + 365 * 24 * 60 * 60;
+    case 'quarterly':
+      return periodStart + 90 * 24 * 60 * 60;
+    default:
+      return periodStart + 30 * 24 * 60 * 60;
+  }
+
+}
+
+
+
+
+
+
+
+export function calculateNextBillingDate(
+  currentPeriodEnd: Date, 
+  billingInterval: string
+): Date {
+  const nextDate = new Date(currentPeriodEnd);
+  
+  switch (billingInterval) {
+    case BillingInterval.MONTHLY:
+      nextDate.setMonth(nextDate.getMonth() + 1);
+      break;
+ 
+    case BillingInterval.YEARLY:
+      nextDate.setFullYear(nextDate.getFullYear() + 1);
+      break;
+    default:
+      nextDate.setMonth(nextDate.getMonth() + 1);
+  }
+  
+  return nextDate;
+}
+
+export function shouldProcessDunning(subscription: ISubscription): boolean {
+  return (
+    subscription.status === SubscriptionStatus.PAST_DUE &&
+    subscription.paymentFailureCount > 0 &&
+    subscription.dunningStatus !== DunningStatus.COMPLETED &&
+    subscription.dunningStatus !== DunningStatus.FAILED
+  );
+}

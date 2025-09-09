@@ -1,6 +1,5 @@
 
 import { PROTECTION_PLANS } from "./stripe.utils";
-import { Document, Types } from "mongoose";
 
 
 export enum PaymentIntentStatus {
@@ -252,95 +251,6 @@ export type PlanDetails = {
   };
 }
 
-
-
-
-// export enum SubscriptionStatus {
-//   TRIALING = "trialing",
-//   ACTIVE = "active",
-//   PAST_DUE = "past_due",
-//   CANCELED = "canceled",
-//   UNPAID = "unpaid",
-//   PAUSED = "paused",
-// }
-
-
-export enum SubscriptionStatus {
-  INCOMPLETE = 'incomplete',
-  INCOMPLETE_EXPIRED = 'incomplete_expired',
-  TRIALING = 'trialing',
-  ACTIVE = 'active',
-  PAST_DUE = 'past_due',
-  CANCELED = 'canceled',
-  UNPAID = 'unpaid',
-  PAUSED = 'paused',
-  EXPIRED = 'expired',
-}
-
-export enum BillingInterval {
-  MONTHLY = "monthly",
-  YEARLY = "yearly",
-}
-
-export type IAddon = {
-  name: string;
-  price: number; // in cents
-}
-
-export type IPauseDetails = {
-  reason?: string;
-  startDate?: Date;
-  endDate?: Date;
-}
-
-export type ISubscription = {
-  userId: Types.ObjectId;
-  stripeSubscriptionId: string;
-  planType: string;
-  priceId?: string;
-  billingInterval: BillingInterval;
-  status: SubscriptionStatus;
-  quantity: number;
-
-  currentPeriodStart: Date;
-  currentPeriodEnd: Date;
-
-  trialStart?: Date;
-  trialEnd?: Date;
-
-  cancelAtPeriodEnd: boolean;
-  cancelAt?: Date;
-  cancelReason?: string;
-
-  paused: boolean;
-  pauseDetails?: IPauseDetails;
-
-  latestInvoiceId?: string;
-
-  addons: IAddon[];
-
-  metadata?: Record<string, any>;
-
-  defaultPaymentMethodId?: string;
-  cardBrand?: string;
-  cardLast4?: string;
-
-  lastStripeEventId?: string;
-  lastSyncedAt?: Date;
-
-  archived: boolean;
-  archivedAt?: Date;
-
-  createdAt: Date;
-  updatedAt: Date;
-} & Document
-
-
-
-
-
-
-
 export type StripeCustomerInput = {
   key: string;
   email: string;
@@ -431,4 +341,208 @@ export type TrialSubscriptionResult = {
       price: number;
     };
   };
+}
+
+
+
+// interfaces/subscription.interface.ts
+import { Document, Types } from 'mongoose';
+
+export type IStatusHistory = {
+  status: string;
+  changedAt: Date;
+  reason?: string;
+  changedBy: 'system' | 'user' | 'admin';
+}
+
+export type IInvoiceSettings = {
+  daysUntilDue: number;
+  collectionMethod: 'charge_automatically' | 'send_invoice';
+}
+
+export type IPauseDetails = {
+  reason: string;
+  pausedAt: Date;
+  pausedBy: Types.ObjectId | string;
+  notes?: string;
+}
+
+export type IPreviousPlan = {
+  planType: string;
+  priceId: string;
+  priceAmount: number;
+  changedAt: Date;
+}
+
+export type IPendingPlan = {
+  newPlanType: string;
+  newPriceId: string;
+  newPriceAmount: number;
+  effectiveAt: Date;
+  scheduledAt: Date;
+}
+
+export type IAddon = {
+  addonId: string;
+  priceId: string;
+  priceAmount: number;
+  quantity: number;
+  addedAt: Date;
+  effectiveAt?: Date;
+  removedAt?: Date;
+  prorationDate?: Date;
+}
+
+export type IPaymentMethodHistory = {
+  paymentMethodId: string;
+  cardBrand: string;
+  cardLast4: string;
+  activeFrom: Date;
+  activeTo?: Date;
+  changedBy: 'system' | 'user' | 'admin';
+}
+
+export type IRenewalPrediction = {
+  willRenew: boolean;
+  confidence: number;
+  calculatedAt: Date;
+  factors: string[];
+}
+
+export type ISyncError = {
+  error: string;
+  occurredAt: Date;
+  resolved: boolean;
+  resolvedAt?: Date;
+  resolutionNotes?: string;
+}
+
+
+
+
+export type ISubscription = {
+  // Core identifiers
+  userId: Types.ObjectId;
+  stripeSubscriptionId?: string;
+  
+  // Plan information
+  planType: string;
+  priceId?: string;
+  priceAmount?: number;
+  currency: string;
+  billingInterval: string;
+  
+  // Status management
+  status: string;
+  previousStatus?: string;
+  statusHistory: IStatusHistory[];
+  
+  // Date management
+  currentPeriodStart: Date;
+  currentPeriodEnd: Date;
+  trialStart?: Date;
+  trialEnd?: Date;
+  trialPeriodDays?: number;
+  isTrial: boolean;
+  
+  // Billing information
+  billingCycleAnchor?: Date;
+  startDate?: Date;
+  quantity: number;
+  
+  // Cancellation management
+  cancelAtPeriodEnd: boolean;
+  canceledAt?: Date;
+  cancelReason?: string;
+  cancellationFeedback?: string;
+  
+  // Pause management
+  paused: boolean;
+  pauseDetails?: IPauseDetails;
+  pauseResumesAt?: Date;
+  
+  // Invoice and payment management
+  latestInvoiceId?: string;
+  upcomingInvoiceId?: string;
+  invoiceSettings?: IInvoiceSettings;
+  paymentFailureCount: number;
+  lastPaymentFailedAt?: Date;
+  
+  // Dunning management
+  dunningStatus: string;
+  dunningEmailsSent: number;
+  lastDunningEmailSentAt?: Date;
+  nextDunningActionAt?: Date;
+  
+  // Plan versioning
+  planVersion: number;
+  previousPlan?: IPreviousPlan;
+  pendingPlanChanges?: IPendingPlan;
+  
+  // Addons
+  addons: IAddon[];
+  
+  // Payment method
+  defaultPaymentMethodId?: string;
+  cardBrand?: string;
+  cardLast4?: string;
+  paymentMethodHistory: IPaymentMethodHistory[];
+  
+  // Analytics
+  lifetimeValue: number;
+  monthsActive: number;
+  churnRiskScore: number;
+  renewalPrediction?: IRenewalPrediction;
+  
+  // Metadata
+  metadata?: Record<string, any>;
+  tags: string[];
+  
+  // Webhook and sync management
+  lastStripeEventId?: string;
+  lastWebhookReceivedAt?: Date;
+  lastSyncedAt?: Date;
+  stripeSyncStatus: string;
+  syncErrors: ISyncError[];
+  
+  // Archiving
+  archived: boolean;
+  archivedAt?: Date;
+  archiveReason?: string;
+  
+  // Timestamps
+  createdAt: Date;
+  updatedAt: Date;
+} & Document
+
+// Enums
+export enum SubscriptionStatus {
+  ACTIVE = 'active',
+  TRIALING = 'trialing',
+  PAST_DUE = 'past_due',
+  CANCELED = 'canceled',
+  UNPAID = 'unpaid',
+  INCOMPLETE = 'incomplete',
+  INCOMPLETE_EXPIRED = 'incomplete_expired',
+  PAUSED = 'paused'
+}
+
+export enum BillingInterval {
+  MONTHLY = 'monthly',
+  QUARTERLY = 'quarterly',
+  YEARLY = 'yearly'
+}
+
+export enum DunningStatus {
+  NONE = 'none',
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  FAILED = 'failed'
+}
+
+export enum StripeSyncStatus {
+  IN_SYNC = 'in_sync',
+  PENDING_SYNC = 'pending_sync',
+  CONFLICT = 'conflict'
 }

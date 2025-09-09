@@ -1,3 +1,4 @@
+import geoip from 'geoip-lite';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
@@ -7,6 +8,8 @@ import { ILoginUserResponse, IUser } from './auth.interface';
 import { getPaginationAndFilters } from '../../../helpers/paginationHelpers';
 import { IProductFilters } from '../products/products.interface';
 import { getCookieOptions } from '../../../config/cors.config';
+import { generateFingerprint } from '../affiliate/affiliate.utils';
+import ApiError from '../../../errors/apiErrors';
 
 const CreateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -25,17 +28,40 @@ const CreateUser: RequestHandler = catchAsync(
 
 const CreateAffiliateUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const userData = req.body;
+    const key = res.locals.idempotencyKey;
+    const ip =
+      (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ||
+      req.connection.remoteAddress ||
+      req.ip ||
+      '';
 
-    // Enforce role
-    userData.role = 'affiliate';
+    const userAgent = req.get('User-Agent') || '';
 
-    const result = await UserService.CreateAffiliate(userData);
+    const geo = geoip.lookup(ip) || { country: null, region: null, city: null };
+
+    const deviceFingerprint =
+      (req.headers['x-device-fingerprint'] as string) ||
+      generateFingerprint(ip, userAgent);
+
+    if (!key) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Idempotency key is required');
+    }
+    const affiliateData = {
+      ...req.body,
+      role: 'affiliate',
+      ip,
+      userAgent,
+      geo,
+      deviceFingerprint,
+      
+    };
+
+    const result = await UserService.AffiliateRegister(affiliateData);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Affiliate user created successfully',
+      message: 'Affiliate registration successful',
       data: result,
     });
   }
@@ -453,6 +479,7 @@ const AdminResendSetup: RequestHandler = catchAsync(
 const AdminCompleteSetup: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { token, password } = req.body;
+
 
     const result = await UserService.AdminCompleteSetup(token, password);
 

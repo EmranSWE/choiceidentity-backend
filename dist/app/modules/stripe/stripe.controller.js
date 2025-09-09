@@ -202,12 +202,12 @@ const createTrialSubscription = (0, catchAsync_1.default)((req, res) => __awaite
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Required fields missing');
     }
     // 🚀 Create subscription (Service handles PCI compliance)
-    const subscriptionAffiliateId = affiliateId || 'd4rOZ2aYq';
+    const subscriptionAffiliateId = affiliateId;
     const subscriptionData = Object.assign({ key,
         paymentMethodId,
         email,
         firstName,
-        password, planType: selectedPlan || 'ELITE', billingInterval: billingInterval || 'monthly', affiliateId: subscriptionAffiliateId }, rest);
+        password, planType: selectedPlan || 'Premium', billingInterval: billingInterval || 'monthly', affiliateId: subscriptionAffiliateId }, rest);
     const result = yield stripe_service_1.StripeService.createTrialSubscription(subscriptionData);
     const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
     // =========== Productions ===============

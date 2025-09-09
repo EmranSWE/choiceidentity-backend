@@ -9,7 +9,7 @@ import {
   IUserFilters,
 } from './auth.interface';
 //@ts-ignore
-import { AdminSetupToken, User } from './auth.model';
+import { AdminSetupToken, Affiliate, User } from './auth.model';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
@@ -20,16 +20,17 @@ import {
   IPaginationOptions,
 } from '../../../helpers/paginationHelpers';
 import mongoose, { SortOrder, Types } from 'mongoose';
-import { stripe } from './auth.utils';
-import { getPriceMapping } from '../stripe/stripe.utils';
+
 import { generateUniqueReferralCode } from './auth.lib';
 import { sendAffiliateApprovalEmail } from '../../../emails/sendAffiliateEmail';
 import { sendAffiliateRejectionEmail } from '../../../emails/sendAffiliateRejectEmail';
 import { randomBytes } from 'crypto';
 import { sendEmail } from '../../../emails/emailClient';
+import { checkIPReputation, validateToken } from './auth.utils';
+import { parseUserAgent } from '../affiliate/affiliate.utils';
 const CreateUser = async (UserData: IUser): Promise<IUser | null> => {
   // Check if email already exists
-     //@ts-ignore
+  //@ts-ignore
   const isUserExist = await User.isUserExist(UserData.email);
   if (isUserExist) {
     throw new ApiError(
@@ -51,51 +52,13 @@ const CreateUser = async (UserData: IUser): Promise<IUser | null> => {
       'Signup failed. Please try again.'
     );
   }
-     //@ts-ignore
+  //@ts-ignore
   return createUser;
-};
-
-const CreateAffiliate = async (affiliateData: IUser): Promise<IUser | null> => {
-  console.log('Affiliate data', affiliateData);
-  // 1. Check if email already exists
-     //@ts-ignore
-  const isUserExist = await User.isUserExist(affiliateData.email);
-  if (isUserExist) {
-    throw new ApiError(
-      httpStatus.CONFLICT,
-      'Signup failed. Email already in use.'
-    );
-  }
-
-  // 2. Force role to affiliate
-  affiliateData.role = ENUM_USER_ROLE.AFFILIATE;
-
-  // 3. Optional: validate affiliateProfile exists and required fields (can be moved to validation layer)
-  if (!affiliateData.affiliateProfile) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'Affiliate profile details are required.'
-    );
-  }
-  if (!affiliateData.affiliateProfile.agreeTerms) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'You must agree to the terms.');
-  }
-
-  // 4. Create user using existing create method
-  const createdAffiliate = await User.create(affiliateData);
-  if (!createdAffiliate) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'Affiliate signup failed. Please try again.'
-    );
-  }
-   //@ts-ignore
-  return createdAffiliate;
 };
 
 const CreateAdmin = async (adminPayload: IUser): Promise<IUser | null> => {
   // Ensure email is not already used
-     //@ts-ignore
+  //@ts-ignore
   const isUserExist = await User.isUserExist(adminPayload.email);
   if (isUserExist) {
     throw new ApiError(httpStatus.CONFLICT, 'Email already in use');
@@ -113,7 +76,7 @@ const CreateAdmin = async (adminPayload: IUser): Promise<IUser | null> => {
       'Failed to create admin account'
     );
   }
-   //@ts-ignore
+  //@ts-ignore
   return createAdmin;
 };
 
@@ -124,7 +87,7 @@ const loginUser = async (
   const { email, password } = loginData;
 
   // Check is user exist
-     //@ts-ignore
+  //@ts-ignore
   const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid credentials.');
@@ -133,7 +96,7 @@ const loginUser = async (
   //Matching the password
   if (
     isUserExist.password &&
-       //@ts-ignore
+    //@ts-ignore
     !(await User.isPasswordMatched(password, isUserExist?.password))
   ) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect');
@@ -142,13 +105,13 @@ const loginUser = async (
 
   // Access token
   const accessToken = jwtHelpers.createToken(
-    { userId: _id, email:userEmail, role },
+    { userId: _id, email: userEmail, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelpers.createToken(
-    {  email:userEmail, role },
+    { email: userEmail, role },
     config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
@@ -164,8 +127,7 @@ const AffiliateLogin = async (
   loginData: ILoginUser
 ): Promise<ILoginUserResponse> => {
   const { email, password } = loginData;
-  // Check is user exist
-     //  @ts-ignore
+  //  @ts-ignore
   const isUserExist = await User.isUserExist(email);
 
   if (!isUserExist) {
@@ -201,7 +163,7 @@ const AffiliateLogin = async (
   //Matching the password
   if (
     isUserExist.password &&
-       //@ts-ignore
+    //@ts-ignore
     !(await User.isPasswordMatched(password, isUserExist?.password))
   ) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Password is incorrect');
@@ -211,13 +173,13 @@ const AffiliateLogin = async (
 
   // Access token
   const accessToken = jwtHelpers.createToken(
-    { userId: _id, email:userEmail, role },
+    { userId: _id, email: userEmail, role },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelpers.createToken(
-    {  email:userEmail, role },
+    { email: userEmail, role },
     config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
@@ -229,8 +191,7 @@ const AffiliateLogin = async (
 };
 
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
-
-    console.log("RefreshToken In Service",token)
+  console.log('RefreshToken In Service', token);
 
   let verifiedToken = null;
   try {
@@ -243,11 +204,11 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
     throw new ApiError(httpStatus.FORBIDDEN, 'Invalid refresh token');
   }
   const { email } = verifiedToken;
-   if (!email) {
+  if (!email) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token payload');
   }
   // Check if the user exists
-     //@ts-ignore
+  //@ts-ignore
   const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
@@ -270,7 +231,7 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
       email: isUserExist.email,
       role: isUserExist.role,
     },
-   config.jwt.refresh_Secret as Secret,
+    config.jwt.refresh_Secret as Secret,
     config.jwt.refresh_secret_Expires as string
   );
 
@@ -499,7 +460,7 @@ const GetAllUsers = async (
   }
 
   return {
-       //  @ts-ignore
+    //  @ts-ignore
     data: users,
     meta: {
       page: paginationOptions.page || 1,
@@ -520,8 +481,6 @@ const UpdateUser = async (userId: string, updateData: Partial<IUser>) => {
     'gender',
     'dateOfBirth',
   ];
-
-
 
   // Filter out disallowed fields
   const filteredUpdateData = Object.keys(updateData)
@@ -575,108 +534,6 @@ const DeleteUser = async (userId: string) => {
   }
 };
 
-// export const RegisterAndSubscribe = async (userData: any) => {
-//   console.log('User data', userData);
-//   const { name, email, password, priceId } = userData;
-
-//   try {
-//     //     // Step 1: Create the user with pending status
-//     //     const user = await User.create({
-//     //       name,
-//     //       email,
-//     //       password, // Ensure it's hashed in a pre-save middleware!
-//     //       isActive: false,
-//     //       subscriptionStatus: 'pending',
-//     //     });
-//     // console.log("Userr",user)
-//     // Step 2: Create Stripe Customer
-//     // const customer = await stripe.customers.create({
-//     //   email,
-//     //   metadata: {
-//     //     userId: "1312424252",
-//     //   },
-//     // });
-
-//     // // Step 3: Create Stripe Checkout Session
-//     // const session = await stripe.checkout.sessions.create({
-//     //   mode: 'subscription',
-//     //   customer: customer.id,
-//     //   payment_method_types: ['card'],
-//     //   line_items: [
-//     //     {
-//     //       price: priceId,
-//     //       quantity: 1,
-//     //     },
-//     //   ],
-//     //   success_url: `http://localhost:3000/register/success?session_id={CHECKOUT_SESSION_ID}`,
-//     //   cancel_url: `http://localhost:3000/register/cancel`,
-//     // });
-
-//     const priceMapping = getPriceMapping(userData.priceId);
-//     if (!priceMapping) {
-//       throw new ApiError(
-//         httpStatus.BAD_REQUEST,
-//         `Invalid price ID: ${userData.priceId}`
-//       );
-//     }
-
-//     const mode =
-//       userData.mode ||
-//       (priceMapping.type === 'recurring' ? 'subscription' : 'payment');
-
-//     const lineItems = [
-//       {
-//         price_data: {
-//           currency: priceMapping.currency,
-//           unit_amount: priceMapping.amount,
-//           ...(mode === 'subscription' && {
-//             recurring: {
-//               interval: priceMapping.interval || 'month',
-//             },
-//           }),
-//           product_data: {
-//             name: priceMapping.name,
-//           },
-//         },
-//         quantity: 1,
-//       },
-//     ];
-
-//     const session = await stripe.checkout.sessions.create({
-//       mode,
-//       line_items: lineItems,
-//       success_url: `http://localhost:3000/register/success?session_id={CHECKOUT_SESSION_ID}`,
-//       cancel_url: `http://localhost:3000/register/cancel`,
-//       metadata: {
-//         priceId: userData.priceId,
-//         userId: userData.userId || 'anonymous',
-//         planName: priceMapping.name,
-//         ...userData.metadata,
-//       },
-//       expires_at: Math.floor(Date.now() / 1000) + 1800,
-//       ...(userData.userId && {
-//         customer_email: undefined,
-//       }),
-//     });
-
-//     console.log('Customer data', session);
-
-//     // Step 4: Update user with Stripe details
-//     // user.stripeCustomerId = customer.id;
-//     // user.checkoutSessionId = session.id;
-//     // await user.save();
-
-//     // Return session URL to `redirect frontend
-//     return { checkoutUrl: session.url };
-//   } catch (error: any) {
-//     console.error('RegisterAndSubscribe Error:', error);
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       error?.message || 'Registration and subscription failed'
-//     );
-//   }
-// };
-
 const GetAffiliatesByStatus = async (status: string) => {
   return User.find({
     role: 'affiliate',
@@ -720,20 +577,24 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
     }
 
     // Ensure affiliateDetails exists, create if not
+    //@ts-ignore
     if (!affiliate.affiliateDetails) {
+          //@ts-ignore
       affiliate.affiliateDetails = {
         referralCode: await generateUniqueReferralCode(),
         commissionBalance: 0,
         payoutHistory: [],
-           //  @ts-ignore
+        //  @ts-ignore
         performanceMetrics: {
           clicks: 0,
           signups: 0,
           conversions: 0,
         },
       };
+        //@ts-ignore
     } else if (!affiliate.affiliateDetails.referralCode) {
       // Only generate referral code if missing
+        //@ts-ignore
       affiliate.affiliateDetails.referralCode =
         await generateUniqueReferralCode();
     }
@@ -755,6 +616,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
       timestamp: new Date(),
       ip: '',
       userAgent: '',
+    //@ts-ignore
       details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateDetails.referralCode}`,
     });
 
@@ -769,7 +631,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
     await sendAffiliateApprovalEmail(
       affiliate.email,
       affiliate.name,
-         //  @ts-ignore
+      //  @ts-ignore
       affiliate.affiliateDetails.referralCode
     ).catch(err => {
       // Log but don’t block user approval if email fails
@@ -880,7 +742,7 @@ const GetAllAffiliates = async (
 
   // Return empty data array if none found, avoid throwing error here
   return {
-       //  @ts-ignore
+    //  @ts-ignore
     data: users,
     meta: {
       page: paginationOptions.page || 1,
@@ -901,78 +763,229 @@ const GetAffiliateProfile = async (userId: string) => {
   return user;
 };
 
-const AdminRequestSetup = async (email:string) => {
- const adminEmail = email || process.env.ADMIN_EMAIL;
-    if (!adminEmail) 
-     throw new ApiError(400, 'Admin email not set in .env');
+const AdminRequestSetup = async (AdminEmail: string) => {
+  const email = AdminEmail || process.env.ADMIN_EMAIL;
+  if (!email) throw new ApiError(400, 'Admin email not set in .env');
 
-    // Check if already SUPER_ADMIN exists
-    const existingAdmin = await User.findOne({ role: 'SUPER_ADMIN' });
-    if (existingAdmin)
-        throw new ApiError(httpStatus.METHOD_NOT_ALLOWED, 'SUPER_ADMIN already exists');
+  // Check if already SUPER_ADMIN exists
+  const existingAdmin = await User.findOne({ role: 'super_admin' });
 
-    // Generate token
-    const token = randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
-
-    const tokenDoc = await AdminSetupToken.create({ email: adminEmail, token, expiresAt });
-
-    // Send email
-    const setupLink = `${process.env.FRONTEND_ADMIN_URL}/setup?token=${token}`;
-    await sendEmail(
-        adminEmail,
-        'Your Admin Setup Link',
-        `Click here to setup your SUPER_ADMIN account: ${setupLink}`
+  if (existingAdmin)
+    throw new ApiError(
+      httpStatus.METHOD_NOT_ALLOWED,
+      'SUPER_ADMIN already exists'
     );
 
-    return tokenDoc;
+  // Generate token
+  const token = randomBytes(32).toString('hex');
+  const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+  const tokenDoc = await AdminSetupToken.create({
+    email,
+    token,
+    expiresAt,
+  });
+
+  // Send email
+  const setupLink = `${process.env.FRONTEND_ADMIN_URL}/setup?token=${token}`;
+  await sendEmail(
+    AdminEmail,
+    'Your Admin Setup Link',
+    `Click here to setup your SUPER_ADMIN account: ${setupLink}`
+  );
+
+  return tokenDoc;
 };
 
 const AdminResendSetup = async (email: string) => {
-     const adminEmail = email || process.env.ADMIN_EMAIL;
-  if (!adminEmail) 
-     throw new ApiError(400, 'Admin email not set in .env');
+  const adminEmail = email || process.env.ADMIN_EMAIL;
+  if (!adminEmail) throw new ApiError(400, 'Admin email not set in .env');
 
- const tokenDoc = await AdminSetupToken.findOne({ email, used: false });
-    if (tokenDoc && tokenDoc.expiresAt > new Date()) {
-        // Token still valid, resend
-        const setupLink = `${process.env.FRONTEND_URL}/admin/setup?token=${tokenDoc.token}`;
-        await sendEmail(email, "Your Admin Setup Link", `Click here to setup: ${setupLink}`);
-        return tokenDoc;
-    }
-
-    // Generate new token
-    return await AdminRequestSetup(email);
-};
-
-
-// Validate token
-export const validateToken = async (token: string) => {
-    const tokenDoc = await AdminSetupToken.findOne({ token });
-    if (!tokenDoc) throw new Error("Invalid token");
-    if (tokenDoc.used) throw new Error("Token already used");
-    if (tokenDoc.expiresAt < new Date()) throw new Error("Token expired");
+  const tokenDoc = await AdminSetupToken.findOne({ email, used: false });
+  if (tokenDoc && tokenDoc.expiresAt > new Date()) {
+    // Token still valid, resend
+    const setupLink = `${process.env.FRONTEND_URL}/admin/setup?token=${tokenDoc.token}`;
+    await sendEmail(
+      email,
+      'Your Admin Setup Link',
+      `Click here to setup: ${setupLink}`
+    );
     return tokenDoc;
+  }
+
+  // Generate new token
+  return await AdminRequestSetup(email);
 };
 
 export const AdminCompleteSetup = async (token: string, password: string) => {
-    const tokenDoc = await validateToken(token);
+  const tokenDoc = await validateToken(token);
 
-    const existingAdmin = await User.findOne({ role: "admin" });
-    if (existingAdmin) throw new Error("ADMIN already exists");
+  const existingAdmin = await User.findOne({ role: 'admin' });
+  if (existingAdmin) throw new Error('ADMIN already exists');
 
+  const adminUser = await User.create({
+    name: 'admin',
+    email: tokenDoc.email,
+    password,
+    role: 'admin',
+    isVerified: true,
+  });
 
-    const adminUser = await User.create({
-        name:"admin",
-        email: tokenDoc.email,
-        password,
-        role: "admin"
+  tokenDoc.used = true;
+  await tokenDoc.save();
+
+  return adminUser;
+};
+
+// ==================== 🎯 BACKGROUND TASK QUEUES ====================
+
+const queueWelcomeSequence = async (email: string): Promise<void> => {
+  console.log('Queueing welcome sequence for:', email);
+  // Implement your email service integration
+};
+
+const logSuspiciousActivity = (affiliateData: any, ipReputation: any): void => {
+  console.warn('Suspicious registration attempt:', {
+    email: affiliateData.email,
+    ip: affiliateData.ipAddress,
+    riskScore: ipReputation.riskScore,
+  });
+};
+
+const AffiliateRegister = async (affiliateData: any) => {
+  const { ip, userAgent, geo, email, address, affiliateProfile } =
+    affiliateData;
+  if (!affiliateData.password)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Password is required');
+
+  const session = await User.startSession();
+  try {
+    session.startTransaction();
+
+    // 🌍 GLOBAL FRAUD PREVENTION
+    const [existingCheck, ipReputation] = await Promise.all([
+        //@ts-ignore
+      User.isUserExist(email, session),
+      checkIPReputation(ip),
+    ]);
+
+    if (existingCheck) {
+      throw new ApiError(
+        httpStatus.CONFLICT,
+        'Account already exists with this email'
+      );
+    }
+
+    const deviceInfo = parseUserAgent(userAgent);
+
+    if (
+      ipReputation.riskScore > 0.9 ||
+      ipReputation.isVPN ||
+      ipReputation.isHostingProvider
+    ) {
+      logSuspiciousActivity(affiliateData, ipReputation);
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Registration not permitted');
+    }
+
+    // 💰 INDUSTRY-LEADING AFFILIATE PROFILE
+    const affiliateProfileData = {
+      firstName: affiliateProfile?.firstName,
+      lastName: affiliateProfile?.lastName,
+      companyName: affiliateProfile?.companyName || '',
+      skypeId: affiliateProfile?.skypeId || '',
+      yourWebsite: affiliateProfile?.yourWebsite || '',
+      trafficSources: affiliateProfile?.trafficSources || [],
+      channels: affiliateProfile?.channels || [],
+      howPromote: affiliateProfile?.howPromote || '',
+      describeExperience: affiliateProfile?.describeExperience || '',
+      pastExperience: affiliateProfile?.pastExperience || '',
+      lookingCampaign: affiliateProfile?.lookingCampaign || '',
+      whenYouFree: affiliateProfile?.whenYouFree || '',
+      timeZone: affiliateProfile?.timeZone || '',
+      didYouHear: affiliateProfile?.didYouHear || '',
+      phone: affiliateProfile?.phone || '',
+      alternativePhone: affiliateProfile?.alternativePhone || '',
+    };
+
+    // 🚀 CREATE AFFILIATE ACCOUNT
+    const affiliateAccount = {
+      name: affiliateData.name.trim(),
+      email: affiliateData.email.toLowerCase(),
+      password: affiliateData.password,
+      phone: affiliateData.phone || '',
+      address: address || {},
+      timeZone: affiliateProfile?.timeZone || '',
+      agreeTerms: affiliateData.agreeTerms,
+      role: ENUM_USER_ROLE.AFFILIATE || 'affiliate',
+      affiliateProfile: affiliateProfileData,
+      communicationPreferences: {
+        email: true,
+        sms: false,
+        push: true,
+        whatsapp: false,
+      },
+      ip: ip,
+      userAgent: userAgent,
+      geo: geo,
+      deviceFingerprint: affiliateData.userAgent,
+      deviceInfo: {
+        deviceType: deviceInfo.deviceType,
+        browser: deviceInfo.browser,
+        browserVersion: deviceInfo.browserVersion,
+        os: deviceInfo.os,
+        osVersion: deviceInfo.osVersion,
+      },
+    };
+
+    const createdAffiliate = await Affiliate.create([affiliateAccount], {
+      session,
     });
 
-    tokenDoc.used = true;
-    await tokenDoc.save();
+    await session.commitTransaction();
 
-    return adminUser;
+    // ⚡ REAL-TIME BACKGROUND PROCESSING
+    //@ts-ignore
+    await Promise.allSettled([queueWelcomeSequence(createdAffiliate[0].email)]);
+
+    // 📈 RETURN WORLD-CLASS RESPONSE
+    const response = createdAffiliate[0].toObject();
+    //@ts-ignore
+    delete response.password;
+     //@ts-ignore
+    delete response.ip;
+     //@ts-ignore
+    response.meta = {
+      nextSteps: [
+        { action: 'verify_email', priority: 'high', deadline: '24 hours' },
+        { action: 'upload_documents', priority: 'high', deadline: '72 hours' },
+        {
+          action: 'complete_onboarding',
+          priority: 'medium',
+          deadline: '7 days',
+        },
+      ],
+      expectedTimeline: {
+        approval: '2-3 business days',
+        firstPayout: '30-45 days',
+        accountManagerContact: '24 hours',
+      },
+      support: {
+        immediate: 'help@affiliate.com',
+        accountManager: affiliateProfile.accountManager,
+        emergency: '+1-555-URGENT',
+      },
+    };
+    return response;
+  } catch (error) {
+    await session.abortTransaction();
+    if (error instanceof ApiError) throw error;
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Registration processing failed. Our team has been notified.'
+    );
+  } finally {
+    session.endSession();
+  }
 };
 
 export const UserService = {
@@ -980,7 +993,7 @@ export const UserService = {
   AdminRequestSetup,
   AdminResendSetup,
   AdminCompleteSetup,
-  CreateAffiliate,
+  AffiliateRegister,
   CreateAdmin,
   loginUser,
   AffiliateLogin,
@@ -993,7 +1006,6 @@ export const UserService = {
   GetAllUsers,
   UpdateUser,
   DeleteUser,
-//   RegisterAndSubscribe,
   GetAffiliatesByStatus,
   GetAffiliateById,
   ApproveAffiliate,

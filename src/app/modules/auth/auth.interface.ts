@@ -307,6 +307,14 @@ export type IUserDocument = {
 } & IUser & Document
 
 
+
+export type IAdminSetupToken = {
+  email: string;
+  token: string;
+  expiresAt: Date;
+    used: boolean;
+} & Document
+
 // // Interfaces
 // export interface IAddress {
 //   street: string;

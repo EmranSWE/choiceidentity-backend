@@ -1,0 +1,8 @@
+Tue Sep 09 2025 20:19:49 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:30:36 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:34:4 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:34:16 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:34:30 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:34:56 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:35:21 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)
+Tue Sep 09 2025 20:37:14 [right meow!] error: connect ETIMEDOUT 159.41.183.23:27017, connect ENETUNREACH 64:ff9b::9f29:b717:27017 - Local (:::0)

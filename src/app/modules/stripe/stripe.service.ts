@@ -10,6 +10,8 @@ import {
   createPaymentIntent,
   createStripeSubscription,
   attachAndSetDefaultPaymentMethod,
+  getSubscriptionDates,
+  safeStripeDateConvert,
 } from './stripe.utils';
 import { Subscription } from './stripe.model';
 import {
@@ -587,12 +589,14 @@ const getSubscription = async (
 //   }
 // };
 
-const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSubscriptionResult>  => {
+const createTrialSubscription = async (
+  data: SubscriptionData
+): Promise<TrialSubscriptionResult> => {
   console.log('Service final', data);
 
   const session = await mongoose.startSession();
-  let result;
 
+  let result;
   let stripeCustomer: Stripe.Customer | undefined;
   let subscription: Stripe.Subscription | undefined;
   let paymentMethodId: string | undefined;
@@ -600,6 +604,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
   let referredByAffiliateId: Types.ObjectId | undefined;
   const COMMISSION_AMOUNT = 20;
   let referralCodeUsed: string | null = null;
+
   try {
     const {
       key,
@@ -622,20 +627,22 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
     }
 
     const plan = PROTECTION_PLANS[planType][billingInterval];
-      console.log('Service plan', plan);
+    console.log('Service plan', plan);
+
     if (!plan) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid plan type');
 
     await session.withTransaction(async () => {
-        //@ts-ignore
+      //@ts-ignore
       const isUserExist = await User.isUserExist(email, session);
+
       if (isUserExist) {
         throw new ApiError(
           httpStatus.CONFLICT,
-          'Signup failed. Please check your details and try again.'
+          'User already exists. Please check your details and try again.'
         );
       }
 
-      console.log("isUserExist",isUserExist)
+      console.log('isUserExist', isUserExist);
       const extraMetadata = {
         ...rest,
       };
@@ -656,31 +663,40 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         extraMetadata,
       });
 
-      console.log("Stripe customer",stripeCustomer)
+      console.log('Stripe customer', stripeCustomer);
 
-        //@ts-ignore
-      const { attached } =
-        await attachAndSetDefaultPaymentMethod({
-          customerId: stripeCustomer.id,
-          paymentMethodId,
-          key,
-          extraMetadata,
-        });
-      console.log("Stripe attached",attached)
+      //@ts-ignore
+      const { attached } = await attachAndSetDefaultPaymentMethod({
+        customerId: stripeCustomer.id,
+        paymentMethodId,
+        key,
+        extraMetadata,
+      });
+      console.log('Stripe attached', attached);
+
+      // -------------------------------
+      // Step 2: Decide trial & payment based on affiliate
+      // -------------------------------
+      const isAffiliate = !!affiliateId;
+
+      const baseAmount = isAffiliate
+        ? plan.amount + plan.baseAmount
+        : plan.baseAmount;
+      const trialDays = isAffiliate ? 0 : 7;
 
       const paymentIntent = await createPaymentIntent({
         customerId: stripeCustomer.id,
         paymentMethodId,
         key,
-        baseAmount: 100,
-        setupFee: 500,
+        baseAmount,
+        setupFee: plan.setupFee,
         currency: 'usd',
-        planType: 'ULTIMATE',
-        billingInterval: 'yearly',
+        planType,
+        billingInterval,
         extraMetadata,
       });
 
-      console.log("Stripe paymentIntent",paymentIntent)
+      console.log('Stripe paymentIntent', paymentIntent);
 
       if (
         paymentIntent.status === 'requires_action' &&
@@ -708,11 +724,11 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         customerId: stripeCustomer.id,
         planPriceId: plan.priceId,
         billingInterval,
-        trialPeriodDays: 7,
+        trialPeriodDays: trialDays,
         metadata: extraMetadata,
       });
 
-      console.log("subscription",subscription)
+      console.log('subscription', subscription);
 
       // Handle incomplete or past_due subscription
       if (['incomplete', 'past_due'].includes(subscription.status)) {
@@ -726,14 +742,13 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
       }
 
       if (affiliateId) {
-
         referredAffiliate = await User.findOne({
-          'affiliateDetails.referralCode': affiliateId,
+          'affiliateProfile.referralCode': affiliateId,
         }).session(session);
 
+        console.log('referredAffiliate', referredAffiliate);
 
-        console.log("referredAffiliate",referredAffiliate)
-        if (referredAffiliate) {
+        if (referredAffiliate && paymentIntent.status === 'succeeded') {
           // Self-referral prevention
           if (referredAffiliate.email === email) {
             console.warn('🚨 Self-referral attempt detected, ignoring.');
@@ -741,13 +756,22 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
             referredByAffiliateId = referredAffiliate._id;
             referralCodeUsed = affiliateId;
 
+            const commissionStatus = isAffiliate ? 'confirmed' : 'pending';
             await User.updateOne(
               { _id: referredAffiliate._id },
               {
                 $inc: {
                   'affiliateProfile.totalReferrals': 1,
-                  'affiliateProfile.pendingCommissions': COMMISSION_AMOUNT,
-                  'affiliateDetails.performanceMetrics.signups': 1,
+                  'affiliateProfile.pendingCommissions': isAffiliate
+                    ? 0
+                    : COMMISSION_AMOUNT,
+                  'affiliateProfile.confirmedCommissions': isAffiliate
+                    ? COMMISSION_AMOUNT
+                    : 0,
+                  'affiliateProfile.performanceMetrics.signups': 1,
+                  'affiliateProfile.performanceMetrics.conversions': isAffiliate
+                    ? 1
+                    : 0,
                 },
                 $push: {
                   'affiliateProfile.referrals': {
@@ -755,11 +779,12 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
                     customerName: name,
                     subscriptionId: subscription.id,
                     date: new Date(),
-                    status: 'pending',
+                    status: commissionStatus,
+                    paymentStatus: isAffiliate ? 'paid' : 'pending',
                   },
                 },
                 $set: {
-                  'affiliateDetails.performanceMetrics.lastUpdated': new Date(),
+                  'affiliateProfile..performanceMetrics.lastUpdated': new Date(),
                 },
               },
               { session }
@@ -846,27 +871,35 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
       // Use the Customer discriminator to create the user
       const createdUser = await Customer.create([customerData], { session });
 
-      // Create subscription record (if you have a separate Subscription model)
-      await Subscription.create(
+      console.log('Finally created user', createdUser);
+
+      const { currentPeriodStart, currentPeriodEnd, trialStart, trialEnd } =
+        getSubscriptionDates(subscription, billingInterval);
+
+      const subscriptionDb = await Subscription.create(
         [
           {
             userId: createdUser[0]._id,
             stripeSubscriptionId: subscription.id,
             planType,
             priceId: plan.priceId,
+            priceAmount: plan.amount,
+            currency: 'usd',
             billingInterval,
             status: subscription.status,
             quantity: subscription.items.data[0].quantity || 1,
-            currentPeriodStart: new Date(subscription.start_date * 1000),
-            currentPeriodEnd: subscription.trial_end
-              ? new Date(subscription.trial_end * 1000)
-              : undefined,
-            trialStart: subscription.start_date
-              ? new Date(subscription.start_date * 1000)
-              : undefined,
-            trialEnd: subscription.trial_end
-              ? new Date(subscription.trial_end * 1000)
-              : undefined,
+            currentPeriodStart,
+            currentPeriodEnd,
+            trialStart,
+            trialEnd,
+            trialPeriodDays: trialDays,
+            isTrial: trialDays > 0,
+            billingCycleAnchor: safeStripeDateConvert(
+              subscription.billing_cycle_anchor
+            ),
+            startDate:
+              safeStripeDateConvert(subscription.start_date) || new Date(),
+
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
             defaultPaymentMethodId: paymentMethodId,
             cardBrand: attached?.card?.brand || null,
@@ -876,19 +909,21 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         ],
         { session }
       );
+
+      console.log('subscriptionDb', subscriptionDb);
       //@ts-ignore
       const { _id, role } = createdUser[0];
       // Access token
       const accessToken = jwtHelpers.createToken(
         //@ts-ignore
-        { userId: _id, email:createdUser[0].email, role },
+        { userId: _id, email: createdUser[0].email, role },
         config.jwt.secret as Secret,
         config.jwt.expires_in as string
       );
 
       const refreshToken = jwtHelpers.createToken(
         //@ts-ignore
-        { email:createdUser[0].email, role },
+        { email: createdUser[0].email, role },
         config.jwt.refresh_Secret as Secret,
         config.jwt.refresh_secret_Expires as string
       );
@@ -910,7 +945,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
         },
       };
     });
-//@ts-ignore
+    //@ts-ignore
     return result;
   } catch (error) {
     await cleanupOrphanStripeResources(
@@ -936,50 +971,7 @@ const createTrialSubscription = async (data: SubscriptionData): Promise<TrialSub
   }
 };
 
-// const  handleAffiliateCommission= async(customerId: Types.ObjectId) =>{
-//   const session = await mongoose.startSession();
-//   await session.withTransaction(async () => {
-//     const customer = await User.findById(customerId).session(session);
 
-//     if (!customer || !customer.customerProfile?.referredBy) return;
-
-//     const affiliateId = customer.customerProfile.referredBy;
-
-//     // 2️⃣ Fetch affiliate
-//     const affiliate = await User.findById(affiliateId).session(session);
-//     if (!affiliate || !affiliate.affiliateProfile || !affiliate.affiliateDetails) return;
-
-//     // 3️⃣ Find the referral entry for this customer
-//     const referralIndex = affiliate.affiliateProfile.referrals.findIndex(
-//       (r) => r.email === customer.email && r.status === 'pending'
-//     );
-
-//     if (referralIndex === -1) return; // No pending referral found
-
-//     // 4️⃣ Update referral status
-//     affiliate.affiliateProfile.referrals[referralIndex].status = 'paid';
-//     affiliate.affiliateProfile.pendingCommissions -= COMMISSION_AMOUNT;
-
-//     // 5️⃣ Update affiliate details: commission balance & lifetime earnings
-//     affiliate.affiliateDetails.commissionBalance += COMMISSION_AMOUNT;
-//     affiliate.affiliateDetails.pendingEarnings -= COMMISSION_AMOUNT;
-//     affiliate.affiliateDetails.totalEarnings += COMMISSION_AMOUNT;
-//     affiliate.affiliateDetails.lifetimeEarnings += COMMISSION_AMOUNT;
-
-//     // 6️⃣ Update performance metrics
-//     affiliate.affiliateDetails.performanceMetrics.conversions += 1;
-//     affiliate.affiliateDetails.performanceMetrics.revenueGenerated += COMMISSION_AMOUNT;
-//     affiliate.affiliateDetails.performanceMetrics.lastUpdated = new Date();
-
-//     await affiliate.save({ session });
-
-//     console.log(
-//       `✅ Commission of $${COMMISSION_AMOUNT} paid to affiliate ${affiliate.email} for customer ${customer.email}`
-//     );
-//   });
-
-//   session.endSession();
-// }
 
 const GetPlans = async (): Promise<PlanDetails[]> => {
   try {

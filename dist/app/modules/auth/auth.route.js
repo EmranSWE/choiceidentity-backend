@@ -11,9 +11,10 @@ const user_validation_1 = require("./user.validation");
 const auth_1 = __importDefault(require("../../middleware/auth"));
 const user_1 = require("../../../enums/user");
 const globalRateLimiter_1 = require("../../middleware/globalRateLimiter");
+const idempotencyMiddleware_1 = require("../../middleware/idempotencyMiddleware");
 const router = express_1.default.Router();
 router.post('/signup', (0, validateRequest_1.default)(user_validation_1.AuthValidation.userSchema), globalRateLimiter_1.globalRateLimiter, auth_controller_1.UserController.CreateUser);
-router.post('/affiliate/signup', 
+router.post('/affiliate/signup', (0, idempotencyMiddleware_1.idempotencyMiddleware)(), 
 //   globalRateLimiter,
 auth_controller_1.UserController.CreateAffiliateUser);
 router.post('/affiliate-login', (0, validateRequest_1.default)(user_validation_1.AuthValidation.loginZodSchema), 

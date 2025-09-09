@@ -1,737 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // /* eslint-disable @typescript-eslint/no-this-alias */
-// import { ClientSession, Schema, model } from 'mongoose';
-// import { Address, IUser, IUserDocument, UserModel } from './auth.interface';
-// import bcrypt from 'bcryptjs';
-// import config from '../../../config';
-// import { ENUM_GENDER, ENUM_USER_ROLE } from '../../../enums/user';
-// import { stripe } from './auth.utils';
-
-// const AffiliateProfileSchema = new Schema(
-//   {
-//     companyName: String,
-//     skypeId: String,
-//     yourWebsite: String,
-//     trafficSources: [String],
-//     channels: [String],
-//     howPromote: String,
-//     describeExperience: String,
-//     pastExperience: String,
-//     lookingCampaign: String,
-//     whenYouFree: String,
-//     idPhotoFront: String,
-//     idPhotoBack: String,
-//     city: String,
-//     state: String,
-//     streetAddress: String,
-//     zipCode: String,
-//     country: String,
-//     timeZone: String,
-//     didYouHear: String,
-//     alternativePhone: String,
-//     agreeTerms: Boolean,
-//     approvalStatus: {
-//       type: String,
-//       enum: ['pending', 'approved', 'rejected'],
-//       default: 'pending',
-//     },
-//     adminNotes: String,
-//   },
-// { _id: false, timestamps: true }
-// );
-
-// const AddressSchema = new Schema<Address>(
-//   {
-//     street: { type: String, required: true },
-//     apartment: { type: String },
-//     zipCode: { type: String, required: true },
-//     city: { type: String, required: true },
-//     state: { type: String },
-//     country: { type: String, default: "USA" },
-//   },
-//   { _id: false }
-// );
-
-// const userSchema = new Schema<IUser>(
-//   {
-//     name: { type: String, required: true },
-//     email: {
-//       type: String,
-//       required: true,
-//       unique: true,
-//       validate: {
-//         validator: (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-//         message: 'Invalid email format',
-//       },
-//     },
-//     password: {
-//       type: String,
-//       required: true,
-//       select: false,
-//     },
-//     phone: {
-//       type: String,
-//       select: false,
-//       validate: {
-//         validator: (value: string) => /^(?:\+88)?01[3-9]\d{8}$/.test(value),
-//         message: 'Invalid phone number',
-//       },
-//     },
-//     address: {
-//       type: AddressSchema,
-//       select: false,
-//     },
-//     ssn: { type: String, select: false },
-
-//     gender: {
-//       type: String,
-//       enum: Object.values(ENUM_GENDER),
-//     },
-//     dateOfBirth: { type: Date },
-//     emailVerifiedAt: { type: Date },
-
-//     // Role & Access Control
-//     role: {
-//       type: String,
-//       enum: Object.values(ENUM_USER_ROLE),
-//       required: true,
-//     },
-//     permissions: [{ type: String }],
-//     isVerified: { type: Boolean, default: false },
-//     lastLogin: { type: Date },
-//     failedLoginAttempts: {
-//       type: Number,
-//       default: 0,
-//       select: false,
-//     },
-//     accountLockedUntil: { type: Date },
-//     accountStatus: {
-//       type: String,
-//       enum: ['active', 'deactivated', 'banned'],
-//       default: 'active',
-//     },
-
-//     // Authentication
-//     twoFactorAuth: {
-//       enabled: { type: Boolean, default: false },
-//       method: {
-//         type: String,
-//         enum: ['sms', 'authenticator', 'email', 'hardware_key'],
-//       },
-//       secret: { type: String, select: false },
-//       backupCodes: {
-//         type: [
-//           {
-//             code: { type: String, select: false },
-//             used: Boolean,
-//           },
-//         ],
-//         select: false,
-//       },
-//       lastUsed: Date,
-//     },
-
-//     socialLogin: {
-//       google: {
-//         id: String,
-//         emailVerified: Boolean,
-//       },
-//       facebook: {
-//         id: String,
-//         emailVerified: Boolean,
-//       },
-//       apple: {
-//         id: String,
-//         emailVerified: Boolean,
-//       },
-//     },
-
-//     securityQuestions: {
-//       type: [
-//         {
-//           questionId: String,
-//           questionHash: { type: String, select: false },
-//           answerHash: { type: String, select: false },
-//           createdAt: Date,
-//           lastUsed: Date,
-//         },
-//       ],
-//       select: false,
-//     },
-
-//     // Device & Session Management
-//     trustedDevices: {
-//       type: [
-//         {
-//           deviceId: String,
-//           name: String,
-//           fingerprint: String,
-//           ipRanges: [String],
-//           lastUsed: Date,
-//           os: String,
-//           browser: String,
-//           location: String,
-//         },
-//       ],
-//       select: false,
-//     },
-
-//     activeSessions: {
-//       type: [
-//         {
-//           sessionId: String,
-//           deviceInfo: String,
-//           ip: String,
-//           userAgent: String,
-//           geoLocation: String,
-//           createdAt: Date,
-//           expiresAt: Date,
-//           lastActivity: Date,
-//           isRevoked: Boolean,
-//         },
-//       ],
-//       select: false,
-//     },
-
-//     // Profile & Preferences
-//     profilePicture: {
-//       url: String,
-//       hash: String,
-//       storageLocation: String,
-//     },
-//     language: {
-//       type: String,
-//       enum: ['en', 'bn', 'es'],
-//       default: 'en',
-//     },
-//     timezone: String,
-//     preferredCurrency: {
-//       type: String,
-//       enum: ['usd', 'eur', 'gbp'],
-//       default: 'usd',
-//     },
-//     communicationPreferences: {
-//       email: { type: Boolean, default: false },
-//       sms: { type: Boolean, default: false },
-//       push: { type: Boolean, default: false },
-//     },
-
-//     // Stripe & Billing
-//     stripeCustomerId: String,
-//     stripeSubscriptionId: String,
-//     subscriptionStatus: {
-//       type: String,
-//       enum: [
-//         'active',
-//         'canceled',
-//         'trialing',
-//         'past_due',
-//         'unpaid',
-//         'incomplete',
-//       ],
-//     },
-//     currentPlan: String,
-//     planInterval: {
-//       type: String,
-//       enum: ['monthly', 'yearly'],
-//     },
-//     subscriptionStartDate: Date,
-//     subscriptionEndDate: Date,
-//     trialEndDate: Date,
-//     cancelAtPeriodEnd: { type: Boolean, default: false },
-//     planRenewalDate: Date,
-//     appliedDiscounts: [
-//       {
-//         discountId: String,
-//         amount: Number,
-//         validUntil: Date,
-//       },
-//     ],
-//     billingAddress: {
-//       line1: String,
-//       line2: String,
-//       city: String,
-//       state: String,
-//       postalCode: String,
-//       country: String,
-//       taxId: { type: String, select: false },
-//     },
-//     subscriptionHistory: [
-//       {
-//         plan: String,
-//         interval: { type: String, enum: ['month', 'year'] },
-//         startedAt: Date,
-//         endedAt: Date,
-//       },
-//     ],
-//     paymentMethods: [
-//       {
-//         id: String,
-//         type: { type: String, enum: ['card', 'bank', 'paypal'] },
-//         last4: String,
-//         expiry: String,
-//         primary: Boolean,
-//         addedAt: Date,
-//       },
-//     ],
-//     usageStats: {
-//       scansThisMonth: {
-//         type: Number,
-//         default: 0,
-//         min: 0,
-//       },
-//       alertsTriggered: {
-//         type: Number,
-//         default: 0,
-//         min: 0,
-//       },
-//       identityTheftClaims: {
-//         type: Number,
-//         default: 0,
-//         min: 0,
-//       },
-//       lastReset: {
-//         type: Date,
-//         default: Date.now,
-//       },
-//     },
-//     // Affiliate System
-//     affiliateDetails: {
-//       referralCode: { type: String, unique: true, index: true, sparse: true },
-//       referralSource: String,
-//       commissionBalance: { type: Number, default: 0 },
-//       payoutHistory: [
-//         {
-//           amount: Number,
-//           date: Date,
-//           status: { type: String, enum: ['pending', 'paid'] },
-//           transactionId: String,
-//           paymentMethod: String,
-//         },
-//       ],
-//       performanceMetrics: {
-//         clicks: { type: Number, default: 0 },
-//         signups: { type: Number, default: 0 },
-//         conversions: { type: Number, default: 0 },
-//       },
-//     },
-
-//     // Legal & Compliance
-//     kycStatus: {
-//       type: String,
-//       enum: ['pending', 'verified', 'rejected'],
-//       default: 'pending',
-//     },
-//     termsAcceptedAt: Date,
-//     privacyPolicyAcceptedAt: Date,
-//     marketingConsent: { type: Boolean, default: false },
-//     dataSharingConsent: { type: Boolean, default: false },
-//     agreeTerms: { type: Boolean, default: false },
-//     agreeAutoRenewal: { type: Boolean, default: false },
-//     agreeMarketingEmail: { type: Boolean, default: false },
-//     dataDeletionRequestedAt: Date,
-//     taxInfo: {
-//       taxId: { type: String, select: false },
-//       exemptStatus: { type: Boolean, default: false },
-//     },
-//     hipaaConsent: {
-//       acceptedAt: Date,
-//       documentVersion: String,
-//     },
-
-//     // Security & Audit
-//     lastPasswordChangeAt: Date,
-//     passwordResetRequestedAt: Date,
-//     loginHistory: [
-//       {
-//         timestamp: { type: Date, default: Date.now },
-//         ip: String,
-//         userAgent: String,
-//         location: String,
-//       },
-//     ],
-//     auditLog: [
-//       {
-//         action: String,
-//         timestamp: { type: Date, default: Date.now },
-//         ip: String,
-//         userAgent: String,
-//         details: String,
-//       },
-//     ],
-//     rateLimit: {
-//       lastRequestAt: Date,
-//       requestCount: { type: Number, default: 0 },
-//       windowStart: Date,
-//     },
-//     fraudSignals: {
-//       unusualActivity: [
-//         {
-//           timestamp: Date,
-//           description: String,
-//         },
-//       ],
-//       flaggedIps: [String],
-//     },
-
-//     // Multi-Tenant
-//     organizationId: { type: Schema.Types.ObjectId, ref: 'Organization' },
-//     isOwner: { type: Boolean, default: false },
-//     teamDetails: {
-//       teamRole: { type: String, enum: ['owner', 'admin', 'member'] },
-//       invitationStatus: {
-//         type: String,
-//         enum: ['pending', 'accepted', 'rejected'],
-//       },
-//       usageLimits: {
-//         maxUsers: Number,
-//         currentUsers: Number,
-//       },
-//     },
-
-//     // API Tokens
-//     apiTokens: [
-//       {
-//         tokenId: String,
-//         name: String,
-//         lastUsed: Date,
-//         scopes: [String],
-//         expiresAt: Date,
-//       },
-//     ],
-
-//     // System Metadata
-//     metadata: {
-//       creationSource: {
-//         type: String,
-//         enum: ['web', 'api', 'admin', 'sso', 'migration'],
-//       },
-//       initialReferrer: String,
-//       campaign: String,
-//       dataResidency: { type: String, enum: ['eu', 'us', 'apac'] },
-//       gdpr: {
-//         article30Record: String,
-//         dpoContact: String,
-//       },
-//     },
-//     affiliateProfile: {
-//   type: AffiliateProfileSchema,
-//   default: null,
-//   select: false,
-// },
-
-//     // Timestamps
-//     createdAt: { type: Date, default: Date.now },
-//     updatedAt: { type: Date, default: Date.now },
-//     lastActivityAt: Date,
-//     deletedAt: Date,
-//   },
-//   {
-//     timestamps: true,
-//     toJSON: {
-//       virtuals: true,
-//       transform: function (doc, ret) {
-//         // Remove sensitive fields
-//         delete ret.password;
-//         delete ret.twoFactorAuth?.secret;
-//         delete ret.securityQuestions;
-//         delete ret.backupCodes;
-//         delete ret.phone;
-//         delete ret.address;
-//         return ret;
-//       },
-//     },
-//   }
-// );
-
-// // Indexes
-// userSchema.index({ email: 1 }, { unique: true });
-// userSchema.index(
-//   { phone: 1 },
-//   { partialFilterExpression: { phone: { $exists: true } } }
-// );
-// userSchema.index({ organizationId: 1 });
-// userSchema.index({ 'affiliateDetails.referralCode': 1 });
-// userSchema.index({ 'activeSessions.expiresAt': 1 });
-// userSchema.index({ 'metadata.dataResidency': 1 });
-// userSchema.index({ subscriptionStatus: 1 });
-
-// // Virtuals
-// userSchema.virtual('age').get(function () {
-//   if (!this.dateOfBirth) return null;
-//   const diff = Date.now() - new Date(this.dateOfBirth).getTime();
-//   return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
-// });
-
-// // Statics Method
-// // userSchema.statics.isUserExist = async function (
-// //   email: string
-// // ): Promise<Pick<IUser, '_id' | 'email' | 'password' | 'role'> | null> {
-// //   return await this.findOne({ email })
-// //     .select('+password +twoFactorAuth.secret +securityQuestions +affiliateProfile')
-// //     .lean();
-// // };
-// userSchema.statics.isUserExist = async function (
-//   email: string,
-//   session?: ClientSession
-// ): Promise<Pick<IUser, '_id' | 'email' | 'password' | 'role'> | null> {
-//   return await this.findOne({ email })
-//     .select('+password +twoFactorAuth.secret +securityQuestions +affiliateProfile')
-//     .session(session || null)
-//     .lean();
-// };
-
-// userSchema.statics.isPasswordMatched = async function (
-//   givenPassword: string,
-//   savedPassword: string
-// ): Promise<boolean> {
-//   return await bcrypt.compare(givenPassword, savedPassword);
-// };
-
-// // Hooks
-// userSchema.pre('save', async function (next) {
-//   if (this.isModified('password')) {
-//     this.password = await bcrypt.hash(
-//       this.password,
-//       Number(config.bcrypt_salt_rounds)
-//     );
-//     this.lastPasswordChangeAt = new Date();
-//   }
-//   next();
-// });
-
-// userSchema.pre('findOneAndUpdate', async function (next) {
-//   const update = this.getUpdate() as any;
-//   if (update?.password) {
-//     update.password = await bcrypt.hash(
-//       update.password,
-//       Number(config.bcrypt_salt_rounds)
-//     );
-//     update.lastPasswordChangeAt = new Date();
-//   }
-//   next();
-// });
-
-// userSchema.pre<IUserDocument>(
-//   'deleteOne',
-//   { document: true, query: false },
-//   async function (next) {
-//     if (this.stripeCustomerId) {
-//       try {
-//         await stripe.customers.del(this.stripeCustomerId);
-//       } catch (err) {
-//         console.error('Stripe customer deletion failed:', err);
-//       }
-//     }
-//     next();
-//   }
-// );
-
-// // Methods
-
-// userSchema.methods.updateProfile = async function (
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   this: any,
-//   updateData: Partial<IUser>
-// ) {
-//   const allowedFields: (keyof IUser)[] = [
-//     'name',
-//     'phone',
-//     'address',
-//     'gender',
-//     'dateOfBirth',
-//     'language',
-//     'timezone',
-//     'preferredCurrency',
-//     'profilePicture',
-//     'communicationPreferences',
-//   ];
-
-//   allowedFields.forEach(field => {
-//     const value = updateData[field];
-//     if (value !== undefined) {
-//       (this as Record<string, any>)[field] = value;
-//     }
-//   });
-
-//   await this.save();
-// };
-
-// userSchema.methods.revokeSession = function (sessionId: string) {
-//   const session = this.activeSessions?.find(
-//     (s: { sessionId: string }) => s.sessionId === sessionId
-//   );
-//   if (session) {
-//     session.isRevoked = true;
-//     session.expiresAt = new Date();
-//   }
-//   return this.save();
-// };
-
-// export const User = model<IUser, UserModel>('User', userSchema);
-
-// // models/AdminSetupToken.ts
-// import  {  Document } from "mongoose";
-
-// export type IAdminSetupToken = {
-//   email: string;
-//   token: string;
-//   expiresAt: Date;
-//     used: boolean;
-// } & Document
-
-// const AdminSetupTokenSchema = new Schema<IAdminSetupToken>({
-//   email: { type: String, required: true },
-//   token: { type: String, required: true, unique: true },
-//   expiresAt: { type: Date, required: true },
-//    used: { type: Boolean, default: false }
-// });
-
-// export const AdminSetupToken= model<IAdminSetupToken>("AdminSetupToken", AdminSetupTokenSchema);
 
 import { ClientSession, Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../../config';
 import { ENUM_GENDER, ENUM_USER_ROLE } from '../../../enums/user';
 import { stripe } from './auth.utils';
-
-// // Interfaces
-// export interface IAddress {
-//   street: string;
-//   apartment?: string;
-//   zipCode: string;
-//   city: string;
-//   state?: string;
-//   country?: string;
-// }
-
-// export interface IUserCommon {
-//   _id: Types.ObjectId;
-//   name: string;
-//   email: string;
-//   password: string;
-//   phone?: string;
-//   address?: IAddress;
-//   gender?: ENUM_GENDER;
-//   dateOfBirth?: Date;
-//   emailVerifiedAt?: Date;
-//   role: ENUM_USER_ROLE;
-//   isVerified: boolean;
-//   profilePicture?: {
-//     url: string;
-//     hash: string;
-//     storageLocation: string;
-//   };
-//   createdAt: Date;
-//   updatedAt: Date;
-//   lastLogin?: Date;
-//   failedLoginAttempts?: number;
-//   accountLockedUntil?: Date;
-//   accountStatus: 'active' | 'deactivated' | 'banned' | 'suspended';
-
-//     // ================================
-//   // Authentication: 2FA & Social
-//   // ================================
-//   twoFactorAuth: {
-//     enabled: boolean;
-//     method?: 'sms' | 'authenticator' | 'email' | 'hardware_key';
-//     secret?: string;
-//     backupCodes?: { code: string; used: boolean }[];
-//     lastUsed?: Date;
-//   };
-
-//    socialLogin?: {
-//     google?: { id: string; emailVerified: boolean };
-//     facebook?: { id: string; emailVerified: boolean };
-//     apple?: { id: string; emailVerified: boolean };
-//   };
-//  securityQuestions?: {
-//     questionId: string;
-//     questionHash: string;
-//     answerHash: string;
-//     createdAt: Date;
-//     lastUsed?: Date;
-//   }[];
-// // ================================
-//   // Device & Session Management
-//   // ================================
-//   trustedDevices?: {
-//     deviceId: string;
-//     name?: string;
-//     fingerprint: string;
-//     ipRanges?: string[];
-//     lastUsed: Date;
-//     os?: string;
-//     browser?: string;
-//     location?: string;
-//   }[];
-
-//   activeSessions?: {
-//     sessionId: string;
-//     deviceInfo: string;
-//     ip: string;
-//     userAgent: string;
-//     geoLocation?: string;
-//     createdAt: Date;
-//     expiresAt: Date;
-//     lastActivity: Date;
-//     isRevoked?: boolean;
-//   }[];
-//   // ================================
-//   // Profile & Preferences
-//   // ================================
-//   language: 'en' | 'bn' | 'es' | string;
-//   timezone?: string;
-//   preferredCurrency: 'usd' | 'eur' | 'gbp' | string;
-//   communicationPreferences?: {
-//     email: boolean;
-//     sms: boolean;
-//     push: boolean;
-//   };
-
-// }
-
-// export interface ICustomer extends IUserCommon {
-//   role: ENUM_USER_ROLE.CUSTOMER;
-//   customerProfile: ICustomerProfile;
-//   affiliateDetails?: IAffiliateDetails;
-// }
-
-// export interface IAffiliate extends IUserCommon {
-//   role: ENUM_USER_ROLE.AFFILIATE;
-//   affiliateProfile: IAffiliateProfile;
-//   affiliateDetails: IAffiliateDetails;
-// }
-
-// export interface IAdmin extends IUserCommon {
-//   role: ENUM_USER_ROLE.ADMIN | ENUM_USER_ROLE.SUPERADMIN;
-//   adminProfile: IAdminProfile;
-// }
-
-// export type IUser = ICustomer | IAffiliate | IAdmin;
-
-// export interface IUserDocument extends IUser, Document {
-//   updateProfile: (updateData: Partial<IUser>) => Promise<void>;
-//   createStripeCustomer: () => Promise<string>;
-//   applyAsAffiliate: (
-//     affiliateData: Partial<IAffiliateProfile>
-//   ) => Promise<IUserDocument>;
-//   addCommission: (amount: number, description: string) => Promise<number>;
-//   generateReferralCode: () => string;
-//   isPasswordMatched: (password: string) => Promise<boolean>;
-// }
-
-// export interface UserModel extends Model<IUserDocument> {
-//   isUserExist: (
-//     email: string,
-//     session?: ClientSession
-//   ) => Promise<Pick<IUser, '_id' | 'email' | 'password' | 'role'> | null>;
-//   isPasswordMatched: (
-//     givenPassword: string,
-//     savedPassword: string
-//   ) => Promise<boolean>;
-// }
-
+import { IAdminSetupToken } from './auth.interface';
 // Address Schema
 const AddressSchema = new Schema(
   {
@@ -761,7 +36,7 @@ const AdminProfileSchema = new Schema(
     accessLevel: {
       type: String,
       enum: ['read', 'write', 'admin'],
-      default: 'read',
+      default: 'write',
     },
     assignedModules: [String],
     lastAccessReview: Date,
@@ -770,7 +45,7 @@ const AdminProfileSchema = new Schema(
       enum: ['basic', 'elevated', 'high'],
       default: 'basic',
     },
-    twoFactorEnforced: { type: Boolean, default: true },
+    twoFactorEnforced: { type: Boolean, default: false },
     loginRestrictions: {
       ipWhitelist: [String],
       timeRestrictions: {
@@ -782,132 +57,9 @@ const AdminProfileSchema = new Schema(
     auditLogAccess: { type: Boolean, default: false },
     canImpersonate: { type: Boolean, default: false },
     apiRateLimit: { type: Number, default: 1000 },
-    sessionTimeout: { type: Number, default: 3600 }, // in seconds
+    sessionTimeout: { type: Number, default: 3600 },
   },
-  { _id: false, timestamps: true }
-);
-
-// Affiliate Profile Schema
-const AffiliateProfileSchema = new Schema(
-  {
-    companyName: String,
-    skypeId: String,
-    yourWebsite: String,
-    trafficSources: [String],
-    channels: [String],
-    howPromote: String,
-    describeExperience: String,
-    pastExperience: String,
-    lookingCampaign: String,
-    whenYouFree: String,
-    idPhotoFront: String,
-    idPhotoBack: String,
-    timeZone: String,
-    didYouHear: String,
-    alternativePhone: String,
-    approvalStatus: {
-      type: String,
-      enum: ['pending', 'approved', 'rejected'],
-      default: 'pending',
-    },
-    adminNotes: String,
-    reviewDate: Date,
-    reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-    contractSigned: { type: Boolean, default: false },
-    contractVersion: String,
-    contractSignedAt: Date,
-    referrals: [
-      {
-        email: String,
-        customerName: String,
-        subscriptionId: String,
-        date: Date,
-        status: { type: String, enum: ['pending', 'paid', 'rejected'] },
-      },
-    ],
-    totalReferrals: { type: Number, default: 0 },
-    pendingCommissions: { type: Number, default: 0 },
-  },
-  { _id: false, timestamps: true }
-);
-
-// Affiliate Details Schema
-const AffiliateDetailsSchema = new Schema(
-  {
-    referralCode: { type: String, unique: true, index: true, sparse: true },
-    referralSource: String,
-    commissionBalance: { type: Number, default: 0 },
-    totalEarnings: { type: Number, default: 0 },
-    pendingEarnings: { type: Number, default: 0 },
-    lifetimeEarnings: { type: Number, default: 0 },
-    payoutThreshold: { type: Number, default: 50 },
-    payoutMethod: {
-      type: {
-        type: String,
-        enum: ['paypal', 'bank_transfer', 'check', 'crypto'],
-      },
-      details: Schema.Types.Mixed,
-    },
-    payoutHistory: [
-      {
-        amount: Number,
-        date: Date,
-        status: {
-          type: String,
-          enum: ['pending', 'paid', 'failed', 'processing'],
-        },
-        transactionId: String,
-        paymentMethod: String,
-        reference: String,
-      },
-    ],
-    performanceMetrics: {
-      clicks: { type: Number, default: 0 },
-      signups: { type: Number, default: 0 },
-      conversions: { type: Number, default: 0 },
-      conversionRate: { type: Number, default: 0 },
-      revenueGenerated: { type: Number, default: 0 },
-      lastUpdated: { type: Date, default: Date.now },
-    },
-
-    tier: {
-      type: String,
-      enum: ['bronze', 'silver', 'gold', 'platinum', 'diamond'],
-      default: 'bronze',
-    },
-    commissionRate: { type: Number, default: 0.2 },
-    isActive: { type: Boolean, default: true },
-    activationDate: Date,
-    lastPayoutDate: Date,
-    taxInfo: {
-      taxId: String,
-      formSubmitted: { type: Boolean, default: false },
-      taxForm: String,
-      taxYear: Number,
-    },
-    customCommissionRules: [
-      {
-        productId: String,
-        commissionRate: Number,
-        startDate: Date,
-        endDate: Date,
-        isActive: Boolean,
-      },
-    ],
-    performanceBonuses: [
-      {
-        bonusId: String,
-        amount: Number,
-        reason: String,
-        dateAwarded: Date,
-        targetMet: String,
-      },
-    ],
-    affiliateManager: { type: Schema.Types.ObjectId, ref: 'User' },
-    notes: String,
-    marketingMaterials: [String],
-  },
-  { _id: false, timestamps: true }
+  { _id: false }
 );
 
 // Customer Profile Schema
@@ -1054,7 +206,473 @@ const CustomerProfileSchema = new Schema(
       default: null,
     },
   },
-  { _id: false, timestamps: true }
+  { _id: false }
+);
+
+const AffiliateSchema = new Schema(
+  {
+    // ==================== APPLICATION & ONBOARDING ====================
+    firstName: { type: String, required: true, trim: true },
+    lastName: { type: String, required: true, trim: true },
+    companyName: { type: String, trim: true },
+    skypeId: { type: String, trim: true },
+    yourWebsite: { type: String, trim: true, lowercase: true },
+    trafficSources: [String],
+    channels: [String],
+    howPromote: { type: String, maxlength: 1000 },
+    describeExperience: { type: String, maxlength: 2000 },
+    pastExperience: { type: String, maxlength: 2000 },
+    lookingCampaign: { type: String, maxlength: 1000 },
+    whenYouFree: String,
+    idPhotoFront: { type: String, select: false },
+    idPhotoBack: { type: String, select: false },
+    timeZone: String,
+    didYouHear: String,
+    phone: { type: String, select: false },
+    alternativePhone: { type: String, select: false },
+
+    // ==================== APPROVAL & ADMIN MANAGEMENT ====================
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected', 'suspended', 'under_review'],
+      default: 'pending',
+    },
+    adminNotes: String,
+    reviewDate: Date,
+    reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    contractSigned: { type: Boolean, default: false },
+    contractVersion: String,
+    contractSignedAt: Date,
+    contractDocument: String,
+
+    // ==================== REFERRAL & COMMISSION TRACKING ====================
+    referralCode: {
+      type: String,
+      unique: true,
+      index: true,
+      sparse: true,
+      uppercase: true,
+      match: [
+        /^[A-Z0-9]{8,12}$/,
+        'Referral code must be 8-12 alphanumeric characters',
+      ],
+    },
+    referralSource: String,
+
+    referrals: [
+      {
+        email: { type: String, lowercase: true },
+        customerName: String,
+        customerId: { type: Schema.Types.ObjectId, ref: 'User' },
+        subscriptionId: String,
+        orderId: String,
+        date: { type: Date, default: Date.now },
+        status: {
+          type: String,
+          enum: [
+            'pending',
+            'confirmed',
+            'paid',
+            'rejected',
+            'canceled',
+            'refunded',
+            'chargeback',
+          ],
+          default: 'pending',
+        },
+        commissionAmount: { type: Number, default: 0, min: 0 },
+        orderValue: { type: Number, default: 0, min: 0 },
+        productType: String,
+        productId: String,
+        affiliateCodeUsed: String,
+        conversionDate: Date,
+        payoutDate: Date,
+        commissionRate: { type: Number, default: 0.2 },
+        notes: String,
+        customRulesApplied: [String],
+      },
+    ],
+
+    // ==================== FINANCIAL MANAGEMENT ====================
+    commissionBalance: { type: Number, default: 0, min: 0 },
+    totalEarnings: { type: Number, default: 0, min: 0 },
+    pendingEarnings: { type: Number, default: 0, min: 0 },
+    confirmedEarnings: { type: Number, default: 0, min: 0 },
+    paidEarnings: { type: Number, default: 0, min: 0 },
+    lifetimeEarnings: { type: Number, default: 0, min: 0 },
+    adjustedEarnings: { type: Number, default: 0 },
+    payoutThreshold: { type: Number, default: 50, min: 0 },
+
+    totalReferrals: { type: Number, default: 0, min: 0 },
+    successfulReferrals: { type: Number, default: 0, min: 0 },
+    pendingCommissions: { type: Number, default: 0, min: 0 },
+    confirmedCommissions: { type: Number, default: 0, min: 0 },
+    paidCommissions: { type: Number, default: 0, min: 0 },
+
+    // ==================== PAYOUT SYSTEM ====================
+    payoutMethod: {
+      type: {
+        type: String,
+        enum: [
+          'paypal',
+          'bank_transfer',
+          'check',
+          'crypto',
+          'wire_transfer',
+          'skrill',
+          'payoneer',
+        ],
+      },
+      details: Schema.Types.Mixed,
+      isVerified: { type: Boolean, default: false },
+      verifiedAt: Date,
+      verificationDocuments: [String],
+      primary: { type: Boolean, default: true },
+    },
+
+    payoutHistory: [
+      {
+        payoutId: { type: String, unique: true, sparse: true },
+        amount: { type: Number, required: true, min: 0 },
+        netAmount: { type: Number, min: 0 },
+        fees: { type: Number, default: 0, min: 0 },
+        currency: { type: String, default: 'USD' },
+        date: { type: Date, default: Date.now },
+        status: {
+          type: String,
+          enum: [
+            'pending',
+            'processing',
+            'paid',
+            'failed',
+            'cancelled',
+            'rejected',
+            'on_hold',
+          ],
+          default: 'pending',
+        },
+        transactionId: String,
+        paymentMethod: String,
+        reference: String,
+        notes: String,
+        processedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        estimatedArrival: Date,
+        actualArrival: Date,
+        taxDocumentGenerated: { type: Boolean, default: false },
+      },
+    ],
+
+    // ==================== PERFORMANCE ANALYTICS ====================
+    performanceMetrics: {
+      clicks: { type: Number, default: 0, min: 0 },
+      signups: { type: Number, default: 0, min: 0 },
+      conversions: { type: Number, default: 0, min: 0 },
+      conversionRate: { type: Number, default: 0, min: 0, max: 100 },
+      revenueGenerated: { type: Number, default: 0, min: 0 },
+      averageOrderValue: { type: Number, default: 0, min: 0 },
+      clickThroughRate: { type: Number, default: 0, min: 0, max: 100 },
+      earningsPerClick: { type: Number, default: 0, min: 0 },
+      returnOnInvestment: { type: Number, default: 0 },
+      lastUpdated: { type: Date, default: Date.now },
+      historicalData: [
+        {
+          date: Date,
+          clicks: Number,
+          conversions: Number,
+          revenue: Number,
+          commissions: Number,
+        },
+      ],
+    },
+
+    // ==================== TIER & COMMISSION STRUCTURE ====================
+    tier: {
+      type: String,
+      enum: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'elite'],
+      default: 'bronze',
+    },
+    commissionRate: { type: Number, default: 0.2, min: 0, max: 1 },
+    customCommissionRules: [
+      {
+        ruleId: { type: String, required: true },
+        productId: String,
+        productName: String,
+        productCategory: String,
+        commissionRate: { type: Number, required: true, min: 0, max: 1 },
+        commissionType: {
+          type: String,
+          enum: ['percentage', 'fixed', 'hybrid'],
+          default: 'percentage',
+        },
+        fixedAmount: { type: Number, min: 0 },
+        startDate: { type: Date, required: true },
+        endDate: Date,
+        isActive: { type: Boolean, default: true },
+        createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        createdAt: { type: Date, default: Date.now },
+        conditions: Schema.Types.Mixed,
+        priority: { type: Number, default: 1, min: 1, max: 100 },
+      },
+    ],
+
+    // ==================== BONUS & INCENTIVE SYSTEM ====================
+    performanceBonuses: [
+      {
+        bonusId: { type: String, required: true },
+        name: String,
+        amount: { type: Number, required: true, min: 0 },
+        reason: String,
+        type: {
+          type: String,
+          enum: [
+            'signup',
+            'revenue',
+            'conversion',
+            'retention',
+            'special',
+            'holiday',
+          ],
+          default: 'conversion',
+        },
+        dateAwarded: { type: Date, default: Date.now },
+        targetMet: String,
+        status: {
+          type: String,
+          enum: ['awarded', 'paid', 'pending', 'cancelled', 'forfeited'],
+          default: 'awarded',
+        },
+        payoutDate: Date,
+        conditions: Schema.Types.Mixed,
+        awardedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        notes: String,
+      },
+    ],
+
+    // ==================== ACCOUNT STATUS & LIFECYCLE ====================
+    isActive: { type: Boolean, default: true },
+    activationDate: Date,
+    deactivationDate: Date,
+    deactivationReason: String,
+    reactivationDate: Date,
+    lastPayoutDate: Date,
+    nextPayoutDate: Date,
+    accountStatus: {
+      type: String,
+      enum: ['active', 'inactive', 'suspended', 'terminated', 'grace_period'],
+      default: 'active',
+    },
+
+    // ==================== TAX & LEGAL COMPLIANCE ====================
+    taxInfo: {
+      taxId: { type: String, select: false },
+      taxForm: {
+        type: String,
+        enum: ['W-9', 'W-8BEN', 'W-8BEN-E', 'W-8ECI', 'W-8IMY', 'Other'],
+      },
+      formSubmitted: { type: Boolean, default: false },
+      submittedAt: Date,
+      verifiedAt: Date,
+      verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      taxYear: Number,
+      taxDocument: String,
+      taxStatus: {
+        type: String,
+        enum: ['not_required', 'pending', 'verified', 'rejected', 'expired'],
+        default: 'not_required',
+      },
+      countryOfTaxResidency: String,
+      usTaxTreatyClaimed: { type: Boolean, default: false },
+    },
+
+    termsAccepted: {
+      affiliateAgreement: { type: Boolean, default: false },
+      dataProcessing: { type: Boolean, default: false },
+      acceptedAt: Date,
+      agreementVersion: String,
+      ipAddress: String,
+      userAgent: String,
+      acceptedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    },
+
+    // ==================== COMMUNICATION PREFERENCES ====================
+    affiliateCommunications: {
+      newCommissionAlerts: { type: Boolean, default: true },
+      payoutNotifications: { type: Boolean, default: true },
+      performanceReports: {
+        frequency: {
+          type: String,
+          enum: ['weekly', 'bi_weekly', 'monthly', 'quarterly', 'never'],
+          default: 'monthly',
+        },
+        format: {
+          type: String,
+          enum: ['email', 'pdf', 'dashboard', 'all'],
+          default: 'email',
+        },
+      },
+      promotionalOffers: { type: Boolean, default: true },
+      educationalContent: { type: Boolean, default: true },
+      systemUpdates: { type: Boolean, default: true },
+      lastCommunicationSent: Date,
+      unsubscribeReason: String,
+      preferredLanguage: { type: String, default: 'en' },
+    },
+
+    // ==================== RELATIONSHIP MANAGEMENT ====================
+    affiliateManager: { type: Schema.Types.ObjectId, ref: 'User' },
+    accountManager: { type: Schema.Types.ObjectId, ref: 'User' },
+    supportContact: { type: Schema.Types.ObjectId, ref: 'User' },
+    notes: [
+      {
+        content: String,
+        createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        createdAt: { type: Date, default: Date.now },
+        category: {
+          type: String,
+          enum: ['general', 'support', 'billing', 'performance', 'compliance'],
+        },
+        isInternal: { type: Boolean, default: false },
+      },
+    ],
+
+    // ==================== MARKETING & PROMOTION ====================
+    marketingMaterials: [
+      {
+        name: String,
+        type: {
+          type: String,
+          enum: ['banner', 'link', 'email', 'social', 'video', 'document'],
+        },
+        url: String,
+        description: String,
+        created: { type: Date, default: Date.now },
+        isActive: { type: Boolean, default: true },
+        performance: {
+          clicks: { type: Number, default: 0 },
+          conversions: { type: Number, default: 0 },
+          lastUsed: Date,
+        },
+      },
+    ],
+
+    landingPageClicks: { type: Number, default: 0, min: 0 },
+    uniqueVisitors: { type: Number, default: 0, min: 0 },
+    impressionCount: { type: Number, default: 0, min: 0 },
+    creativeUsage: [
+      {
+        creativeId: String,
+        type: String,
+        usageCount: { type: Number, default: 0 },
+        lastUsed: Date,
+      },
+    ],
+
+    // ==================== QUALITY & PERFORMANCE MONITORING ====================
+    qualityScore: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 100,
+    },
+    lastQualityReview: Date,
+    reviewNotes: String,
+    performanceWarnings: [
+      {
+        warning: String,
+        severity: { type: String, enum: ['low', 'medium', 'high', 'critical'] },
+        issuedAt: { type: Date, default: Date.now },
+        resolvedAt: Date,
+        issuedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      },
+    ],
+    complianceIssues: [
+      {
+        issue: String,
+        type: {
+          type: String,
+          enum: ['terms', 'traffic', 'promotion', 'legal', 'other'],
+        },
+        severity: {
+          type: String,
+          enum: ['warning', 'violation', 'suspension', 'termination'],
+        },
+        occurredAt: Date,
+        resolvedAt: Date,
+        notes: String,
+      },
+    ],
+
+    // ==================== ADVANCED ANALYTICS ====================
+    geographicPerformance: [
+      {
+        country: String,
+        region: String,
+        clicks: { type: Number, default: 0 },
+        conversions: { type: Number, default: 0 },
+        revenue: { type: Number, default: 0 },
+      },
+    ],
+
+    devicePerformance: [
+      {
+        deviceType: {
+          type: String,
+          enum: ['desktop', 'mobile', 'tablet', 'other'],
+        },
+        os: String,
+        browser: String,
+        clicks: { type: Number, default: 0 },
+        conversions: { type: Number, default: 0 },
+      },
+    ],
+
+    temporalPerformance: [
+      {
+        hourOfDay: Number,
+        dayOfWeek: Number,
+        month: Number,
+        clicks: { type: Number, default: 0 },
+        conversions: { type: Number, default: 0 },
+      },
+    ],
+
+    auditTrail: [
+      {
+        action: String,
+        performedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        performedAt: { type: Date, default: Date.now },
+        ipAddress: String,
+        userAgent: String,
+        changes: Schema.Types.Mixed,
+        reason: String,
+      },
+    ],
+
+    // ==================== SYSTEM METADATA ====================
+    signupSource: {
+      type: String,
+      enum: ['web', 'mobile', 'api', 'admin', 'affiliate', 'partner'],
+      default: 'web',
+    },
+    signupCampaign: String,
+    signupReferrer: String,
+    ipAddress: String,
+    userAgent: String,
+    locale: String,
+    dataResidency: { type: String, enum: ['eu', 'us', 'apac', 'global'] },
+
+    // ==================== CUSTOM FIELDS ====================
+    customFields: Schema.Types.Mixed,
+    tags: [String],
+
+    // ==================== TIMESTAMPS ====================
+    lastActivityAt: Date,
+    lastCommissionAt: Date,
+    lastPayoutRequestAt: Date,
+  },
+  {
+    _id: false,
+  }
 );
 
 // Main User Schema Fo All User
@@ -1076,22 +694,15 @@ const userSchema = new Schema(
       type: String,
       required: true,
       select: false,
-      minlength: 8,
-      //   validate: {
-      //     validator: (value: string) =>
-      //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/.test(
-      //         value
-      //       ),
-      //     message:
-      //       'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
-      //   },
+      minlength: 6,
     },
     phone: {
       type: String,
       select: false,
       validate: {
-        validator: (value: string) => /^\+?[1-9]\d{1,14}$/.test(value),
-        message: 'Invalid phone number format',
+        validator: (value: string) => /^(\+1\d{10}|\d{10})$/.test(value),
+        message:
+          'Phone number must be a valid 10-digit U.S. number (with or without +1)',
       },
     },
     address: {
@@ -1103,6 +714,7 @@ const userSchema = new Schema(
       type: String,
       enum: Object.values(ENUM_GENDER),
     },
+
     dateOfBirth: {
       type: Date,
       validate: {
@@ -1262,12 +874,30 @@ const userSchema = new Schema(
       enum: ['en', 'bn', 'es'],
       default: 'en',
     },
-    timezone: String,
+    timeZone: String,
     preferredCurrency: {
       type: String,
       enum: ['usd', 'eur', 'gbp'],
       default: 'usd',
     },
+    geo: {
+      country: String,
+      region: String,
+      city: String,
+    },
+    deviceInfo: {
+      deviceType: {
+        type: String,
+        enum: ['desktop', 'mobile', 'tablet', 'other'],
+        default: 'desktop',
+      },
+      browser: { type: String, default: 'Chrome' },
+      browserVersion: { type: String, default: '138' },
+      os: { type: String, default: 'Linux' },
+      osVersion: { type: String, default: 'unknown' },
+    },
+
+    deviceFingerprint: String,
     communicationPreferences: {
       email: { type: Boolean, default: true },
       sms: { type: Boolean, default: false },
@@ -1280,16 +910,9 @@ const userSchema = new Schema(
     },
 
     affiliateProfile: {
-      type: AffiliateProfileSchema,
-      default: null,
-      select: false,
-    },
-
-    affiliateDetails: {
-      type: AffiliateDetailsSchema,
+      type: AffiliateSchema,
       default: null,
     },
-
     adminProfile: {
       type: AdminProfileSchema,
       default: null,
@@ -1335,7 +958,7 @@ const userSchema = new Schema(
     },
     signupCampaign: String,
     signupReferrer: String,
-    ipAddress: String,
+    ip: String,
     userAgent: String,
     locale: String,
     dataResidency: { type: String, enum: ['eu', 'us', 'apac'] },
@@ -1394,17 +1017,57 @@ userSchema.index(
   { partialFilterExpression: { phone: { $exists: true } } }
 );
 userSchema.index({ 'customerProfile.stripeCustomerId': 1 });
-userSchema.index({ 'affiliateDetails.referralCode': 1 }, { sparse: true });
 userSchema.index({ 'affiliateProfile.approvalStatus': 1 });
 userSchema.index({ 'adminProfile.permissions.global': 1 });
 userSchema.index({ createdAt: 1 });
 userSchema.index({ lastActivityAt: 1 });
 userSchema.index({ 'customerProfile.subscriptionStatus': 1 });
-userSchema.index({ 'affiliateDetails.tier': 1 });
 userSchema.index({ accountStatus: 1 });
 userSchema.index({ subscriptionStatus: 1 });
+userSchema.index(
+  { 'affiliateProfile.referralCode': 1 },
+  { unique: true, sparse: true }
+);
+userSchema.index({ 'affiliateProfile.approvalStatus': 1 });
+userSchema.index({ 'affiliateProfile.isActive': 1 });
+userSchema.index({ 'affiliateProfile.tier': 1 });
+userSchema.index({ 'affiliateProfile.performanceMetrics.conversionRate': -1 });
+userSchema.index({ 'affiliateProfile.payoutHistory.status': 1 });
+userSchema.index({ 'affiliateProfile.createdAt': -1 });
+userSchema.index({ 'affiliateProfile.referrals.date': -1 });
+userSchema.index({ 'affiliateProfile.taxInfo.taxStatus': 1 });
 
-// Virtuals
+// ✅ userSchema virtuals:
+userSchema.virtual('isEligibleForPayout').get(function () {
+  if (this.role !== ENUM_USER_ROLE.AFFILIATE || !this.affiliateProfile) {
+    return false;
+  }
+  return (
+    this.affiliateProfile.commissionBalance >=
+      (this.affiliateProfile.payoutThreshold || 50) &&
+    this.affiliateProfile.isActive
+  );
+});
+
+userSchema.virtual('isAffiliateApproved').get(function () {
+  return this.affiliateProfile?.approvalStatus === 'approved';
+});
+
+userSchema.virtual('isEligibleForPayout').get(function () {
+  return (
+    this.affiliateProfile?.commissionBalance >=
+      this.affiliateProfile?.payoutThreshold && this.affiliateProfile?.isActive
+  );
+});
+
+userSchema.virtual('affiliateDaysSinceLastPayout').get(function () {
+  if (!this.affiliateProfile?.lastPayoutDate) return null;
+  return Math.floor(
+    (Date.now() - this.affiliateProfile.lastPayoutDate.getTime()) /
+      (1000 * 60 * 60 * 24)
+  );
+});
+
 userSchema.virtual('age').get(function () {
   if (!this.dateOfBirth) return null;
   const diff = Date.now() - new Date(this.dateOfBirth).getTime();
@@ -1430,13 +1093,6 @@ userSchema.statics.isPasswordMatched = async function (
 ): Promise<boolean> {
   return await bcrypt.compare(givenPassword, savedPassword);
 };
-
-userSchema.virtual('isAffiliateApproved').get(function () {
-  return (
-    this.role === ENUM_USER_ROLE.AFFILIATE &&
-    this.affiliateProfile?.approvalStatus === 'approved'
-  );
-});
 
 userSchema.virtual('hasActiveSubscription').get(function () {
   return (
@@ -1476,6 +1132,12 @@ userSchema.pre('save', async function (next) {
   }
 
   // Initialize admin profile for admin users
+
+  if (this.role === ENUM_USER_ROLE.AFFILIATE && !this.affiliateProfile) {
+    // @ts-ignore
+    this.affiliateProfile = {};
+  }
+
   if (
     [ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN].includes(
       this.role as ENUM_USER_ROLE
@@ -1524,10 +1186,10 @@ userSchema.methods.isPasswordMatched = async function (password: string) {
 userSchema.methods.updateProfile = async function (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   this: any,
-     //  @ts-ignore
+  //  @ts-ignore
   updateData: Partial<IUser>
 ) {
-       //  @ts-ignore
+  //  @ts-ignore
   const allowedFields: (keyof IUser)[] = [
     'name',
     'phone',
@@ -1544,7 +1206,7 @@ userSchema.methods.updateProfile = async function (
   allowedFields.forEach(field => {
     const value = updateData[field];
     if (value !== undefined) {
-           //  @ts-ignore
+      //  @ts-ignore
       (this as Record<string, any>)[field] = value;
     }
   });
@@ -1563,31 +1225,21 @@ userSchema.methods.revokeSession = function (sessionId: string) {
   return this.save();
 };
 
-userSchema.methods.addCommission = async function (
-  amount: number,
-
-) {
+userSchema.methods.addCommission = async function () {
   if (this.role !== ENUM_USER_ROLE.AFFILIATE) {
     throw new Error('Only affiliates can earn commissions');
   }
 
-  if (!this.affiliateDetails) {
-    throw new Error('Affiliate details not initialized');
-  }
-
-  this.affiliateDetails.commissionBalance += amount;
-  this.affiliateDetails.totalEarnings += amount;
-  this.affiliateDetails.pendingEarnings += amount;
-
   // Add to performance metrics
-  this.affiliateDetails.performanceMetrics.conversions += 1;
-  this.affiliateDetails.performanceMetrics.conversionRate =
-    this.affiliateDetails.performanceMetrics.conversions /
-    Math.max(this.affiliateDetails.performanceMetrics.clicks, 1);
-  this.affiliateDetails.performanceMetrics.lastUpdated = new Date();
+  this.affiliateProfile.performanceMetrics.conversions += 1;
+  this.affiliateProfile.performanceMetrics.conversionRate =
+    this.affiliateProfile.performanceMetrics.conversions /
+    Math.max(this.affiliateProfile.performanceMetrics.clicks, 1);
+  this.affiliateProfile.performanceMetrics.lastUpdated = new Date();
 
   await this.save();
-  return this.affiliateDetails.commissionBalance;
+
+  return this.affiliateProfile.commissionBalance;
 };
 
 userSchema.methods.createStripeCustomer = async function () {
@@ -1660,6 +1312,7 @@ userSchema.methods.upgradeToAdmin = async function (
 
 // Create discriminators for better query performance
 export const User = model('User', userSchema);
+
 export const Customer = User.discriminator(
   ENUM_USER_ROLE.CUSTOMER,
   new Schema({})
@@ -1675,3 +1328,15 @@ export const SuperAdmin = User.discriminator(
 );
 
 export default User;
+
+
+
+// ==================== ADMIN SETUP TOKEN SCHEMA ====================
+const AdminSetupTokenSchema = new Schema<IAdminSetupToken>({
+  email: { type: String, required: true },
+  token: { type: String, required: true, unique: true },
+  expiresAt: { type: Date, required: true },
+    used: { type: Boolean, default: false }
+});
+
+export const AdminSetupToken = model<IAdminSetupToken>("AdminSetupToken", AdminSetupTokenSchema);

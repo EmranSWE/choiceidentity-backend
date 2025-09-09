@@ -1,0 +1,6 @@
+Tue Sep 09 2025 15:48:35 [right meow!] error: Unhandled Rejection: geoip is not defined
+Tue Sep 09 2025 15:49:12 [right meow!] error: Unhandled Rejection: geoip is not defined
+Tue Sep 09 2025 15:49:42 [right meow!] error: Unhandled Rejection: geoip is not defined
+Tue Sep 09 2025 15:50:12 [right meow!] error: Unhandled Rejection: geoip is not defined
+Tue Sep 09 2025 15:58:17 [right meow!] error: Unhandled Rejection: Use of expired sessions is not permitted
+Tue Sep 09 2025 15:58:54 [right meow!] error: Unhandled Rejection: Cannot read properties of undefined (reading 'lookup')

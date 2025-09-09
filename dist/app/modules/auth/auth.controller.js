@@ -24,12 +24,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
+const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const auth_service_1 = require("./auth.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const cors_config_1 = require("../../../config/cors.config");
+const affiliate_utils_1 = require("../affiliate/affiliate.utils");
+const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
 const CreateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.body;
     // Remove role from the payload (if present)
@@ -43,14 +46,28 @@ const CreateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const CreateAffiliateUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = req.body;
-    // Enforce role
-    userData.role = 'affiliate';
-    const result = yield auth_service_1.UserService.CreateAffiliate(userData);
+    var _a;
+    const key = res.locals.idempotencyKey;
+    const ip = ((_a = req.headers['x-forwarded-for']) === null || _a === void 0 ? void 0 : _a.split(',')[0].trim()) ||
+        req.connection.remoteAddress ||
+        req.ip ||
+        '';
+    const userAgent = req.get('User-Agent') || '';
+    const geo = geoip_lite_1.default.lookup(ip) || { country: null, region: null, city: null };
+    const deviceFingerprint = req.headers['x-device-fingerprint'] ||
+        (0, affiliate_utils_1.generateFingerprint)(ip, userAgent);
+    if (!key) {
+        throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Idempotency key is required');
+    }
+    const affiliateData = Object.assign(Object.assign({}, req.body), { role: 'affiliate', ip,
+        userAgent,
+        geo,
+        deviceFingerprint });
+    const result = yield auth_service_1.UserService.AffiliateRegister(affiliateData);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: 'Affiliate user created successfully',
+        message: 'Affiliate registration successful',
         data: result,
     });
 }));

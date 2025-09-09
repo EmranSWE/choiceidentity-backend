@@ -30,7 +30,7 @@ function bootstrap() {
             // initSocket(server);
             //   initializeSocket(server);
             server.listen(config_1.default.port, () => {
-                console.log(`Example app listening on port ${config_1.default.port}`);
+                console.info(`Example app listening on port ${config_1.default.port}`);
             });
         }
         catch (error) {

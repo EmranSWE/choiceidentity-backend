@@ -226,14 +226,14 @@ const createTrialSubscription: RequestHandler = catchAsync(async (req, res) => {
   }
 
   // 🚀 Create subscription (Service handles PCI compliance)
-  const subscriptionAffiliateId = affiliateId || 'd4rOZ2aYq';
+  const subscriptionAffiliateId = affiliateId ;
   const subscriptionData = {
     key,
     paymentMethodId,
     email,
     firstName,
     password,
-    planType: selectedPlan || 'ELITE',
+    planType: selectedPlan || 'Premium',
     billingInterval: billingInterval || 'monthly',
     affiliateId: subscriptionAffiliateId,
     ...rest,
