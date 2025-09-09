@@ -602,7 +602,7 @@ const createTrialSubscription = async (
   let paymentMethodId: string | undefined;
   let referredAffiliate;
   let referredByAffiliateId: Types.ObjectId | undefined;
-  const COMMISSION_AMOUNT = 20;
+  const COMMISSION_AMOUNT = 30;
   let referralCodeUsed: string | null = null;
 
   try {

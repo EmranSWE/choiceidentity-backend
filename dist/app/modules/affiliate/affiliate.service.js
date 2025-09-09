@@ -121,11 +121,11 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
     }
     // 1️⃣ Lookup affiliate user
     const affiliateUser = yield auth_model_1.User.findOne({
-        'affiliateDetails.referralCode': affiliateCode,
+        'affiliateProfile.referralCode': affiliateCode,
         'affiliateProfile.approvalStatus': 'approved',
         accountStatus: 'active',
         role: 'affiliate',
-    }, { _id: 1, affiliateDetails: 1 }).lean();
+    }, { _id: 1, affiliateProfile: 1 }).lean();
     if (!(affiliateUser === null || affiliateUser === void 0 ? void 0 : affiliateUser._id)) {
         throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, `Affiliate with code '${affiliateCode}' not found or inactive`);
     }

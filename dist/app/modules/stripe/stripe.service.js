@@ -539,7 +539,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
     let paymentMethodId;
     let referredAffiliate;
     let referredByAffiliateId;
-    const COMMISSION_AMOUNT = 20;
+    const COMMISSION_AMOUNT = 30;
     let referralCodeUsed = null;
     try {
         const { key, paymentMethodId, email, firstName, lastName, planType, billingInterval, phone, country, address, marketingConsent, affiliateId } = data, rest = __rest(data, ["key", "paymentMethodId", "email", "firstName", "lastName", "planType", "billingInterval", "phone", "country", "address", "marketingConsent", "affiliateId"]);

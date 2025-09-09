@@ -161,12 +161,12 @@ const generateAffiliateLink = async (
   // 1️⃣ Lookup affiliate user
   const affiliateUser = await User.findOne(
     {
-      'affiliateDetails.referralCode': affiliateCode,
+      'affiliateProfile.referralCode': affiliateCode,
       'affiliateProfile.approvalStatus': 'approved',
       accountStatus: 'active',
       role: 'affiliate',
     },
-    { _id: 1, affiliateDetails: 1 }
+    { _id: 1, affiliateProfile: 1 }
   ).lean();
 
   if (!affiliateUser?._id) {
