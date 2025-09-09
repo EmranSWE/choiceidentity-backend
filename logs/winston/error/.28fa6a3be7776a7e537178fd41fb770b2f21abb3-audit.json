@@ -6,11 +6,6 @@
     "auditLog": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/.28fa6a3be7776a7e537178fd41fb770b2f21abb3-audit.json",
     "files": [
         {
-            "date": 1756238827392,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-02-error.log",
-            "hash": "7940cb12356f9dee4e7220fb0ee5fab89762926e6a9754e9656ecdf7dfb68c37"
-        },
-        {
             "date": 1756244847659,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-03-error.log",
             "hash": "a052e930cbf17cbbe7199ba42514b396c68f049c8bf8655d2559fbbe63179b9a"
@@ -634,6 +629,11 @@
             "date": 1757444496735,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-01-error.log",
             "hash": "b310e7267ae281b6077d0f552737f7d1e21135b5eb76473a164d6c427c078e56"
+        },
+        {
+            "date": 1757448469418,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-02-error.log",
+            "hash": "67200632f58e47d491a397e5679bd98c03cc5a735378afb7c77e161c9ae50153"
         }
     ],
     "hashType": "sha256"

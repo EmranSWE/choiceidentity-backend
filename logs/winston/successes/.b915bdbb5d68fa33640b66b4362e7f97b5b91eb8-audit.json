@@ -6,11 +6,6 @@
     "auditLog": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/.b915bdbb5d68fa33640b66b4362e7f97b5b91eb8-audit.json",
     "files": [
         {
-            "date": 1756238827293,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-27-08-02-success.log",
-            "hash": "227378078bcdfc63e3b430e1580a8c5efe9f394000d0807fe003f34e1fe1185f"
-        },
-        {
             "date": 1756244847656,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-27-08-03-success.log",
             "hash": "eb9014829c8762230f304c077eb136882947e688b3a0f11ac8adb71cd4e97605"
@@ -644,6 +639,11 @@
             "date": 1757444496727,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-10-09-01-success.log",
             "hash": "82036a84c015184db0e69ad982e523ec5c3020e2f438772cb4f3cd7a4a6ed2a5"
+        },
+        {
+            "date": 1757448469415,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/successes/project-title-2025-10-09-02-success.log",
+            "hash": "0775842674b4d1bd1c51a02cb0aea168c0e9bceb4ac8b14bc42ef55fa9ddeed9"
         }
     ],
     "hashType": "sha256"

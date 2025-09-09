@@ -437,6 +437,7 @@ const GetAffiliateById = (id) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    console.log("AffiliateId:", affiliateId);
     if (!mongoose_1.default.Types.ObjectId.isValid(affiliateId)) {
         throw new apiErrors_1.default(400, 'Invalid affiliate ID');
     }
@@ -455,11 +456,11 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
         if (((_a = affiliate.affiliateProfile) === null || _a === void 0 ? void 0 : _a.approvalStatus) === 'approved') {
             throw new apiErrors_1.default(400, 'Affiliate already approved');
         }
-        // Ensure affiliateDetails exists, create if not
+        // Ensure affiliateProfile exists, create if not
         //@ts-ignore
-        if (!affiliate.affiliateDetails) {
+        if (!affiliate.affiliateProfile) {
             //@ts-ignore
-            affiliate.affiliateDetails = {
+            affiliate.affiliateProfile = {
                 referralCode: yield (0, auth_lib_1.generateUniqueReferralCode)(),
                 commissionBalance: 0,
                 payoutHistory: [],
@@ -472,10 +473,10 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
             };
             //@ts-ignore
         }
-        else if (!affiliate.affiliateDetails.referralCode) {
+        else if (!affiliate.affiliateProfile.referralCode) {
             // Only generate referral code if missing
             //@ts-ignore
-            affiliate.affiliateDetails.referralCode =
+            affiliate.affiliateProfile.referralCode =
                 yield (0, auth_lib_1.generateUniqueReferralCode)();
         }
         // Update approval status and verification
@@ -494,7 +495,7 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
             ip: '',
             userAgent: '',
             //@ts-ignore
-            details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateDetails.referralCode}`,
+            details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateProfile.referralCode}`,
         });
         // Save the affiliate with the session
         yield affiliate.save({ session });
@@ -504,7 +505,7 @@ const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, voi
         // Send approval email asynchronously (don't block DB)
         yield (0, sendAffiliateEmail_1.sendAffiliateApprovalEmail)(affiliate.email, affiliate.name, 
         //  @ts-ignore
-        affiliate.affiliateDetails.referralCode).catch(err => {
+        affiliate.affiliateProfile.referralCode).catch(err => {
             // Log but don’t block user approval if email fails
             console.error('Failed to send approval email:', err);
         });

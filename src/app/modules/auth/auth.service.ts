@@ -553,6 +553,9 @@ const GetAffiliateById = async (id: string) => {
 };
 
 const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
+
+    console.log("AffiliateId:", affiliateId);
+
   if (!mongoose.Types.ObjectId.isValid(affiliateId)) {
     throw new ApiError(400, 'Invalid affiliate ID');
   }
@@ -576,11 +579,11 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
       throw new ApiError(400, 'Affiliate already approved');
     }
 
-    // Ensure affiliateDetails exists, create if not
+    // Ensure affiliateProfile exists, create if not
     //@ts-ignore
-    if (!affiliate.affiliateDetails) {
+    if (!affiliate.affiliateProfile) {
           //@ts-ignore
-      affiliate.affiliateDetails = {
+      affiliate.affiliateProfile = {
         referralCode: await generateUniqueReferralCode(),
         commissionBalance: 0,
         payoutHistory: [],
@@ -592,10 +595,10 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
         },
       };
         //@ts-ignore
-    } else if (!affiliate.affiliateDetails.referralCode) {
+    } else if (!affiliate.affiliateProfile.referralCode) {
       // Only generate referral code if missing
         //@ts-ignore
-      affiliate.affiliateDetails.referralCode =
+      affiliate.affiliateProfile.referralCode =
         await generateUniqueReferralCode();
     }
 
@@ -617,7 +620,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
       ip: '',
       userAgent: '',
     //@ts-ignore
-      details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateDetails.referralCode}`,
+      details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateProfile.referralCode}`,
     });
 
     // Save the affiliate with the session
@@ -632,7 +635,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
       affiliate.email,
       affiliate.name,
       //  @ts-ignore
-      affiliate.affiliateDetails.referralCode
+      affiliate.affiliateProfile.referralCode
     ).catch(err => {
       // Log but don’t block user approval if email fails
       console.error('Failed to send approval email:', err);
