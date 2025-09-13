@@ -12,7 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateToken = exports.generateDeviceFingerprint = exports.checkIPReputation = exports.stripe = void 0;
+exports.logSuspiciousActivity = exports.validateToken = exports.generateDeviceFingerprint = exports.checkIPReputation = exports.stripe = void 0;
+exports.encrypt = encrypt;
+exports.decrypt = decrypt;
+exports.validateSSN = validateSSN;
 const geoip_lite_1 = __importDefault(require("geoip-lite"));
 const stripe_1 = __importDefault(require("stripe"));
 const ua_parser_js_1 = require("ua-parser-js");
@@ -57,3 +60,66 @@ const validateToken = (token) => __awaiter(void 0, void 0, void 0, function* () 
     return tokenDoc;
 });
 exports.validateToken = validateToken;
+// SSN encryptions
+const crypto_1 = __importDefault(require("crypto"));
+const ENCRYPTION_KEY = process.env.SSN_SECRET_KEY;
+const IV_LENGTH = 16;
+// Validate environment key
+if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length < 32) {
+    throw new Error("SSN_SECRET_KEY must be at least 32 characters long and set in environment variables");
+}
+// Ensure key is exactly 32 bytes
+function getValidKey() {
+    const keyBuffer = Buffer.from(ENCRYPTION_KEY, 'utf8');
+    if (keyBuffer.length < 32) {
+        // Pad with zeros if key is too short (better to use proper key derivation)
+        const paddedKey = Buffer.alloc(32);
+        keyBuffer.copy(paddedKey);
+        return paddedKey;
+    }
+    return keyBuffer.subarray(0, 32); // Take first 32 bytes if longer
+}
+function encrypt(text) {
+    if (!text)
+        return text;
+    const iv = crypto_1.default.randomBytes(IV_LENGTH);
+    const key = getValidKey();
+    const cipher = crypto_1.default.createCipheriv("aes-256-cbc", key, iv);
+    let encrypted = cipher.update(text, "utf8", "hex");
+    encrypted += cipher.final("hex");
+    // Return format: iv:encrypted (same as original)
+    return iv.toString("hex") + ":" + encrypted;
+}
+function decrypt(encryptedText) {
+    if (!encryptedText)
+        return encryptedText;
+    try {
+        const parts = encryptedText.split(":");
+        if (parts.length !== 2) {
+            throw new Error("Invalid encrypted text format");
+        }
+        const iv = Buffer.from(parts[0], "hex");
+        const encrypted = parts[1];
+        const key = getValidKey();
+        const decipher = crypto_1.default.createDecipheriv("aes-256-cbc", key, iv);
+        let decrypted = decipher.update(encrypted, "hex", "utf8");
+        decrypted += decipher.final("utf8");
+        return decrypted;
+    }
+    catch (error) {
+        throw new Error("Failed to decrypt SSN: Invalid or tampered data");
+    }
+}
+// Optional: SSN validation
+function validateSSN(ssn) {
+    const ssnRegex = /^(?!000|666)[0-8]\d{2}-(?!00)\d{2}-(?!0000)\d{4}$/;
+    return ssnRegex.test(ssn);
+}
+const logSuspiciousActivity = (affiliateData, ipReputation) => {
+    console.warn('Suspicious registration attempt:', {
+        email: affiliateData.email,
+        ip: affiliateData.ipAddress,
+        riskScore: ipReputation.riskScore,
+    });
+};
+exports.logSuspiciousActivity = logSuspiciousActivity;

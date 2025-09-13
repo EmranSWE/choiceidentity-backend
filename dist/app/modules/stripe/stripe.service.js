@@ -8,17 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -34,233 +23,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = require("../../../enums/user");
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config"));
-/**
- * Creates a Stripe Checkout Session and saves it to the database
- */
-// const createCheckoutSession = async (
-//   data: StripeCheckoutRequestBody
-// ): Promise<CheckoutSessionResponse> => {
-//   // console.log("Checkout Session data:", data);
-//   const priceMapping = getPriceMapping(data.priceId);
-//   if (!priceMapping) {
-//     throw new ApiError(
-//       httpStatus.BAD_REQUEST,
-//       `Invalid price ID: ${data.priceId}`
-//     );
-//   }
-//   const mode =
-//     data.mode ||
-//     (priceMapping.type === 'recurring' ? 'subscription' : 'payment');
-//   const lineItems = [
-//     {
-//       price_data: {
-//         currency: priceMapping.currency,
-//         unit_amount: priceMapping.amount,
-//         ...(mode === 'subscription' && {
-//           recurring: {
-//             interval: priceMapping.interval || 'month',
-//           },
-//         }),
-//         product_data: {
-//           name: priceMapping.name,
-//         },
-//       },
-//       quantity: 1,
-//     },
-//   ];
-//   const session = await stripe.checkout.sessions.create({
-//     mode,
-//     line_items: lineItems,
-//     success_url: data.successUrl,
-//     cancel_url: data.cancelUrl,
-//     metadata: {
-//       priceId: data.priceId,
-//       userId: data.userId || 'anonymous',
-//       planName: priceMapping.name,
-//       ...data.metadata,
-//     },
-//     expires_at: Math.floor(Date.now() / 1000) + 1800,
-//     ...(data.userId && {
-//       customer_email: undefined,
-//     }),
-//   });
-//   //   console.log("Stripe session created:", session);
-//   if (!session.id || !session.url) {
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       'Stripe session creation failed'
-//     );
-//   }
-//   // Save session in DB
-//   const checkoutSessionDoc = new CheckoutSession({
-//     userId: data.userId,
-//     priceId: data.priceId,
-//     sessionId: session.id,
-//     status: session.status || 'open',
-//     mode,
-//     successUrl: data.successUrl,
-//     cancelUrl: data.cancelUrl,
-//     amount: priceMapping.amount,
-//     currency: priceMapping.currency,
-//     metadata: data.metadata || {},
-//     expiresAt: new Date(session.expires_at * 1000),
-//   });
-//   await checkoutSessionDoc.save();
-//   return {
-//     sessionId: session.id,
-//     url: session.url,
-//     expiresAt: session.expires_at,
-//   };
-// };
-/**
- * Updates checkout session status in database (called from webhooks)
- */
-// const updateCheckoutSessionStatus = async (
-//   sessionId: string,
-//   status: string
-// ): Promise<CheckoutSessionDocument | null> => {
-//   const updatedSession = await CheckoutSession.findOneAndUpdate(
-//     { sessionId },
-//     { status, updatedAt: new Date() },
-//     { new: true }
-//   );
-//   if (!updatedSession) {
-//     throw new ApiError(
-//       httpStatus.NOT_FOUND,
-//       `Checkout session not found: ${sessionId}`
-//     );
-//   }
-//   return updatedSession;
-// };
-/**
- * Retrieves checkout session by ID
- */
-// const getCheckoutSession = async (
-//   sessionId: string
-// ): Promise<CheckoutSessionDocument | null> => {
-//   const checkoutSession = await CheckoutSession.findOne({ sessionId });
-//   if (!checkoutSession) {
-//     throw new ApiError(
-//       httpStatus.NOT_FOUND,
-//       `Checkout session not found: ${sessionId}`
-//     );
-//   }
-//   return checkoutSession;
-// };
-/**
- * Creates a Stripe PaymentIntent and saves it to the database (existing functionality)
- */
-// const createPaymentIntent = async (
-//   data: StripeRequestBody
-// ): Promise<PaymentIntentResponse> => {
-//   // Get price mapping
-//   const priceMapping = getPriceMapping(data.priceId);
-//   if (!priceMapping) {
-//     throw new ApiError(
-//       httpStatus.BAD_REQUEST,
-//       `Invalid price ID: ${data.priceId}`
-//     );
-//   }
-//   // Create PaymentIntent with Stripe
-//   const paymentIntent = await stripe.paymentIntents.create({
-//     amount: priceMapping.amount,
-//     currency: priceMapping.currency,
-//     metadata: {
-//       priceId: data.priceId,
-//       userId: data.userId || 'anonymous',
-//       planName: priceMapping.name,
-//       ...data.metadata,
-//     },
-//     automatic_payment_methods: {
-//       enabled: true,
-//     },
-//   });
-//   if (!paymentIntent.client_secret) {
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       'Failed to create payment intent with Stripe'
-//     );
-//   }
-//   // Save to database
-//   const paymentIntentDoc = new PaymentIntent({
-//     userId: data.userId,
-//     priceId: data.priceId,
-//     amount: priceMapping.amount,
-//     currency: priceMapping.currency,
-//     status: paymentIntent.status,
-//     paymentIntentId: paymentIntent.id,
-//     clientSecret: paymentIntent.client_secret,
-//     metadata: data.metadata || {},
-//   });
-//   const savedPaymentIntent = await paymentIntentDoc.save();
-//   if (!savedPaymentIntent) {
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       'Failed to save payment intent to database'
-//     );
-//   }
-//   return {
-//     clientSecret: paymentIntent.client_secret,
-//     paymentIntentId: paymentIntent.id,
-//     amount: priceMapping.amount,
-//     currency: priceMapping.currency,
-//   };
-// };
-/**
- * Updates payment status in database (called from webhooks)
- */
-// const updatePaymentStatus = async (
-//   paymentIntentId: string,
-//   status: string
-// ): Promise<PaymentIntentDocument | null> => {
-//   const updatedPaymentIntent = await PaymentIntent.findOneAndUpdate(
-//     { paymentIntentId },
-//     { status, updatedAt: new Date() },
-//     { new: true }
-//   );
-//   if (!updatedPaymentIntent) {
-//     throw new ApiError(
-//       httpStatus.NOT_FOUND,
-//       `Payment intent not found: ${paymentIntentId}`
-//     );
-//   }
-//   return updatedPaymentIntent;
-// };
-/**
- * Retrieves payment intent by ID
- */
-// const getPaymentIntent = async (
-//   paymentIntentId: string
-// ): Promise<PaymentIntentDocument | null> => {
-//   const paymentIntent = await PaymentIntent.findOne({ paymentIntentId });
-//   if (!paymentIntent) {
-//     throw new ApiError(
-//       httpStatus.NOT_FOUND,
-//       `Payment intent not found: ${paymentIntentId}`
-//     );
-//   }
-//   return paymentIntent;
-// };
-/**
- * Retrieves payment intents by user ID
- */
-// const getPaymentIntentsByUser = async (
-//   userId: string
-// ): Promise<PaymentIntentDocument[]> => {
-//   const paymentIntents = await PaymentIntent.find({ userId }).sort({
-//     createdAt: -1,
-//   });
-//   return paymentIntents;
-// };
-/**
- * Check if payment intent exists
- */
-// const isPaymentIntentExist = async (
-//   paymentIntentId: string
-// ): Promise<boolean> => {
-//   const paymentIntent = await PaymentIntent.findOne({ paymentIntentId });
-//   return !!paymentIntent;
-// };
+const affiliate_utils_1 = require("../affiliate/affiliate.utils");
+const affiliate_model_1 = require("../affiliate/affiliate.model");
 const getSubscription = (subscriptionId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const subscription = yield stripe_utils_1.stripe.subscriptions.retrieve(subscriptionId);
@@ -274,264 +38,10 @@ const getSubscription = (subscriptionId) => __awaiter(void 0, void 0, void 0, fu
 /**
  * Creates a Stripe PaymentIntent and saves it to the database (existing functionality)
  */
-// const createTrialSubscription = async (data: SubscriptionData) => {
-//   console.log('createTrialSubscription in final', data);
-//   const session = await mongoose.startSession();
-//   let result;
-//   let stripeCustomer: Stripe.Customer | undefined;
-//   let subscription: Stripe.Subscription | undefined;
-//   let paymentMethodId: string | undefined;
-//   try {
-//     const {
-//       key,
-//       paymentMethodId,
-//       email,
-//       name,
-//       password,
-//       planType,
-//       billingInterval,
-//       phone,
-//       country,
-//       address,
-//       marketingConsent,
-//       affiliateId,
-//       ...rest
-//     } = data;
-//     if (!paymentMethodId || !email || !planType || !billingInterval) {
-//       throw new ApiError(httpStatus.BAD_REQUEST, 'Missing required fields');
-//     }
-//     const plan = PROTECTION_PLANS[planType];
-//     if (!plan) throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid plan type');
-//     await session.withTransaction(async () => {
-//       const isUserExist = await User.isUserExist(email, session);
-//       if (isUserExist) {
-//         throw new ApiError(
-//           httpStatus.CONFLICT,
-//           'Signup failed. Please check your details and try again.'
-//         );
-//       }
-//         const extraMetadata = {
-//           ...rest,
-//         };
-//         stripeCustomer = await createStripeCustomer({
-//           key,
-//           email,
-//           name,
-//           phone,
-//           country,
-//           address,
-//           planType,
-//           billingInterval,
-//           marketingConsent,
-//           affiliateId,
-//           extraMetadata,
-//         });
-//         const { attached } = await attachAndSetDefaultPaymentMethod({
-//           customerId: stripeCustomer.id,
-//           paymentMethodId,
-//           key,
-//           extraMetadata,
-//         });
-//         const paymentIntent = await createPaymentIntent({
-//           customerId: stripeCustomer.id,
-//           paymentMethodId,
-//           key,
-//           baseAmount: 100,
-//           setupFee: 500,
-//           currency: 'usd',
-//           planType: 'ULTIMATE',
-//           billingInterval: 'yearly',
-//           extraMetadata,
-//         });
-//         if (
-//           paymentIntent.status === 'requires_action' &&
-//           paymentIntent.next_action?.type === 'use_stripe_sdk'
-//         ) {
-//           throw new ApiError(
-//             httpStatus.PAYMENT_REQUIRED,
-//             'Payment requires additional authentication',
-//             JSON.stringify({
-//               paymentIntentId: paymentIntent.id,
-//               nextAction: paymentIntent.next_action,
-//             })
-//           );
-//         }
-//         if (paymentIntent.status !== 'succeeded') {
-//           throw new ApiError(
-//             httpStatus.BAD_REQUEST,
-//             'Payment verification failed'
-//           );
-//         }
-//         subscription = await createStripeSubscription({
-//           key,
-//           customerId: stripeCustomer.id,
-//           planPriceId: plan[billingInterval].priceId,
-//           billingInterval,
-//           trialPeriodDays: 7,
-//           metadata: extraMetadata,
-//         });
-//     //   Handle incomplete or past_due subscription
-//         if (['incomplete', 'past_due'].includes(subscription.status)) {
-//           throw new ApiError(
-//             httpStatus.PAYMENT_REQUIRED,
-//             `Subscription is ${subscription.status}, requires attention`,
-//             JSON.stringify({
-//               subscriptionId: subscription.id,
-//             })
-//           );
-//         }
-//         console.log("Submitted data",data)
-//         // const newUser = await User.create(
-//         //   [
-//         //     {
-//         //       name,
-//         //       email,
-//         //       password,
-//         //       role: 'customer',
-//         //       dateOfBirth:data.dob,
-//         //       phone:phone,
-//         //       subscriptionStatus: 'trialing',
-//         //       stripeCustomerId: stripeCustomer.id,
-//         //       stripeSubscriptionId: subscription.id,
-//         //       currentPlan: planType,
-//         //       planInterval: billingInterval,
-//         //       agreeTerms:data.agreeTerms,
-//         //     },
-//         //   ],
-//         //   { session }
-//         // );
-//         const customerData = {
-//         name: data.name,
-//         email: data.email,
-//         password: data.password,
-//         phone: data.phone,
-//         address: data.address,
-//         dateOfBirth: data.dob ? new Date(data.dob) : undefined,
-//         role: 'customer' as const,
-//         customerProfile: {
-//           stripeCustomerId: stripeCustomer.id,
-//           stripeSubscriptionId: subscription?.id,
-//           subscriptionStatus: subscription ? 'trialing' : 'incomplete',
-//           currentPlan: data.planType,
-//           planInterval: data.billingInterval,
-//           agreeTerms: data.agreeTerms,
-//           agreeAutoRenewal: data.agreeAutoRenewal,
-//           agreeMarketingEmail: data.agreeMarketingEmail,
-//           termsAcceptedAt: new Date(),
-//           privacyPolicyAcceptedAt: new Date(),
-//           trialEndDate: subscription?.trial_end ? new Date(subscription.trial_end * 1000) : undefined,
-//           subscriptionStartDate: new Date(),
-//           billingAddress: data.billingAddress || data.address,
-//         },
-//         signupSource: data.signupSource || 'web',
-//         signupCampaign: data.signupCampaign,
-//         signupReferrer: data.signupReferrer,
-//         marketingConsent: {
-//           email: data.agreeMarketingEmail,
-//           sms: false,
-//           givenAt: new Date(),
-//         },
-//         dataProcessingConsent: {
-//           given: data.agreeTerms,
-//           givenAt: new Date(),
-//           version: '1.0',
-//         },
-//       };
-//  console.log("CustomerData",customerData)
-//     //   const newCustomer = await Customer.create([customerData], { session });
-//     //     console.log("newUser",newUser)
-//         // await Subscription.create(
-//         //   [
-//         //     {
-//         //       userId: newUser[0]._id,
-//         //       stripeSubscriptionId: subscription.id,
-//         //       planType,
-//         //       priceId: plan[billingInterval].priceId,
-//         //       billingInterval,
-//         //       status: subscription.status,
-//         //       quantity:
-//         //         (subscription as any).quantity ??
-//         //         subscription.items?.data?.[0]?.quantity ??
-//         //         1,
-//         //       currentPeriodStart: subscription.start_date
-//         //         ? new Date(subscription.start_date * 1000)
-//         //         : null,
-//         //       currentPeriodEnd:
-//         //         subscription.trial_end || subscription.billing_cycle_anchor
-//         //           ? new Date(
-//         //               (subscription.trial_end ||
-//         //                 subscription.billing_cycle_anchor) * 1000
-//         //             )
-//         //           : null,
-//         //       trialStart: subscription.trial_start
-//         //         ? new Date(subscription.trial_start * 1000)
-//         //         : null,
-//         //       trialEnd: subscription.trial_end
-//         //         ? new Date(subscription.trial_end * 1000)
-//         //         : null,
-//         //       cancelAtPeriodEnd: subscription.cancel_at_period_end,
-//         //       cancelAt: subscription.canceled_at
-//         //         ? new Date(subscription.canceled_at * 1000)
-//         //         : null,
-//         //       cancelReason: null,
-//         //       paused: false,
-//         //       pauseDetails: null,
-//         //       latestInvoiceId:
-//         //         typeof subscription.latest_invoice === 'string'
-//         //           ? subscription.latest_invoice
-//         //           : subscription.latest_invoice?.id || null,
-//         //       addons: [],
-//         //       metadata:extraMetadata,
-//         //       defaultPaymentMethodId: paymentMethodId,
-//         //       cardBrand: attached?.card?.brand || null,
-//         //       cardLast4: attached?.card?.last4 || null,
-//         //       lastStripeEventId: null,
-//         //       lastSyncedAt: new Date(),
-//         //       archived: false,
-//         //       archivedAt: null,
-//         //     },
-//         //   ],
-//         //   { session }
-//         // );
-//         // result = {
-//         //   userId: newUser[0]._id,
-//         //   customerId: stripeCustomer.id,
-//         //   subscriptionId: subscription.id,
-//         //   paymentIntentId: paymentIntent.id,
-//         //   planDetails: {
-//         //     name: planType,
-//         //     billingInterval,
-//         //     features: plan[billingInterval].features,
-//         //     price: plan[billingInterval].amount / 100,
-//         //   },
-//         // };
-//     });
-//     console.log("Result",result)
-//     return result;
-//   } catch (error) {
-//     await cleanupOrphanStripeResources(
-//       stripeCustomer?.id,
-//       paymentMethodId,
-//       subscription?.id
-//     );
-//     console.error('❌ Subscription + User creation failed:', error);
-//     if (error instanceof ApiError) throw error;
-//     if (error instanceof stripe.errors.StripeError) {
-//       throw new ApiError(
-//         httpStatus.BAD_REQUEST,
-//         error.message || 'Payment processing failed'
-//       );
-//     }
-//     throw new ApiError(
-//       httpStatus.INTERNAL_SERVER_ERROR,
-//       'Unexpected error creating trial subscription'
-//     );
-//   } finally {
-//     session.endSession();
-//   }
-// };
 const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Service final', data);
+    // Debug log with color and icon
+    // eslint-disable-next-line no-console
+    console.log('=====Stripe data all', data);
     const session = yield mongoose_1.default.startSession();
     let result;
     let stripeCustomer;
@@ -539,26 +49,37 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
     let paymentMethodId;
     let referredAffiliate;
     let referredByAffiliateId;
-    const COMMISSION_AMOUNT = 30;
     let referralCodeUsed = null;
     try {
-        const { key, paymentMethodId, email, firstName, lastName, planType, billingInterval, phone, country, address, marketingConsent, affiliateId } = data, rest = __rest(data, ["key", "paymentMethodId", "email", "firstName", "lastName", "planType", "billingInterval", "phone", "country", "address", "marketingConsent", "affiliateId"]);
+        const { key, paymentMethodId, email, firstName, lastName, planType, billingInterval, phone, country, address, marketingConsent, affiliateId, clickId, subId, } = data;
         if (!key || !paymentMethodId || !email || !planType || !billingInterval) {
             throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Missing required fields');
         }
         const plan = stripe_utils_1.PROTECTION_PLANS[planType][billingInterval];
-        console.log('Service plan', plan);
+        console.log('Stripe plan', plan);
         if (!plan)
             throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid plan type');
         yield session.withTransaction(() => __awaiter(void 0, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j;
             //@ts-ignore
             const isUserExist = yield auth_model_1.User.isUserExist(email, session);
+            console.log('Stripe isUserExist', isUserExist);
             if (isUserExist) {
                 throw new apiErrors_1.default(http_status_1.default.CONFLICT, 'User already exists. Please check your details and try again.');
             }
-            console.log('isUserExist', isUserExist);
-            const extraMetadata = Object.assign({}, rest);
+            const extraMetadata = {
+                planType: String(planType),
+                billingInterval: String(billingInterval),
+                affiliateId: affiliateId ? String(affiliateId) : '',
+                subId: subId ? String(subId) : '',
+                agreeMarketingEmail: data.agreeMarketingEmail ? 'true' : 'false',
+                agreeAutoRenewal: data.agreeAutoRenewal ? 'true' : 'false',
+                agreeTerms: data.agreeTerms ? 'true' : 'false',
+                signupSource: data.signupSource ? String(data.signupSource) : 'web',
+                signupCampaign: data.signupCampaign ? String(data.signupCampaign) : '',
+                signupReferrer: data.signupReferrer ? String(data.signupReferrer) : '',
+            };
+            console.log('Stripe extraMetadata', extraMetadata);
             const name = `${firstName} ${lastName || ''}`.trim();
             stripeCustomer = yield (0, stripe_utils_1.createStripeCustomer)({
                 key,
@@ -581,15 +102,17 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 key,
                 extraMetadata,
             });
-            console.log('Stripe attached', attached);
+            console.log('attached', attached);
             // -------------------------------
             // Step 2: Decide trial & payment based on affiliate
             // -------------------------------
             const isAffiliate = !!affiliateId;
+            console.log('IsAffiliate', isAffiliate);
             const baseAmount = isAffiliate
                 ? plan.amount + plan.baseAmount
                 : plan.baseAmount;
             const trialDays = isAffiliate ? 0 : 7;
+            console.log('🔍 Amount Incoming data:', baseAmount, 'trialDays', trialDays);
             const paymentIntent = yield (0, stripe_utils_1.createPaymentIntent)({
                 customerId: stripeCustomer.id,
                 paymentMethodId,
@@ -601,7 +124,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 billingInterval,
                 extraMetadata,
             });
-            console.log('Stripe paymentIntent', paymentIntent);
+            console.log('paymentIntent', paymentIntent);
             if (paymentIntent.status === 'requires_action' &&
                 ((_a = paymentIntent.next_action) === null || _a === void 0 ? void 0 : _a.type) === 'use_stripe_sdk') {
                 throw new apiErrors_1.default(http_status_1.default.PAYMENT_REQUIRED, 'Payment requires additional authentication', JSON.stringify({
@@ -628,57 +151,120 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 }));
             }
             if (affiliateId) {
-                referredAffiliate = yield auth_model_1.User.findOne({
-                    'affiliateProfile.referralCode': affiliateId,
-                }).session(session);
-                console.log('referredAffiliate', referredAffiliate);
-                if (referredAffiliate && paymentIntent.status === 'succeeded') {
-                    // Self-referral prevention
-                    if (referredAffiliate.email === email) {
-                        console.warn('🚨 Self-referral attempt detected, ignoring.');
+                try {
+                    // Find the referring affiliate by their referral code
+                    referredAffiliate = yield auth_model_1.User.findOne({ 'affiliateProfile.referralCode': affiliateId }, { affiliateProfile: 1, email: 1, _id: 1 }).session(session);
+                    if (referredAffiliate) {
+                        console.log('referredAffiliate', referredAffiliate);
+                        // Only process referral if payment was successful
+                        if (paymentIntent.status === 'succeeded') {
+                            // Prevent self-referrals
+                            if (referredAffiliate.email === email) {
+                                console.warn('🚨 Self-referral attempt detected, ignoring.');
+                            }
+                            else {
+                                referredByAffiliateId = referredAffiliate._id;
+                                console.log('referredByAffiliateId', referredByAffiliateId);
+                                referralCodeUsed = affiliateId;
+                                console.log('referralCodeUsed', referralCodeUsed);
+                                // Determine commission status based on whether the purchaser is also an affiliate
+                                const commissionStatus = isAffiliate ? 'confirmed' : 'pending';
+                                console.log('IsAffiliate for commission', commissionStatus);
+                                let commissionRate = 0.2;
+                                let commissionAmount = 0;
+                                let affiliateLink = null;
+                                // If clickId exists, try to get commission rate from AffiliateLink
+                                if (clickId) {
+                                    try {
+                                        const isValidClickId = yield (0, affiliate_utils_1.validateClickId)(clickId, session);
+                                        console.log('isValidClickId', isValidClickId);
+                                        if (isValidClickId) {
+                                            affiliateLink = yield (0, affiliate_utils_1.findAffiliateLinkByClickId)(clickId, session);
+                                            if (affiliateLink) {
+                                                // Get commission rate from affiliate link
+                                                commissionRate = (0, stripe_utils_1.getCommissionRate)(affiliateLink, referredAffiliate);
+                                                commissionAmount = Math.round(plan.amount * commissionRate);
+                                                console.log('Link-Based Commission:', {
+                                                    affiliateLinkId: affiliateLink._id,
+                                                    subId: affiliateLink.subId,
+                                                    linkCommissionRate: affiliateLink.commissionRate,
+                                                    finalCommissionRate: commissionRate,
+                                                    commissionAmount: commissionAmount,
+                                                });
+                                                // Update conversion stats for the subId
+                                                yield (0, affiliate_utils_1.updateConversionStats)(affiliateLink._id, affiliateLink.subId || 'default', plan.amount, commissionAmount, session);
+                                                // Mark click as converted in the click log
+                                                yield affiliate_model_1.ClickLog.updateOne({ clickId }, {
+                                                    $set: {
+                                                        status: 'converted',
+                                                        conversionId: subscription.id,
+                                                        convertedAt: new Date(),
+                                                    },
+                                                }, { session });
+                                                console.log('✅ Updated AffiliateLink analytics for subId:', affiliateLink.subId);
+                                            }
+                                        }
+                                    }
+                                    catch (linkError) {
+                                        console.error('Error processing affiliate link:', linkError);
+                                        // Fallback to profile commission rate if link processing fails
+                                        commissionRate =
+                                            referredAffiliate.affiliateProfile.commissionRate || 0.2;
+                                        commissionAmount = Math.round(plan.amount * commissionRate);
+                                        console.log('Falling back to profile commission rate due to error');
+                                    }
+                                }
+                                else {
+                                    // No clickId - Use profile commission rate
+                                    commissionRate =
+                                        referredAffiliate.affiliateProfile.commissionRate || 0.2;
+                                    commissionAmount = Math.round(plan.amount * commissionRate);
+                                    console.log('Profile-Based Commission:', {
+                                        commissionRate: commissionRate,
+                                        commissionAmount: commissionAmount,
+                                    });
+                                }
+                                // Update the affiliate's stats and add the referral
+                                const updateData = {
+                                    $inc: {
+                                        'affiliateProfile.totalReferrals': 1,
+                                        'affiliateProfile.pendingCommissions': isAffiliate
+                                            ? 0
+                                            : commissionAmount,
+                                        'affiliateProfile.confirmedCommissions': isAffiliate
+                                            ? commissionAmount
+                                            : 0,
+                                        'affiliateProfile.performanceMetrics.signups': 1,
+                                        'affiliateProfile.performanceMetrics.conversions': isAffiliate ? 1 : 0,
+                                        'affiliateProfile.performanceMetrics.revenue': plan.amount,
+                                    },
+                                    $push: {
+                                        'affiliateProfile.referrals': Object.assign({ email, customerName: name, subscriptionId: subscription.id, date: new Date(), status: commissionStatus, paymentStatus: isAffiliate ? 'paid' : 'pending', amount: plan.amount, commission: commissionAmount, commissionRate: commissionRate, plan: planType, billingInterval: billingInterval, commissionSource: clickId ? 'link' : 'profile' }, (clickId &&
+                                            affiliateLink && {
+                                            clickId,
+                                            affiliateLinkId: affiliateLink._id,
+                                        })),
+                                    },
+                                };
+                                yield auth_model_1.User.updateOne({ _id: referredAffiliate._id }, updateData, { session });
+                                console.log('✅ Successfully updated affiliate referral and commission data');
+                            }
+                        }
+                        else {
+                            console.log('Payment not succeeded, skipping affiliate processing');
+                        }
                     }
                     else {
-                        referredByAffiliateId = referredAffiliate._id;
-                        referralCodeUsed = affiliateId;
-                        const commissionStatus = isAffiliate ? 'confirmed' : 'pending';
-                        yield auth_model_1.User.updateOne({ _id: referredAffiliate._id }, {
-                            $inc: {
-                                'affiliateProfile.totalReferrals': 1,
-                                'affiliateProfile.pendingCommissions': isAffiliate
-                                    ? 0
-                                    : COMMISSION_AMOUNT,
-                                'affiliateProfile.confirmedCommissions': isAffiliate
-                                    ? COMMISSION_AMOUNT
-                                    : 0,
-                                'affiliateProfile.performanceMetrics.signups': 1,
-                                'affiliateProfile.performanceMetrics.conversions': isAffiliate
-                                    ? 1
-                                    : 0,
-                            },
-                            $push: {
-                                'affiliateProfile.referrals': {
-                                    email,
-                                    customerName: name,
-                                    subscriptionId: subscription.id,
-                                    date: new Date(),
-                                    status: commissionStatus,
-                                    paymentStatus: isAffiliate ? 'paid' : 'pending',
-                                },
-                            },
-                            $set: {
-                                'affiliateProfile..performanceMetrics.lastUpdated': new Date(),
-                            },
-                        }, { session });
+                        console.log('No affiliate found with referral code:', affiliateId);
                     }
                 }
-                else {
-                    console.warn('⚠️ Invalid affiliateId provided:', affiliateId);
+                catch (error) {
+                    console.error('Error processing affiliate referral:', error);
                 }
             }
             const customerData = {
                 name,
                 email: data.email,
-                ssn: data.ssn,
                 password: data.password,
                 phone: data.phone,
                 address: data.address,
@@ -687,6 +273,7 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 customerProfile: {
                     firstName: firstName,
                     lastName: lastName,
+                    ssn: data.ssn,
                     stripeCustomerId: stripeCustomer.id,
                     stripeSubscriptionId: subscription.id,
                     subscriptionStatus: subscription.status === 'trialing' ? 'trialing' : 'active',
@@ -741,14 +328,16 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 termsAcceptedAt: new Date(),
                 privacyPolicyAcceptedAt: new Date(),
                 communicationPreferences: {
-                    email: data.agreeMarketingEmail || false,
+                    email: data.agreeMarketingEmail || true,
                     sms: false,
                     push: false,
                 },
             };
-            // Use the Customer discriminator to create the user
+            //   Use the Customer discriminator to create the user
             const createdUser = yield auth_model_1.Customer.create([customerData], { session });
             console.log('Finally created user', createdUser);
+            const sanitizedUser = createdUser[0].toJSON();
+            console.log('Finally created user', sanitizedUser);
             const { currentPeriodStart, currentPeriodEnd, trialStart, trialEnd } = (0, stripe_utils_1.getSubscriptionDates)(subscription, billingInterval);
             const subscriptionDb = yield stripe_model_1.Subscription.create([
                 {
@@ -777,11 +366,11 @@ const createTrialSubscription = (data) => __awaiter(void 0, void 0, void 0, func
                 },
             ], { session });
             console.log('subscriptionDb', subscriptionDb);
-            //@ts-ignore
+            //   @ts-ignore
             const { _id, role } = createdUser[0];
-            // Access token
+            //   Access token
             const accessToken = jwtHelpers_1.jwtHelpers.createToken(
-            //@ts-ignore
+            //   @ts-ignore
             { userId: _id, email: createdUser[0].email, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
             const refreshToken = jwtHelpers_1.jwtHelpers.createToken(
             //@ts-ignore

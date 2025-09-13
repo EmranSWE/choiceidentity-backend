@@ -61,25 +61,20 @@ const affiliateClick = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         req.ip ||
         '';
     const userAgent = req.get('User-Agent') || '';
-    const referrer = req.get('Referer') || req.headers.referer || null;
+    const referrer = req.get('Referer') || req.headers.referer || '';
     // GeoIP enrichment
     const geo = geoip_lite_1.default.lookup(ip) || { country: null, region: null, city: null };
     // Optional: device fingerprint from header or compute here
     const deviceFingerprint = req.headers['x-device-fingerprint'] ||
         (0, affiliate_utils_1.generateFingerprint)(ip, userAgent);
-    const redirectUrl = yield affiliate_service_1.AffiliateService.affiliateClick(slug, ip, userAgent, geo, deviceFingerprint, referrer);
-    console.log('redirectUrl', redirectUrl);
-    // Parse redirect URL and set secure signed cookie
-    const url = new URL(redirectUrl);
-    console.log(url);
-    const affiliateCode = url.searchParams.get('affiliate');
-    if (affiliateCode) {
-        res.cookie('affiliate_code', affiliateCode, {
-            maxAge: 30 * 24 * 60 * 60 * 1000,
+    const { redirectUrl, clickId } = yield affiliate_service_1.AffiliateService.affiliateClick(slug, ip, userAgent, geo, deviceFingerprint, referrer);
+    if (clickId) {
+        res.cookie('aff_click_id', clickId, {
+            maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            //   signed: true,
+            sameSite: 'lax',
+            domain: 'localhost'
         });
     }
     return res.redirect(redirectUrl);
@@ -94,6 +89,7 @@ const getOverview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     }
     // Delegate all logic to service
     const overview = yield affiliate_service_1.AffiliateService.getOverview(user.userId);
+    console.log("overview", overview);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

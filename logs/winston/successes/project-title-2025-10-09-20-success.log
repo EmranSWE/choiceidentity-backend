@@ -1,0 +1,120 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T14:36:43.829Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:02.825Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:03.653Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:04.497Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:05.079Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:05.526Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:06.685Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:09.177Z'
+}
+{
+  message: 'Canceled subscription sub_1S5pAt2NDTqGR9XIOGB3aK2c',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:09.995Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:09.999Z'
+}
+{
+  message: 'Deleted customer cus_T1swdcwLmYSVbO',
+  level: 'info',
+  timestamp: '2025-09-10T14:39:10.608Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T14:52:28.882Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T14:52:37.109Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T14:55:53.046Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:23.968Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:24.756Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:25.613Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:26.280Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:26.808Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:28.007Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:30.604Z'
+}
+{
+  message: 'Canceled subscription sub_1S5pSe2NDTqGR9XIfhzRS6bT',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:31.326Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:31.328Z'
+}
+{
+  message: 'Deleted customer cus_T1tFEi5H5MmWYT',
+  level: 'info',
+  timestamp: '2025-09-10T14:57:31.937Z'
+}

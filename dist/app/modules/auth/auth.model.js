@@ -67,148 +67,6 @@ const AdminProfileSchema = new mongoose_1.Schema({
     apiRateLimit: { type: Number, default: 1000 },
     sessionTimeout: { type: Number, default: 3600 },
 }, { _id: false });
-// Customer Profile Schema
-const CustomerProfileSchema = new mongoose_1.Schema({
-    firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
-    ssn: {
-        type: String,
-        select: false,
-        validate: {
-            validator: (value) => /^\d{3}-\d{2}-\d{4}$/.test(value),
-            message: 'SSN must be in format XXX-XX-XXXX',
-        },
-    },
-    stripeCustomerId: String,
-    stripeSubscriptionId: String,
-    subscriptionStatus: {
-        type: String,
-        enum: [
-            'active',
-            'canceled',
-            'trialing',
-            'past_due',
-            'unpaid',
-            'incomplete',
-        ],
-        default: 'incomplete',
-    },
-    currentPlan: String,
-    planInterval: {
-        type: String,
-        enum: ['monthly', 'yearly'],
-    },
-    subscriptionStartDate: Date,
-    subscriptionEndDate: Date,
-    trialEndDate: Date,
-    cancelAtPeriodEnd: { type: Boolean, default: false },
-    planRenewalDate: Date,
-    appliedDiscounts: [
-        {
-            discountId: String,
-            amount: Number,
-            validUntil: Date,
-        },
-    ],
-    billingAddress: {
-        line1: String,
-        line2: String,
-        city: String,
-        state: String,
-        postalCode: String,
-        country: String,
-        taxId: { type: String, select: false },
-    },
-    subscriptionHistory: [
-        {
-            plan: String,
-            interval: { type: String, enum: ['month', 'year'] },
-            startedAt: Date,
-            endedAt: Date,
-        },
-    ],
-    usageStats: {
-        scansThisMonth: { type: Number, default: 0, min: 0 },
-        alertsTriggered: { type: Number, default: 0, min: 0 },
-        identityTheftClaims: { type: Number, default: 0, min: 0 },
-        creditReportsGenerated: { type: Number, default: 0, min: 0 },
-        darkWebMonitoring: { type: Number, default: 0, min: 0 },
-        lastReset: { type: Date, default: Date.now },
-    },
-    paymentMethods: [
-        {
-            id: String,
-            type: { type: String, enum: ['card', 'bank', 'paypal'] },
-            last4: String,
-            expiry: String,
-            primary: Boolean,
-            addedAt: Date,
-            billingDetails: {
-                name: String,
-                email: String,
-                phone: String,
-                address: mongoose_1.Schema.Types.Mixed,
-            },
-        },
-    ],
-    agreeAutoRenewal: { type: Boolean, default: false },
-    privacyPolicyAcceptedAt: Date,
-    paymentFailureCount: { type: Number, default: 0 },
-    lastPaymentDate: Date,
-    nextBillingDate: Date,
-    invoiceHistory: [
-        {
-            invoiceId: String,
-            amount: Number,
-            date: Date,
-            status: String,
-            downloadUrl: String,
-        },
-    ],
-    creditMonitoring: {
-        enabled: { type: Boolean, default: false },
-        lastUpdated: Date,
-        score: Number,
-        factors: [String],
-    },
-    preferences: {
-        alerts: {
-            email: { type: Boolean, default: true },
-            sms: { type: Boolean, default: false },
-            push: { type: Boolean, default: true },
-        },
-        reports: {
-            frequency: {
-                type: String,
-                enum: ['weekly', 'monthly', 'quarterly'],
-                default: 'monthly',
-            },
-            format: { type: String, enum: ['pdf', 'html', 'both'], default: 'pdf' },
-        },
-        communication: {
-            promotional: { type: Boolean, default: true },
-            educational: { type: Boolean, default: true },
-            security: { type: Boolean, default: true },
-        },
-    },
-    loyaltyPoints: { type: Number, default: 0 },
-    supportTier: {
-        type: String,
-        enum: ['basic', 'priority', 'vip'],
-        default: 'basic',
-    },
-    accountManager: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
-    referredBy: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User',
-        default: null,
-        index: true,
-    },
-    referralCodeUsed: {
-        type: String,
-        default: null,
-    },
-}, { _id: false });
 const AffiliateSchema = new mongoose_1.Schema({
     // ==================== APPLICATION & ONBOARDING ====================
     firstName: { type: String, required: true, trim: true },
@@ -257,6 +115,12 @@ const AffiliateSchema = new mongoose_1.Schema({
     referralSource: String,
     referrals: [
         {
+            amount: { type: Number }, // Sale amount
+            commission: { type: Number }, // Commission earned
+            plan: { type: String }, // Product plan
+            billingInterval: { type: String }, // Billing cycle
+            clickId: { type: String }, // For click-based attribution
+            convertedAt: { type: Date, default: Date.now }, // Conversion timestamp,
             email: { type: String, lowercase: true },
             customerName: String,
             customerId: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
@@ -302,6 +166,29 @@ const AffiliateSchema = new mongoose_1.Schema({
     pendingCommissions: { type: Number, default: 0, min: 0 },
     confirmedCommissions: { type: Number, default: 0, min: 0 },
     paidCommissions: { type: Number, default: 0, min: 0 },
+    // ==================== PERFORMANCE ANALYTICS ====================
+    performanceMetrics: {
+        clicks: { type: Number, default: 0, min: 0 },
+        signups: { type: Number, default: 0, min: 0 },
+        conversions: { type: Number, default: 0, min: 0 },
+        conversionRate: { type: Number, default: 0, min: 0, max: 100 },
+        revenue: { type: Number, default: 0, min: 0 },
+        revenueGenerated: { type: Number, default: 0, min: 0 },
+        averageOrderValue: { type: Number, default: 0, min: 0 },
+        clickThroughRate: { type: Number, default: 0, min: 0, max: 100 },
+        earningsPerClick: { type: Number, default: 0, min: 0 },
+        returnOnInvestment: { type: Number, default: 0 },
+        lastUpdated: { type: Date, default: Date.now },
+        historicalData: [
+            {
+                date: Date,
+                clicks: Number,
+                conversions: Number,
+                revenue: Number,
+                commissions: Number,
+            },
+        ],
+    },
     // ==================== PAYOUT SYSTEM ====================
     payoutMethod: {
         type: {
@@ -353,28 +240,6 @@ const AffiliateSchema = new mongoose_1.Schema({
             taxDocumentGenerated: { type: Boolean, default: false },
         },
     ],
-    // ==================== PERFORMANCE ANALYTICS ====================
-    performanceMetrics: {
-        clicks: { type: Number, default: 0, min: 0 },
-        signups: { type: Number, default: 0, min: 0 },
-        conversions: { type: Number, default: 0, min: 0 },
-        conversionRate: { type: Number, default: 0, min: 0, max: 100 },
-        revenueGenerated: { type: Number, default: 0, min: 0 },
-        averageOrderValue: { type: Number, default: 0, min: 0 },
-        clickThroughRate: { type: Number, default: 0, min: 0, max: 100 },
-        earningsPerClick: { type: Number, default: 0, min: 0 },
-        returnOnInvestment: { type: Number, default: 0 },
-        lastUpdated: { type: Date, default: Date.now },
-        historicalData: [
-            {
-                date: Date,
-                clicks: Number,
-                conversions: Number,
-                revenue: Number,
-                commissions: Number,
-            },
-        ],
-    },
     // ==================== TIER & COMMISSION STRUCTURE ====================
     tier: {
         type: String,
@@ -643,9 +508,153 @@ const AffiliateSchema = new mongoose_1.Schema({
     lastActivityAt: Date,
     lastCommissionAt: Date,
     lastPayoutRequestAt: Date,
-}, {
-    _id: false,
 });
+// Customer Profile Schema
+const CustomerProfileSchema = new mongoose_1.Schema({
+    firstName: { type: String, required: true, trim: true },
+    lastName: { type: String, required: true, trim: true },
+    ssn: {
+        type: String,
+        select: false,
+        set: (value) => {
+            if (value && !(0, auth_utils_1.validateSSN)(value)) {
+                throw new Error('Invalid SSN format');
+            }
+            return value ? (0, auth_utils_1.encrypt)(value) : value;
+        },
+        get: (value) => (value ? (0, auth_utils_1.decrypt)(value) : value),
+        maxlength: 512,
+    },
+    stripeCustomerId: String,
+    stripeSubscriptionId: String,
+    subscriptionStatus: {
+        type: String,
+        enum: [
+            'active',
+            'canceled',
+            'trialing',
+            'past_due',
+            'unpaid',
+            'incomplete',
+        ],
+        default: 'incomplete',
+    },
+    currentPlan: String,
+    planInterval: {
+        type: String,
+        enum: ['monthly', 'yearly'],
+    },
+    subscriptionStartDate: Date,
+    subscriptionEndDate: Date,
+    trialEndDate: Date,
+    cancelAtPeriodEnd: { type: Boolean, default: false },
+    planRenewalDate: Date,
+    appliedDiscounts: [
+        {
+            discountId: String,
+            amount: Number,
+            validUntil: Date,
+        },
+    ],
+    billingAddress: {
+        line1: String,
+        line2: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: String,
+        taxId: { type: String, select: false },
+    },
+    subscriptionHistory: [
+        {
+            plan: String,
+            interval: { type: String, enum: ['month', 'year'] },
+            startedAt: Date,
+            endedAt: Date,
+        },
+    ],
+    usageStats: {
+        scansThisMonth: { type: Number, default: 0, min: 0 },
+        alertsTriggered: { type: Number, default: 0, min: 0 },
+        identityTheftClaims: { type: Number, default: 0, min: 0 },
+        creditReportsGenerated: { type: Number, default: 0, min: 0 },
+        darkWebMonitoring: { type: Number, default: 0, min: 0 },
+        lastReset: { type: Date, default: Date.now },
+    },
+    paymentMethods: [
+        {
+            id: String,
+            type: { type: String, enum: ['card', 'bank', 'paypal'] },
+            last4: String,
+            expiry: String,
+            primary: Boolean,
+            addedAt: Date,
+            billingDetails: {
+                name: String,
+                email: String,
+                phone: String,
+                address: mongoose_1.Schema.Types.Mixed,
+            },
+        },
+    ],
+    agreeAutoRenewal: { type: Boolean, default: false },
+    privacyPolicyAcceptedAt: Date,
+    paymentFailureCount: { type: Number, default: 0 },
+    lastPaymentDate: Date,
+    nextBillingDate: Date,
+    invoiceHistory: [
+        {
+            invoiceId: String,
+            amount: Number,
+            date: Date,
+            status: String,
+            downloadUrl: String,
+        },
+    ],
+    creditMonitoring: {
+        enabled: { type: Boolean, default: false },
+        lastUpdated: Date,
+        score: Number,
+        factors: [String],
+    },
+    preferences: {
+        alerts: {
+            email: { type: Boolean, default: true },
+            sms: { type: Boolean, default: false },
+            push: { type: Boolean, default: true },
+        },
+        reports: {
+            frequency: {
+                type: String,
+                enum: ['weekly', 'monthly', 'quarterly'],
+                default: 'monthly',
+            },
+            format: { type: String, enum: ['pdf', 'html', 'both'], default: 'pdf' },
+        },
+        communication: {
+            promotional: { type: Boolean, default: true },
+            educational: { type: Boolean, default: true },
+            security: { type: Boolean, default: true },
+        },
+    },
+    loyaltyPoints: { type: Number, default: 0 },
+    supportTier: {
+        type: String,
+        enum: ['basic', 'priority', 'vip'],
+        default: 'basic',
+    },
+    accountManager: { type: mongoose_1.Schema.Types.ObjectId, ref: 'User' },
+    referredBy: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null,
+        index: true,
+    },
+    referralCodeUsed: {
+        type: String,
+        default: null,
+    },
+}, { _id: false });
 // Main User Schema Fo All User
 const userSchema = new mongoose_1.Schema({
     name: { type: String, required: true, trim: true },
@@ -1214,6 +1223,6 @@ const AdminSetupTokenSchema = new mongoose_1.Schema({
     email: { type: String, required: true },
     token: { type: String, required: true, unique: true },
     expiresAt: { type: Date, required: true },
-    used: { type: Boolean, default: false }
+    used: { type: Boolean, default: false },
 });
-exports.AdminSetupToken = (0, mongoose_1.model)("AdminSetupToken", AdminSetupTokenSchema);
+exports.AdminSetupToken = (0, mongoose_1.model)('AdminSetupToken', AdminSetupTokenSchema);

@@ -7,11 +7,6 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { StripeService } from './stripe.service';
-import {
-  StripeRequestBody,
-  StripeCheckoutRequestBody,
-} from './stripe.interface';
-import { isValidPriceId } from './stripe.utils';
 import ApiError from '../../../errors/apiErrors';
 import { getCookieOptions } from '../../../config/cors.config';
 

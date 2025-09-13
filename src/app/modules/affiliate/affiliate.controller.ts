@@ -56,6 +56,8 @@ const listAffiliateLinks: RequestHandler = catchAsync(
   }
 );
 
+
+
 const affiliateClick: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { slug } = req.params;
@@ -68,7 +70,7 @@ const affiliateClick: RequestHandler = catchAsync(
 
     const userAgent = req.get('User-Agent') || '';
 
-    const referrer = req.get('Referer') || req.headers.referer || null;
+    const referrer = req.get('Referer') || req.headers.referer || '';
 
     // GeoIP enrichment
     const geo = geoip.lookup(ip) || { country: null, region: null, city: null };
@@ -78,8 +80,7 @@ const affiliateClick: RequestHandler = catchAsync(
       (req.headers['x-device-fingerprint'] as string) ||
       generateFingerprint(ip, userAgent);
 
-      
-    const redirectUrl = await AffiliateService.affiliateClick(
+    const { redirectUrl, clickId } = await AffiliateService.affiliateClick(
       slug,
       ip,
       userAgent,
@@ -87,23 +88,19 @@ const affiliateClick: RequestHandler = catchAsync(
       deviceFingerprint,
       referrer
     );
-    console.log('redirectUrl', redirectUrl);
-    // Parse redirect URL and set secure signed cookie
-    const url = new URL(redirectUrl);
 
-    console.log(url);
-
-    const affiliateCode = url.searchParams.get('affiliate');
-
-    if (affiliateCode) {
-      res.cookie('affiliate_code', affiliateCode, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+ 
+    if (clickId) {
+      res.cookie('aff_click_id', clickId, {
+        maxAge: 24 * 60 * 60 * 1000, 
+        httpOnly: true, 
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        //   signed: true,
+        sameSite: 'lax',
+        domain: 'localhost' 
       });
     }
+
+
     return res.redirect(redirectUrl);
   }
 );
@@ -122,6 +119,7 @@ const getOverview: RequestHandler = catchAsync(
     // Delegate all logic to service
     const overview = await AffiliateService.getOverview(user.userId);
 
+    console.log("overview",overview);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

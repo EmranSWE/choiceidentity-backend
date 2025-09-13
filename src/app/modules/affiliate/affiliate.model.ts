@@ -1,13 +1,119 @@
 import mongoose, { Schema, Model } from 'mongoose';
 import {
   BILLINGS,
-  IAffiliateConversion,
   IAffiliateLink,
   IClickLog,
+  ISubIdPerformance,
   PLANS,
 } from './affiliate.interface';
 import { DEFAULT_DOMAIN } from './affiliate.utils';
 import { model } from 'mongoose';
+
+
+
+
+
+
+const subIdPerformanceSchema = new Schema<ISubIdPerformance>(
+  {
+    affiliateLinkId: {
+      type: Schema.Types.ObjectId,
+      ref: 'AffiliateLink',
+      required: true,
+      index: true
+    },
+    affiliateId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true
+    },
+    subId: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 100,
+      index: true
+    },
+    clicks: { 
+      type: Number, 
+      default: 0,
+      min: 0
+    },
+    
+    conversions: { 
+      type: Number, 
+      default: 0,
+      min: 0
+    },
+    revenue: { 
+      type: Number, 
+      default: 0,
+      min: 0
+    },
+    commission: { 
+      type: Number, 
+      default: 0,
+      min: 0
+    },
+    firstClickAt: { 
+      type: Date, 
+      default: Date.now
+    },
+    lastClickAt: { 
+      type: Date, 
+      default: Date.now
+    },
+    lastConversionAt: { 
+      type: Date, 
+      default: null
+    },
+    epc: { 
+      type: Number, 
+      default: 0,
+      min: 0
+    },
+    deviceBreakdown: {
+      desktop: { type: Number, default: 0, min: 0 },
+      mobile: { type: Number, default: 0, min: 0 },
+      tablet: { type: Number, default: 0, min: 0 }
+    },
+    campaign: {
+      type: String,
+      default: null,
+      trim: true,
+      maxlength: 50,
+      index: true
+    },
+    status: {
+      type: String,
+      enum: ['active', 'paused'],
+      default: 'active',
+      index: true
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+// Compound indexes
+subIdPerformanceSchema.index({ affiliateLinkId: 1, subId: 1 }, { unique: true });
+subIdPerformanceSchema.index({ affiliateId: 1, subId: 1 });
+subIdPerformanceSchema.index({ affiliateId: 1, createdAt: -1 });
+
+// Pre-save middleware to calculate EPC
+subIdPerformanceSchema.pre('save', function(this: ISubIdPerformance, next) {
+  this.epc = this.clicks > 0 ? this.revenue / this.clicks : 0;
+  next();
+});
+
+// Virtual for conversion rate
+subIdPerformanceSchema.virtual('conversionRate').get(function(this: ISubIdPerformance) {
+  return this.clicks > 0 ? (this.conversions / this.clicks) * 100 : 0;
+});
+
+export const SubIdPerformance: Model<ISubIdPerformance> = mongoose.model<ISubIdPerformance>('SubIdPerformance', subIdPerformanceSchema);
 
 const affiliateLinkSchema = new Schema<IAffiliateLink>(
   {
@@ -58,13 +164,8 @@ const affiliateLinkSchema = new Schema<IAffiliateLink>(
       index: true,
       trim: true,
     },
-    clickId: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-      trim: true,
-    },
+  clickId: { type: String, unique: true, sparse: true },
+
     status: {
       type: String,
       enum: ['active', 'paused', 'deleted'],
@@ -75,8 +176,20 @@ const affiliateLinkSchema = new Schema<IAffiliateLink>(
     conversionCount: { type: Number, default: 0, min: 0 },
     revenue: { type: Number, default: 0, min: 0 },
     commission: { type: Number, default: 0, min: 0 },
-    commissionRate: { type: Number, default: 0, min: 0, max: 100 },
-    EPC: { type: Number, default: 0, min: 0 },
+
+    commissionRate: {
+      type: Number,
+      default: null,
+      min: 0,
+      max: 1, 
+      validate: {
+        validator: function (v: number) {
+          return v === null || (v >= 0 && v <= 1);
+        },
+        message: 'Commission rate must be between 0 and 1',
+      },
+    },
+    epc: { type: Number, default: 0, min: 0 },
     lastClickedAt: { type: Date, default: null },
     lastConvertedAt: { type: Date, default: null },
     createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -85,9 +198,9 @@ const affiliateLinkSchema = new Schema<IAffiliateLink>(
     tags: { type: [String], default: [], index: true },
     campaign: { type: String, default: null, trim: true, maxlength: 50 },
     clicksByDevice: {
-      type: Map,
-      of: Number,
-      default: { desktop: 0, mobile: 0, tablet: 0 },
+       desktop: { type: Number, default: 0 },
+      mobile: { type: Number, default: 0 },
+      tablet: { type: Number, default: 0 }
     },
     tier: {
       type: String,
@@ -102,10 +215,17 @@ const affiliateLinkSchema = new Schema<IAffiliateLink>(
       trim: true,
       maxLength: 100,
     },
+    subIdPerformanceRef: {
+      type: Schema.Types.ObjectId,
+      ref: 'SubIdPerformance',
+      default: null,
+      sparse: true
+    }
   },
   { timestamps: true }
 );
 
+affiliateLinkSchema.index({ createdAt: -1, totalConversions: -1 });
 affiliateLinkSchema.index(
   {
     affiliateCode: 1,
@@ -172,7 +292,30 @@ affiliateLinkSchema.virtual('shortUrl').get(function () {
   const domain = this.customDomain || DEFAULT_DOMAIN;
   return `${domain}/click/${this.shortSlug}`;
 });
+// Virtual for conversion rate
+// AffiliateLink Schema-এ virtual fields add করুন
+affiliateLinkSchema.virtual('totalClicks').get(function(this: IAffiliateLink) {
+  return this.clickCount;
+});
 
+affiliateLinkSchema.virtual('totalConversions').get(function(this: IAffiliateLink) {
+  return this.conversionCount;
+});
+
+affiliateLinkSchema.virtual('totalRevenue').get(function(this: IAffiliateLink) {
+  return this.revenue;
+});
+
+affiliateLinkSchema.virtual('totalCommission').get(function(this: IAffiliateLink) {
+  return this.commission;
+});
+// affiliateLinkSchema.virtual('epc').get(function(this: IAffiliateLink) {
+//   return this.clickCount > 0 ? this.revenue / this.clickCount : 0;
+// });
+
+
+// Virtual fields কে JSON response-এ include করতে
+affiliateLinkSchema.set('toObject', { virtuals: true });
 affiliateLinkSchema.set('toJSON', { virtuals: true });
 
 export const AffiliateLink: Model<IAffiliateLink> = model<IAffiliateLink>(
@@ -180,18 +323,31 @@ export const AffiliateLink: Model<IAffiliateLink> = model<IAffiliateLink>(
   affiliateLinkSchema
 );
 
-// Click Log Schema
 const clickLogSchema = new Schema<IClickLog>(
   {
     clickId: { type: String, required: true, unique: true, index: true },
-    affiliateLinkId: { type: Schema.Types.ObjectId, ref: "AffiliateLink", required: true, index: true },
-    affiliateId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
+    affiliateLinkId: {
+      type: Schema.Types.ObjectId,
+      ref: 'AffiliateLink',
+      required: true,
+      index: true,
+    },
+    affiliateId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true,
+    },
     affiliateCode: { type: String, required: true, index: true },
     plan: { type: String, required: true },
     billing: { type: String, required: true },
     subId: { type: String },
-    source: { type: String, default: "affiliate_platform" },
-    status: { type: String, enum: ["clicked", "converted"], default: "clicked" },
+    source: { type: String, default: 'affiliate_platform' },
+    status: {
+      type: String,
+      enum: ['clicked', 'converted'],
+      default: 'clicked',
+    },
     ip: { type: String, required: true, index: true },
     geo: {
       country: { type: String },
@@ -202,7 +358,11 @@ const clickLogSchema = new Schema<IClickLog>(
       timezone: { type: String },
     },
     deviceFingerprint: { type: String, required: true, index: true },
-    deviceType: { type: String, enum: ["desktop", "mobile", "tablet"], required: true },
+    deviceType: {
+      type: String,
+      enum: ['desktop', 'mobile', 'tablet'],
+      required: true,
+    },
     browser: { type: String, maxlength: 50 },
     browserVersion: { type: String, maxlength: 20 },
     os: { type: String, maxlength: 50 },
@@ -216,83 +376,43 @@ const clickLogSchema = new Schema<IClickLog>(
 );
 
 // TTL: automatically purge old clicks after 180 days
-clickLogSchema.index({ clickedAt: 1 }, { expireAfterSeconds: 180 * 24 * 60 * 60 });
+clickLogSchema.index(
+  { clickedAt: 1 },
+  { expireAfterSeconds: 180 * 24 * 60 * 60 }
+);
 
-// Compound indexes for reporting / analytics
-clickLogSchema.index({ affiliateLinkId: 1, clickedAt: -1 });
+// TTL Index (180 days expiration)
+clickLogSchema.index({ clickedAt: 1 }, { expireAfterSeconds: 15552000 });
+
+// Duplicate detection optimization - MOST IMPORTANT
+clickLogSchema.index({ 
+  affiliateLinkId: 1, 
+  deviceFingerprint: 1, 
+  ip: 1,
+  clickedAt: 1
+});
+
+// Affiliate performance analytics
 clickLogSchema.index({ affiliateId: 1, clickedAt: -1 });
-clickLogSchema.index({ affiliateLinkId: 1, ip: 1, clickedAt: -1 });
-clickLogSchema.index({ deviceFingerprint: 1, clickedAt: -1 });
+clickLogSchema.index({ affiliateLinkId: 1, clickedAt: -1 });
 
-export const ClickLog: Model<IClickLog> = mongoose.model<IClickLog>("ClickLog", clickLogSchema);
+// Campaign performance analytics
+clickLogSchema.index({ campaign: 1, clickedAt: -1 });
+clickLogSchema.index({ affiliateId: 1, campaign: 1, clickedAt: -1 });
 
+// Geo and device analytics
+clickLogSchema.index({ "geo.country": 1, clickedAt: -1 });
+clickLogSchema.index({ deviceType: 1, clickedAt: -1 });
 
+// Conversion tracking
+clickLogSchema.index({ conversionId: 1 }, { sparse: true });
+clickLogSchema.index({ status: 1, clickedAt: -1 });
 
+// SubId analytics (যদি frequently use করেন)
+clickLogSchema.index({ subId: 1, clickedAt: -1 });
 
-// Affiliate Conversion Schema
-const affiliateConversionSchema = new Schema<IAffiliateConversion>(
-  {
-    affiliateLinkId: {
-      type: Schema.Types.ObjectId,
-      ref: 'AffiliateLink',
-      required: true,
-      index: true,
-    },
-    affiliateId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      index: true,
-    },
-
-    // Click → Conversion mapping
-    clickLogId: {
-      type: Schema.Types.ObjectId,
-      ref: 'ClickLog',
-      required: false,
-      index: true,
-    },
-    ip: { type: String, required: true, index: true },
-    userAgent: { type: String, maxlength: 512 },
-    deviceFingerprint: { type: String, index: true },
-
-    // Customer / order details
-    customerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    orderId: { type: String, index: true },
-    plan: { type: String, enum: PLANS, required: true },
-    billing: { type: String, enum: BILLINGS, required: true },
-    revenue: { type: Number, required: true, min: 0 },
-
-    // Commission info
-    commissionAmount: { type: Number, required: true, min: 0 },
-    commissionStatus: {
-      type: String,
-      enum: ['pending', 'approved', 'paid', 'rejected'],
-      default: 'pending',
-      index: true,
-    },
-    paidAt: { type: Date, default: null, index: true },
-    payoutId: { type: String, default: null, index: true },
-    // Fraud / validation
-    fraudFlag: { type: Boolean, default: false, index: true },
-    fraudReason: { type: String, default: null },
-    conversionType: { type: String, default: null },
-    convertedAt: { type: Date, default: Date.now, index: true },
-  },
-  { timestamps: true }
+export const ClickLog: Model<IClickLog> = mongoose.model<IClickLog>(
+  'ClickLog',
+  clickLogSchema
 );
 
-// Indexing for fast reporting
-affiliateConversionSchema.index({ affiliateId: 1, convertedAt: -1 });
-affiliateConversionSchema.index({ commissionStatus: 1 });
-affiliateConversionSchema.index({ fraudFlag: 1 });
-affiliateConversionSchema.index(
-  { customerId: 1, affiliateLinkId: 1 },
-  { unique: true }
-);
-
-export const AffiliateConversion: Model<IAffiliateConversion> =
-  mongoose.model<IAffiliateConversion>(
-    'AffiliateConversion',
-    affiliateConversionSchema
-  );

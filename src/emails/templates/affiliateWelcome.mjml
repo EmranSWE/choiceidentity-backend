@@ -1,0 +1,187 @@
+<mjml>
+  <mj-head>
+    <mj-title>Welcome to Choice Identity Affiliate Program</mj-title>
+    <mj-preview>Hi {{name}}, thank you for joining Choice Identity. Here's what to do next to start earning as an affiliate.</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, Helvetica, sans-serif" line-height="1.5" />
+      <mj-button background-color="#1E40AF" color="white" border-radius="8px" font-weight="600" font-size="16px" padding="16px 32px" />
+      <mj-text color="#111827" font-size="16px" line-height="1.6" padding="0" />
+      <mj-section padding="20px 0" />
+      <mj-column padding="0" />
+    </mj-attributes>
+    <mj-style inline="inline">
+      .text-primary { color: #1E40AF; }
+      .text-secondary { color: #6B7280; }
+      .text-center { text-align: center; }
+      .spacer { height: 16px; }
+      .step-item { border-left: 4px solid #1E40AF; padding-left: 15px; margin-bottom: 16px; }
+      .timeline-item { padding: 8px 0; }
+      .support-item { padding: 8px 0; }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#F9FAFB" width="600px">
+    <!-- Preheader text (hidden) -->
+    <mj-section full-width="full-width" background-color="#F9FAFB">
+      <mj-column>
+        <mj-text color="#F9FAFB" font-size="1px" padding="0" mj-class="text-center">
+          Complete your onboarding to start earning commissions with Choice Identity.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    
+    <!-- Header -->
+    <mj-section padding="20px 0 10px">
+      <mj-column>
+        <mj-image src="https://choiceidentity.com/logo.png" alt="Choice Identity" width="150px" href="https://choiceidentity.com" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Hero Section -->
+    <mj-section background-color="#1E40AF" padding="40px 0" border-radius="12px 12px 0 0">
+      <mj-column>
+        <mj-text color="white" font-size="28px" font-weight="700" align="center" padding="0 0 10px">
+          Welcome to the Family, {{name}}! 🎉
+        </mj-text>
+        <mj-text color="#E0F2FE" font-size="18px" align="center" padding="0">
+          You're now part of the Choice Identity Affiliate Program
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Main Content -->
+    <mj-section background-color="#FFFFFF" padding="40px 30px" border-radius="0 0 12px 12px">
+      <mj-column>
+        <mj-text padding="0 0 20px">
+          Thank you for joining our affiliate program. We're excited to have you on board and can't wait to see your success. To ensure you're set up for maximum earnings, here are your next steps:
+        </mj-text>
+
+        <!-- Next Steps -->
+        <mj-text font-size="20px" font-weight="700" color="#1E40AF" padding="0 0 16px">
+          Your Action Plan
+        </mj-text>
+        
+        {{#each nextSteps}}
+        <mj-text padding="4px 0 16px 15px" css-class="step-item">
+          <span style="font-weight: 700; color: #1E40AF;">{{action}}</span><br/>
+          <span style="color: #6B7280; font-size: 14px;">Priority: {{priority}} • Deadline: {{deadline}}</span>
+        </mj-text>
+        {{/each}}
+        
+        <mj-spacer height="24px" />
+        
+        <!-- CTA Button -->
+        <mj-button href="{{dashboardLink}}" align="center">
+          Access Your Dashboard
+        </mj-button>
+        
+        <mj-spacer height="32px" />
+        
+        <!-- Timeline -->
+        <mj-text font-size="20px" font-weight="700" color="#1E40AF" padding="0 0 16px">
+          What to Expect
+        </mj-text>
+        
+        <mj-text css-class="timeline-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="70%">Approval Process</td>
+              <td width="30%" align="right">{{expectedTimeline.approval}}</td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-text css-class="timeline-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="70%">First Payout</td>
+              <td width="30%" align="right">{{expectedTimeline.firstPayout}}</td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-text css-class="timeline-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="70%">Account Manager Contact</td>
+              <td width="30%" align="right">{{expectedTimeline.accountManagerContact}}</td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-spacer height="32px" />
+        
+        <!-- Support -->
+        <mj-text font-size="20px" font-weight="700" color="#1E40AF" padding="0 0 16px">
+          We're Here to Help
+        </mj-text>
+        
+        <mj-text css-class="support-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="15%">📧</td>
+              <td width="85%">
+                <span style="font-weight: 600;">General Support:</span> {{support.immediate}}
+              </td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-text css-class="support-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="15%">👤</td>
+              <td width="85%">
+                <span style="font-weight: 600;">Account Manager:</span> {{support.accountManager}}
+              </td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-text css-class="support-item">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="15%">🚨</td>
+              <td width="85%">
+                <span style="font-weight: 600;">Emergency Line:</span> {{support.emergency}}
+              </td>
+            </tr>
+          </table>
+        </mj-text>
+        
+        <mj-spacer height="32px" />
+        
+        <!-- Closing -->
+        <mj-text padding="0 0 16px" align="center">
+          We're committed to your success and will provide all the resources you need to thrive as a Choice Identity affiliate.
+        </mj-text>
+        
+        <mj-text font-size="18px" font-weight="600" color="#1E40AF" align="center" padding="0">
+          Let's build something amazing together! 🚀
+        </mj-text>
+        
+        <mj-spacer height="24px" />
+        
+        <mj-text font-size="14px" color="#6B7280" align="center" padding="0">
+          — The Choice Identity Team
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="20px 0 10px">
+      <mj-column>
+        <mj-text font-size="12px" color="#9CA3AF" align="center" padding="0">
+          © 2025 Choice Identity. All rights reserved.<br/>
+          1234 Market St, San Francisco, CA 94103
+        </mj-text>
+        <mj-text font-size="11px" color="#9CA3AF" align="center" padding="10px 0 0">
+          <a href="{{unsubscribeLink}}" style="color: #6B7280; text-decoration: underline;">Unsubscribe</a> 
+          | 
+          <a href="https://choiceidentity.com/privacy" style="color: #6B7280; text-decoration: underline;">Privacy Policy</a>
+          | 
+          <a href="https://choiceidentity.com/terms" style="color: #6B7280; text-decoration: underline;">Terms of Service</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -5,6 +5,30 @@ export const BILLINGS = ['monthly', 'yearly', 'lifetime'] as const;
 
 export type PlanType = (typeof PLANS)[number];
 export type BillingType = (typeof BILLINGS)[number];
+
+export type ISubIdPerformance = {
+  affiliateLinkId: mongoose.Types.ObjectId;
+  affiliateId: mongoose.Types.ObjectId;
+  subId: string;
+  clicks: number;
+  conversions: number;
+  revenue: number;
+  commission: number;
+  firstClickAt: Date;
+  lastClickAt: Date;
+  lastConversionAt: Date | null;
+  epc: number;
+  deviceBreakdown: {
+    desktop: number;
+    mobile: number;
+    tablet: number;
+  };
+  campaign: string | null;
+  status: 'active' | 'paused';
+  createdAt: Date;
+  updatedAt: Date;
+} & Document
+
 // Affiliate Link Schema
 export type IAffiliateLink = {
   affiliateId: mongoose.Types.ObjectId;
@@ -20,10 +44,10 @@ export type IAffiliateLink = {
   status: 'active' | 'paused' | 'deleted';
   clickCount: number;
   conversionCount: number;
-  revenue?: number;
-  commission?: number;
-  commissionRate?: number;
-  EPC?: number;
+  revenue: number;
+  commission: number;
+  commissionRate: number;
+  epc: number;
   lastClickedAt?: Date | null;
   lastConvertedAt?: Date | null;
   createdBy: mongoose.Types.ObjectId;
@@ -34,10 +58,17 @@ export type IAffiliateLink = {
   updatedAt: Date;
   tags?: string;
   campaign?: string;
-  clicksByDevice?: Record<string, number>; // ← add this
-  geoClicks?: Record<string, number>; // ← add this
+  clicksByDevice?: Record<string, number>;
+  geoClicks?: Record<string, number>; 
   tier?: string;
   notes?: string;
+  subIdPerformanceRef?: mongoose.Types.ObjectId | null;
+  totalClicks?: number;
+  totalConversions?: number;
+  totalRevenue?: number;
+  totalCommission?: number;
+  shortUrl?: string;
+    longUrl?: string;
 } & Document;
 
 // Click Log Schema
@@ -152,4 +183,5 @@ export type GenerateAffiliateLinkPayload = {
   expiresAt?: Date | null;
   source?: string;
   idempotencyKey?: string | null;
+  commissionRate?: number;
 };

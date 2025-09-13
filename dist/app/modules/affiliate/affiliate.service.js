@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AffiliateService = exports.getAffiliateLinksTable = void 0;
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 const mongoose_1 = __importDefault(require("mongoose"));
 const affiliate_model_1 = require("./affiliate.model");
 const auth_model_1 = require("../auth/auth.model");
@@ -22,96 +23,10 @@ const apiErrors_1 = __importDefault(require("../../../errors/apiErrors"));
 const nanoid_1 = require("nanoid");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const http_status_1 = __importDefault(require("http-status"));
-// const generateAffiliateLink = async (
-//   payload: GenerateAffiliateLinkPayload
-// ): Promise<IAffiliateLink> => {
-//   const {
-//     affiliateCode,
-//     plan,
-//     billing,
-//     subId = null,
-//     createdBy,
-//     customDomain = null,
-//     expiresAt = null,
-//   } = payload;
-//   if (!affiliateCode || typeof affiliateCode !== 'string') {
-//     throw new Error('Invalid affiliateCode');
-//   }
-//   // 1. Lookup affiliate user by affiliateCode (assuming referralCode field in User)
-//   const affiliateUser = await User.findOne({
-//     'affiliateDetails.referralCode': affiliateCode,
-//     'affiliateProfile.approvalStatus': 'approved',
-//     accountStatus: 'active',
-//     role: 'affiliate',
-//   }).select('_id +affiliateDetails');
-//   if (!affiliateUser) {
-//     throw new Error(
-//       `Affiliate with code '${affiliateCode}' not found or inactive`
-//     );
-//   }
-//   // 2. Check if active link already exists for this affiliate + plan + billing + subId
-//   const existingLink = await AffiliateLink.findOne({
-//     affiliateCode,
-//     plan,
-//     billing,
-//     subId,
-//     status: { $ne: 'deleted' },
-//   });
-//   if (existingLink) return existingLink;
-//   // 3. Generate a unique slug with retry
-//   const slug = await generateUniqueSlug(affiliateCode, plan, billing);
-//   // 4. Compose generated URL using customDomain if provided, else fallback domain
-//   // const baseDomain = customDomain ?? 'https://your-affiliate-domain.com';
-//   // const generatedUrl = `${baseDomain}/ref/${slug}`;
-//   // const generatedUrl = `${baseDomain}/ref/${slug}`;
-//   const generatedUrl = `http://localhost:3000/click/${slug}${
-//     subId ? `?subId=${encodeURIComponent(subId)}` : ''
-//   }`;
-//   // 5. Create new affiliate link document in a session to avoid race condition
-//   const session = await mongoose.startSession();
-//   session.startTransaction();
-//   try {
-//     // Double-check no duplicate link with same params or URL exists in transaction
-//     const duplicateLink = await AffiliateLink.findOne({
-//       $or: [
-//         { affiliateCode, plan, billing, subId, status: { $ne: 'deleted' } },
-//         { generatedUrl, status: { $ne: 'deleted' } },
-//       ],
-//     }).session(session);
-//     if (duplicateLink) {
-//       await session.abortTransaction();
-//       session.endSession();
-//       return duplicateLink;
-//     }
-//     const newLink = new AffiliateLink({
-//       affiliateId: affiliateUser._id,
-//       affiliateCode,
-//       plan,
-//       billing,
-//       subId,
-//       slug,
-//       generatedUrl,
-//       status: 'active',
-//       clickCount: 0,
-//       conversionCount: 0,
-//       createdBy,
-//       modifiedBy: createdBy,
-//       expiresAt,
-//       customDomain,
-//     });
-//     await newLink.save({ session });
-//     await session.commitTransaction();
-//     session.endSession();
-//     return newLink;
-//   } catch (err) {
-//     await session.abortTransaction();
-//     session.endSession();
-//     throw err;
-//   }
-// };
+// ============ Affiliate Link generate ============
 const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { affiliateCode, plan, billing, subId = null, createdBy, customDomain, expiresAt = null, source = 'affiliate_platform', } = payload;
-    console.log('Generate Link Payload:', payload);
+    var _a, _b;
+    const { affiliateCode, plan, billing, subId = null, createdBy, customDomain, expiresAt = null, source = 'affiliate_platform', commissionRate, } = payload;
     //   const normalizedSubId = subId ? normalizeSubId(subId) : null;
     if (!affiliateCode || typeof affiliateCode !== 'string') {
         throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Invalid affiliateCode');
@@ -173,7 +88,7 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
             session.endSession();
             return {
                 longLink: duplicateLink.generatedUrl,
-                shortLink: `${baseDomain}/click/${duplicateLink.shortSlug}`,
+                shortLink: (_a = duplicateLink.shortUrl) !== null && _a !== void 0 ? _a : '',
                 affiliateLink: duplicateLink,
             };
         }
@@ -185,29 +100,48 @@ const generateAffiliateLink = (payload) => __awaiter(void 0, void 0, void 0, fun
             subId,
             slug,
             shortSlug,
-            generatedUrl,
             clickId,
+            generatedUrl,
             transactionId,
             status: 'active',
             clickCount: 0,
+            commissionRate,
+            revenue: 0,
+            commission: 0,
+            EPC: 0,
             conversionCount: 0,
+            subIdPerformance: [
+                {
+                    subId: subId || 'default',
+                    clicks: 0,
+                    conversions: 0,
+                    revenue: 0,
+                    commission: 0,
+                    epc: 0,
+                },
+            ],
+            totalClicks: 0,
+            totalConversions: 0,
+            totalRevenue: 0,
+            totalCommission: 0,
             createdBy: affiliateUser._id,
             modifiedBy: createdBy,
             expiresAt,
             customDomain,
         });
-        console.log('Create New', newLink);
         yield newLink.save({ session });
         yield session.commitTransaction();
         session.endSession();
         const longLink = newLink.generatedUrl;
-        const shortLink = `${baseDomain}/click/${newLink.shortSlug}`;
+        const shortLink = (_b = newLink.shortUrl) !== null && _b !== void 0 ? _b : '';
         return { longLink, shortLink, affiliateLink: newLink };
     }
     catch (err) {
         yield session.abortTransaction();
-        session.endSession();
         throw err;
+    }
+    finally {
+        session.endSession();
     }
 });
 const getAllAffiliateLinks = (affiliateCode) => __awaiter(void 0, void 0, void 0, function* () {
@@ -225,54 +159,49 @@ const getAllAffiliateLinks = (affiliateCode) => __awaiter(void 0, void 0, void 0
     return links;
 });
 const affiliateClick = (slug, ip, userAgent, geo, deviceFingerprint, referrer) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('%cAnalytics Debug:', 'color: red; font-weight: bold;', {
-        '🔗 Slug': slug,
-        '🌐 IP': ip,
-        '🖥️ User Agent': userAgent,
-        '🗺️ Geo': geo,
-        '📱 Device Fingerprint': deviceFingerprint,
-        '↩️ Referrer': referrer,
+    console.log('Affiliate Click Debug:', {
+        slug,
+        ip,
+        userAgent,
+        geo,
+        deviceFingerprint,
+        referrer,
     });
     const session = yield mongoose_1.default.startSession();
     session.startTransaction();
+    // Default redirect if anything fails
+    const DEFAULT_REDIRECT = 'https://www.choiceidentity.com/register';
+    let clickId = null;
     try {
         const affiliateLink = yield affiliate_model_1.AffiliateLink.findOne({
             $or: [{ slug }, { shortSlug: slug }],
             status: 'active',
         }).session(session);
-        console.log('%cAnalytics affiliateLink Debug:', 'color: yellow; font-weight: bold;', {
-            '🔗 affiliateLink': affiliateLink,
-        });
-        if (!affiliateLink)
-            throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, `Affiliate Link not found or inactive`);
+        console.log('Info Link Found Debug:', { affiliateLink });
+        if (!affiliateLink) {
+            throw new apiErrors_1.default(http_status_1.default.NOT_FOUND, `Affiliate link not found or inactive`);
+        }
+        // 1. Check for recent duplicate click (24h window)
         const recentClick = yield affiliate_model_1.ClickLog.findOne({
             affiliateLinkId: affiliateLink._id,
             deviceFingerprint,
             ip,
             clickedAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
         }).session(session);
-        console.log("%c🔗 recentClick Debug:", "color: #facc15; font-weight: bold; background: #1f2937; padding: 2px 6px; border-radius: 4px;", {
-            linkId: recentClick === null || recentClick === void 0 ? void 0 : recentClick.affiliateLinkId,
-            clickId: recentClick === null || recentClick === void 0 ? void 0 : recentClick.clickId,
-            ip: recentClick === null || recentClick === void 0 ? void 0 : recentClick.ip,
-            device: recentClick === null || recentClick === void 0 ? void 0 : recentClick.deviceType,
-        });
+        console.log('Info Recent Click Debug:', { recentClick });
+        // 2. If duplicate found, use its clickId and skip creating a new log
         if (recentClick) {
             yield session.commitTransaction();
-            return (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, recentClick.clickId);
+            const redirectUrl = (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, recentClick.clickId);
+            return { redirectUrl, clickId: recentClick.clickId };
         }
-        // ✅ Generate new clickId
-        const clickId = (0, uuid_1.v4)();
-        console.log("%c🔗 clickId Debug:", "color: #10b981; font-weight: bold;", { clickId });
-        // ✅ Atomically update click count
-        yield affiliate_model_1.AffiliateLink.updateOne({ _id: affiliateLink._id }, {
-            $inc: { clickCount: 1 },
-            $set: { lastClickedAt: new Date() },
-        }, { session });
-        // ✅ Log click (raw event log, append-only)
+        // 3. Generate a new unique clickId for this click event
+        clickId = (0, uuid_1.v4)();
+        // 5. Parse device info for analytics
         const deviceInfo = (0, affiliate_utils_1.parseUserAgent)(userAgent);
-        console.log("%c🔗 deviceInfo Debug:", "color: #3b82f6; font-weight: bold;", { deviceInfo });
-        const clickLoger = yield affiliate_model_1.ClickLog.create([
+        console.log(`Click Log Created: ${clickId}`);
+        // 6. Create the immutable raw click log
+        const loggerClick = yield affiliate_model_1.ClickLog.create([
             {
                 clickId,
                 affiliateLinkId: affiliateLink._id,
@@ -281,8 +210,8 @@ const affiliateClick = (slug, ip, userAgent, geo, deviceFingerprint, referrer) =
                 plan: affiliateLink.plan,
                 billing: affiliateLink.billing,
                 subId: affiliateLink.subId,
-                source: "affiliate_platform",
-                status: "clicked",
+                source: 'affiliate_platform',
+                status: 'clicked',
                 ip,
                 geo,
                 deviceFingerprint,
@@ -292,26 +221,295 @@ const affiliateClick = (slug, ip, userAgent, geo, deviceFingerprint, referrer) =
                 os: deviceInfo.os,
                 osVersion: deviceInfo.osVersion,
                 referrer,
-                campaign: affiliateLink.campaign || `${affiliateLink.plan}-${affiliateLink.billing}`,
+                campaign: affiliateLink.campaign ||
+                    `${affiliateLink.plan}-${affiliateLink.billing}`,
                 clickedAt: new Date(),
-            }
+            },
         ], { session });
-        console.log("Click Log Created:", clickLoger);
+        console.log('Info Click Log Debug:', { loggerClick });
+        yield (0, affiliate_utils_1.updateClickStats)(affiliateLink._id, affiliateLink.subId || '', session, {
+            deviceType: deviceInfo.deviceType,
+            geo: geo,
+        }, affiliateLink);
         yield session.commitTransaction();
-        // ✅ Build redirect URL
-        return (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, clickId);
+        // 7. Build the final URL with all tracking parameters
+        const redirectUrl = (0, affiliate_utils_1.buildRedirectUrl)(affiliateLink, clickId);
+        return { redirectUrl, clickId };
     }
     catch (err) {
         yield session.abortTransaction();
-        console.error('Affiliate click error:', err);
-        return 'https://www.choiceidentity.com/register';
+        console.error('Affiliate click processing error:', err);
+        // On error, redirect to default page without a clickId
+        return { redirectUrl: DEFAULT_REDIRECT, clickId: null };
     }
     finally {
-        session.endSession();
+        yield session.endSession();
     }
 });
+// const getOverview = async (affiliateId: string) => {
+//   // Use aggregation to compute global KPIs in DB for speed
+//   const kpiAggregation = await AffiliateLink.aggregate([
+//     {
+//       $match: {
+//         affiliateId: new mongoose.Types.ObjectId(affiliateId),
+//         status: 'active',
+//       },
+//     },
+//     {
+//       $group: {
+//         _id: null,
+//         totalClicks: { $sum: '$clickCount' },
+//         totalConversions: { $sum: '$conversionCount' },
+//         totalRevenue: { $sum: '$revenue' },
+//         totalCommission: { $sum: '$commission' },
+//       },
+//     },
+//   ]);
+//   const kpis = kpiAggregation[0] || {
+//     totalClicks: 0,
+//     totalConversions: 0,
+//     totalRevenue: 0,
+//     totalCommission: 0,
+//   };
+//   const EPC = kpis.totalClicks ? kpis.totalRevenue / kpis.totalClicks : 0;
+//   const CR = kpis.totalClicks
+//     ? (kpis.totalConversions / kpis.totalClicks) * 100
+//     : 0;
+//   // Fetch top performing links (sorted by earnings) - lean for speed
+//   const links = await AffiliateLink.find({ affiliateId, status: 'active' })
+//     .sort({ commission: -1 })
+//     .limit(5)
+//     .lean();
+//   const topPerformingLinks = links.map(l => ({
+//     url: l.generatedUrl,
+//     clicks: l.clickCount || 0,
+//     conversions: l.conversionCount || 0,
+//     rate: l.clickCount ? ((l.conversionCount || 0) / l.clickCount) * 100 : 0,
+//     earnings: l.commission || 0,
+//   }));
+//   // Recent activity - last 10 conversions
+//   const recentConversions = await AffiliateConversion.find({ affiliateId })
+//     .sort({ convertedAt: -1 })
+//     .limit(10)
+//     .lean();
+//   const recentActivity = recentConversions.map(c => ({
+//     id: c._id,
+//     type: 'conversion',
+//     title: 'New Conversion',
+//     description: `${c.customerId} upgraded to ${c.plan} Plan - $${c.commissionAmount} earned`,
+//     time: c.convertedAt,
+//     amount: c.commissionAmount,
+//     severity: 'success',
+//   }));
+//   // Device & geo aggregation using MongoDB pipeline
+//   const deviceAndGeo = await AffiliateLink.aggregate([
+//     {
+//       $match: {
+//         affiliateId: new mongoose.Types.ObjectId(affiliateId),
+//         status: 'active',
+//       },
+//     },
+//     {
+//       $project: {
+//         devices: {
+//           $ifNull: ['$clicksByDevice', { desktop: 0, mobile: 0, tablet: 0 }],
+//         },
+//         geo: { $ifNull: ['$geoClicks', {}] },
+//       },
+//     },
+//     {
+//       $group: {
+//         _id: null,
+//         devices: { $mergeObjects: '$devices' },
+//         geo: { $mergeObjects: '$geo' },
+//       },
+//     },
+//   ]);
+//   const devices = deviceAndGeo[0]?.devices || {
+//     desktop: 0,
+//     mobile: 0,
+//     tablet: 0,
+//   };
+//   const geo = deviceAndGeo[0]?.geo || {};
+//   // Final structured response
+//   return {
+//     affiliateMetrics: {
+//       totalEarnings: kpis.totalRevenue,
+//       monthlyEarnings: 0, // can calculate from date if needed
+//       conversionRate: Number(CR.toFixed(2)),
+//       totalClicks: kpis.totalClicks,
+//       totalReferrals: conversionsAll.length,
+//       activeReferrals,
+//       commissionRate: 25, // static or dynamic
+//       pendingPayouts,
+//       lastPayment: '', // fetch latest payout record
+//       affiliateRank: 'Diamond Partner', // dynamic if needed
+//       joinDate: links[0]?.createdAt,
+//       EPC,
+//     },
+//     recentActivity,
+//     topPerformingLinks,
+//     devices,
+//     geo,
+//   };
+// };
+// export const getAffiliateLinksTable = async (
+//   affiliateId: string,
+//   paginationOptions: IPaginationOptions & { export?: boolean },
+//   filters: ITableFilters & { dateRanges?: { from: Date; to: Date }[] }
+// ): Promise<{
+//   data: any[];
+//   meta: { page: number; limit: number; total: number };
+// }> => {
+//   console.log('affiliateId', affiliateId);
+//   console.log('PaginationOptions', paginationOptions);
+//   console.log('filters', filters);
+//   const { skip, limit, sortBy, sortOrder } =
+//     calculatePagination(paginationOptions);
+//   // Build match stage
+//   const match: any = { affiliateId: new mongoose.Types.ObjectId(affiliateId) };
+//   // --- Text search ---
+//   if (filters.searchTerm) {
+//     const regex = { $regex: filters.searchTerm, $options: 'i' };
+//     match.$or = [
+//       { subId: regex },
+//       { generatedUrl: regex },
+//       { campaign: regex },
+//     ];
+//   }
+//   // --- Multi-plan filter ---
+//   if (filters.plan) {
+//     if (Array.isArray(filters.plan)) {
+//       match.plan = { $in: filters.plan };
+//     } else {
+//       match.plan = filters.plan;
+//     }
+//   }
+//   // --- Billing filter ---
+//   if (filters.billing) match.billing = filters.billing;
+//   // --- Multi-date ranges filter ---
+//   if (filters.dateRanges && filters.dateRanges.length) {
+//     match.$or = filters.dateRanges.map(range => ({
+//       createdAt: {
+//         $gte: new Date(range.from),
+//         $lte: new Date(range.to),
+//       },
+//     }));
+//   } else if (filters.startDate || filters.endDate) {
+//     match.createdAt = {};
+//     if (filters.startDate) match.createdAt.$gte = new Date(filters.startDate);
+//     if (filters.endDate) match.createdAt.$lte = new Date(filters.endDate);
+//   }
+//   // Aggregation pipeline
+//   const pipeline: mongoose.PipelineStage[] = [
+//     { $match: match },
+//     // Lookup conversions per link
+//     {
+//       $lookup: {
+//         from: 'affiliateconversions',
+//         localField: '_id',
+//         foreignField: 'affiliateLinkId',
+//         as: 'conversions',
+//       },
+//     },
+//     // Add calculated fields
+//     {
+//       $addFields: {
+//         clicks: { $ifNull: ['$clickCount', 0] },
+//         leads: { $size: '$conversions' },
+//         revenue: { $sum: '$conversions.revenue' },
+//         commission: { $sum: '$conversions.commissionAmount' },
+//       },
+//     },
+//     {
+//       $addFields: {
+//         cr: {
+//           $cond: [
+//             { $eq: ['$clicks', 0] },
+//             0,
+//             { $multiply: [{ $divide: ['$leads', '$clicks'] }, 100] },
+//           ],
+//         },
+//         epc: {
+//           $cond: [
+//             { $eq: ['$clicks', 0] },
+//             0,
+//             { $divide: ['$revenue', '$clicks'] },
+//           ],
+//         },
+//       },
+//     },
+//     // Filter by performance thresholds
+//     {
+//       $match: {
+//         ...(filters.minClicks !== undefined
+//           ? { clicks: { $gte: filters.minClicks } }
+//           : {}),
+//         ...(filters.maxClicks !== undefined
+//           ? { clicks: { $lte: filters.maxClicks } }
+//           : {}),
+//         ...(filters.minRevenue !== undefined
+//           ? { revenue: { $gte: filters.minRevenue } }
+//           : {}),
+//         ...(filters.maxRevenue !== undefined
+//           ? { revenue: { $lte: filters.maxRevenue } }
+//           : {}),
+//         ...(filters.minEarning !== undefined
+//           ? { commission: { $gte: filters.minEarning } }
+//           : {}),
+//         ...(filters.maxEarning !== undefined
+//           ? { commission: { $lte: filters.maxEarning } }
+//           : {}),
+//       },
+//     },
+//     // Sort dynamically
+//     {
+//       $sort: {
+//         [sortBy || 'createdAt']: sortOrder === 'asc' ? 1 : -1,
+//       } as Record<string, 1 | -1>,
+//     },
+//     // Pagination (skip & limit only if not exporting)
+//     ...(paginationOptions.export ? [] : [{ $skip: skip }, { $limit: limit }]),
+//     // Project only needed fields
+//     {
+//       $project: {
+//         _id: 1,
+//         subId: 1,
+//         plan: 1,
+//         billing: 1,
+//         campaign: 1,
+//         clicks: 1,
+//         leads: 1,
+//         cr: 1,
+//         revenue: 1,
+//         commission: 1,
+//         epc: 1,
+//         createdAt: 1,
+//         status: 1,
+//         generatedUrl: 1,
+//         tags: 1,
+//         lastClickedAt: 1,
+//         lastConvertedAt: 1,
+//         clicksByDevice: 1,
+//       },
+//     },
+//   ];
+//   console.log('Aggregation Pipeline:', pipeline);
+//   const data = await AffiliateLink.aggregate(pipeline);
+//   // Total count for pagination (only when not exporting)
+//   const total = paginationOptions.export
+//     ? data.length
+//     : await AffiliateLink.countDocuments(match);
+//   return {
+//     data,
+//     meta: {
+//       page: paginationOptions.page || 1,
+//       limit,
+//       total,
+//     },
+//   };
+// };
 const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b, _c;
     // Use aggregation to compute global KPIs in DB for speed
     const kpiAggregation = yield affiliate_model_1.AffiliateLink.aggregate([
         {
@@ -325,8 +523,10 @@ const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function*
                 _id: null,
                 totalClicks: { $sum: '$clickCount' },
                 totalConversions: { $sum: '$conversionCount' },
-                totalRevenue: { $sum: '$revenue' },
-                totalCommission: { $sum: '$commission' },
+                totalRevenue: { $sum: '$revenue' }, // cents
+                totalCommission: { $sum: '$commission' }, // cents
+                lastConversion: { $max: '$lastConvertedAt' },
+                lastClick: { $max: '$lastClickedAt' },
             },
         },
     ]);
@@ -335,8 +535,13 @@ const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function*
         totalConversions: 0,
         totalRevenue: 0,
         totalCommission: 0,
+        lastConversion: null,
+        lastClick: null,
     };
-    const EPC = kpis.totalClicks ? kpis.totalRevenue / kpis.totalClicks : 0;
+    // Convert cents to dollars
+    const totalRevenueDollars = kpis.totalRevenue / 100;
+    const totalCommissionDollars = kpis.totalCommission / 100;
+    const EPC = kpis.totalClicks ? totalCommissionDollars / kpis.totalClicks : 0;
     const CR = kpis.totalClicks
         ? (kpis.totalConversions / kpis.totalClicks) * 100
         : 0;
@@ -346,28 +551,59 @@ const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function*
         .limit(5)
         .lean();
     const topPerformingLinks = links.map(l => ({
+        id: l._id,
+        subId: l.subId,
+        plan: l.plan,
+        billing: l.billing,
         url: l.generatedUrl,
         clicks: l.clickCount || 0,
         conversions: l.conversionCount || 0,
         rate: l.clickCount ? ((l.conversionCount || 0) / l.clickCount) * 100 : 0,
-        earnings: l.commission || 0,
+        earnings: (l.commission || 0) / 100, // cents to dollars
+        revenue: (l.revenue || 0) / 100, // cents to dollars
+        epc: (l.epc || 0) / 100, // cents to dollars
+        lastClickedAt: l.lastClickedAt,
+        lastConvertedAt: l.lastConvertedAt,
     }));
-    // Recent activity - last 10 conversions
-    const recentConversions = yield affiliate_model_1.AffiliateConversion.find({ affiliateId })
-        .sort({ convertedAt: -1 })
-        .limit(10)
-        .lean();
+    // Recent activity - last 10 conversions from ClickLog with conversions
+    const recentConversions = yield affiliate_model_1.ClickLog.aggregate([
+        {
+            $match: {
+                affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId),
+                status: 'converted'
+            }
+        },
+        {
+            $sort: { convertedAt: -1 }
+        },
+        {
+            $limit: 10
+        },
+        {
+            $lookup: {
+                from: 'affiliatelinks',
+                localField: 'affiliateLinkId',
+                foreignField: '_id',
+                as: 'link'
+            }
+        },
+        {
+            $unwind: '$link'
+        }
+    ]);
     const recentActivity = recentConversions.map(c => ({
         id: c._id,
         type: 'conversion',
         title: 'New Conversion',
-        description: `${c.customerId} upgraded to ${c.plan} Plan - $${c.commissionAmount} earned`,
+        description: `${c.plan} Plan - $${(c.commissionAmount || 0) / 100} earned`,
         time: c.convertedAt,
-        amount: c.commissionAmount,
+        amount: (c.commissionAmount || 0) / 100, // cents to dollars
         severity: 'success',
+        subId: c.subId,
+        campaign: c.campaign
     }));
-    // Device & geo aggregation using MongoDB pipeline
-    const deviceAndGeo = yield affiliate_model_1.AffiliateLink.aggregate([
+    // Device breakdown aggregation
+    const deviceBreakdown = yield affiliate_model_1.AffiliateLink.aggregate([
         {
             $match: {
                 affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId),
@@ -375,57 +611,81 @@ const getOverview = (affiliateId) => __awaiter(void 0, void 0, void 0, function*
             },
         },
         {
-            $project: {
-                devices: {
-                    $ifNull: ['$clicksByDevice', { desktop: 0, mobile: 0, tablet: 0 }],
-                },
-                geo: { $ifNull: ['$geoClicks', {}] },
-            },
-        },
-        {
             $group: {
                 _id: null,
-                devices: { $mergeObjects: '$devices' },
-                geo: { $mergeObjects: '$geo' },
+                desktop: { $sum: '$clicksByDevice.desktop' },
+                mobile: { $sum: '$clicksByDevice.mobile' },
+                tablet: { $sum: '$clicksByDevice.tablet' },
             },
         },
     ]);
-    const devices = ((_a = deviceAndGeo[0]) === null || _a === void 0 ? void 0 : _a.devices) || {
+    const devices = deviceBreakdown[0] || {
         desktop: 0,
         mobile: 0,
         tablet: 0,
     };
-    const geo = ((_b = deviceAndGeo[0]) === null || _b === void 0 ? void 0 : _b.geo) || {};
-    // Active referrals & pending payouts
-    const conversionsAll = yield affiliate_model_1.AffiliateConversion.find({ affiliateId }).lean();
-    const activeReferrals = conversionsAll.filter(c => !c.fraudFlag).length;
-    const pendingPayouts = conversionsAll
-        .filter(c => c.commissionStatus === 'pending')
-        .reduce((sum, c) => sum + (c.commissionAmount || 0), 0);
+    // Geo breakdown (if you have geo data stored)
+    const geoBreakdown = yield affiliate_model_1.ClickLog.aggregate([
+        {
+            $match: {
+                affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId),
+            },
+        },
+        {
+            $group: {
+                _id: '$geo.country',
+                clicks: { $sum: 1 },
+                conversions: {
+                    $sum: { $cond: [{ $eq: ['$status', 'converted'] }, 1, 0] }
+                },
+            },
+        },
+        {
+            $sort: { clicks: -1 }
+        },
+        {
+            $limit: 5
+        }
+    ]);
+    // Additional metrics
+    const totalLinks = yield affiliate_model_1.AffiliateLink.countDocuments({
+        affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId),
+        status: 'active'
+    });
+    const activeCampaigns = yield affiliate_model_1.AffiliateLink.distinct('campaign', {
+        affiliateId: new mongoose_1.default.Types.ObjectId(affiliateId),
+        status: 'active',
+        campaign: { $ne: null }
+    });
     // Final structured response
     return {
-        affiliateMetrics: {
-            totalEarnings: kpis.totalRevenue,
-            monthlyEarnings: 0, // can calculate from date if needed
+        summary: {
+            totalEarnings: totalCommissionDollars,
+            totalRevenue: totalRevenueDollars,
             conversionRate: Number(CR.toFixed(2)),
             totalClicks: kpis.totalClicks,
-            totalReferrals: conversionsAll.length,
-            activeReferrals,
-            commissionRate: 25, // static or dynamic
-            pendingPayouts,
-            lastPayment: '', // fetch latest payout record
-            affiliateRank: 'Diamond Partner', // dynamic if needed
-            joinDate: (_c = links[0]) === null || _c === void 0 ? void 0 : _c.createdAt,
-            EPC,
+            totalConversions: kpis.totalConversions,
+            epc: Number(EPC.toFixed(2)),
+            totalLinks,
+            activeCampaigns: activeCampaigns.length,
+            lastActivity: kpis.lastConversion || kpis.lastClick
         },
         recentActivity,
         topPerformingLinks,
         devices,
-        geo,
+        geo: geoBreakdown,
+        performanceMetrics: {
+            clickToConversionRate: CR,
+            earningsPerClick: EPC,
+            averageOrderValue: kpis.totalConversions ? totalRevenueDollars / kpis.totalConversions : 0,
+            conversionValue: totalRevenueDollars
+        }
     };
 });
 const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('PaginationmOptions', paginationOptions);
+    var _a;
+    console.log('affiliateId', affiliateId);
+    console.log('PaginationOptions', paginationOptions);
     console.log('filters', filters);
     const { skip, limit, sortBy, sortOrder } = (0, paginationHelpers_1.calculatePagination)(paginationOptions);
     // Build match stage
@@ -437,6 +697,9 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
             { subId: regex },
             { generatedUrl: regex },
             { campaign: regex },
+            { affiliateCode: regex },
+            { slug: regex },
+            { shortSlug: regex },
         ];
     }
     // --- Multi-plan filter ---
@@ -449,9 +712,28 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
         }
     }
     // --- Billing filter ---
-    if (filters.billing)
-        match.billing = filters.billing;
-    // --- Multi-date ranges filter ---
+    if (filters.billing) {
+        if (Array.isArray(filters.billing)) {
+            match.billing = { $in: filters.billing };
+        }
+        else {
+            match.billing = filters.billing;
+        }
+    }
+    // --- Status filter ---
+    //@ts-ignore
+    if (filters.status) {
+        //@ts-ignore
+        if (Array.isArray(filters.status)) {
+            //@ts-ignore
+            match.status = { $in: filters.status };
+        }
+        else {
+            //@ts-ignore
+            match.status = filters.status;
+        }
+    }
+    // --- Date range filter ---
     if (filters.dateRanges && filters.dateRanges.length) {
         match.$or = filters.dateRanges.map(range => ({
             createdAt: {
@@ -467,105 +749,120 @@ const getAffiliateLinksTable = (affiliateId, paginationOptions, filters) => __aw
         if (filters.endDate)
             match.createdAt.$lte = new Date(filters.endDate);
     }
+    // --- Last activity filter ---
+    //@ts-ignore
+    if (filters.lastActivity) {
+        const activityDate = new Date();
+        //@ts-ignore
+        switch (filters.lastActivity) {
+            case '7days':
+                activityDate.setDate(activityDate.getDate() - 7);
+                break;
+            case '30days':
+                activityDate.setDate(activityDate.getDate() - 30);
+                break;
+            case '90days':
+                activityDate.setDate(activityDate.getDate() - 90);
+                break;
+        }
+        match.$or = [
+            { lastClickedAt: { $gte: activityDate } },
+            { lastConvertedAt: { $gte: activityDate } }
+        ];
+    }
     // Aggregation pipeline
     const pipeline = [
         { $match: match },
-        // Lookup conversions per link
-        {
-            $lookup: {
-                from: 'affiliateconversions',
-                localField: '_id',
-                foreignField: 'affiliateLinkId',
-                as: 'conversions',
-            },
-        },
-        // Add calculated fields
+        // Add calculated fields from your current structure
         {
             $addFields: {
                 clicks: { $ifNull: ['$clickCount', 0] },
-                leads: { $size: '$conversions' },
-                revenue: { $sum: '$conversions.revenue' },
-                commission: { $sum: '$conversions.commissionAmount' },
-            },
-        },
-        {
-            $addFields: {
+                leads: { $ifNull: ['$conversionCount', 0] },
+                revenue: { $ifNull: ['$revenue', 0] },
+                commission: { $ifNull: ['$commission', 0] },
+                epc: { $ifNull: ['$epc', 0] },
+                // Calculate CR (Conversion Rate)
                 cr: {
                     $cond: [
-                        { $eq: ['$clicks', 0] },
+                        { $eq: ['$clickCount', 0] },
                         0,
-                        { $multiply: [{ $divide: ['$leads', '$clicks'] }, 100] },
-                    ],
-                },
-                epc: {
-                    $cond: [
-                        { $eq: ['$clicks', 0] },
-                        0,
-                        { $divide: ['$revenue', '$clicks'] },
-                    ],
-                },
-            },
+                        { $multiply: [{ $divide: ['$conversionCount', '$clickCount'] }, 100] }
+                    ]
+                }
+            }
         },
         // Filter by performance thresholds
         {
-            $match: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (filters.minClicks !== undefined
-                ? { clicks: { $gte: filters.minClicks } }
-                : {})), (filters.maxClicks !== undefined
-                ? { clicks: { $lte: filters.maxClicks } }
-                : {})), (filters.minRevenue !== undefined
-                ? { revenue: { $gte: filters.minRevenue } }
-                : {})), (filters.maxRevenue !== undefined
-                ? { revenue: { $lte: filters.maxRevenue } }
-                : {})), (filters.minEarning !== undefined
-                ? { commission: { $gte: filters.minEarning } }
-                : {})), (filters.maxEarning !== undefined
-                ? { commission: { $lte: filters.maxEarning } }
-                : {})),
+            $match: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (filters.minClicks !== undefined && { clicks: { $gte: filters.minClicks } })), (filters.maxClicks !== undefined && { clicks: { $lte: filters.maxClicks } })), (filters.minLeads !== undefined && { leads: { $gte: filters.minLeads } })), (filters.maxLeads !== undefined && { leads: { $lte: filters.maxLeads } })), (filters.minRevenue !== undefined && { revenue: { $gte: filters.minRevenue } })), (filters.maxRevenue !== undefined && { revenue: { $lte: filters.maxRevenue } })), (filters.minEarning !== undefined && { commission: { $gte: filters.minEarning } })), (filters.maxEarning !== undefined && { commission: { $lte: filters.maxEarning } })), (filters.minCR !== undefined && { cr: { $gte: filters.minCR } })), (filters.maxCR !== undefined && { cr: { $lte: filters.maxCR } })), (filters.minEPC !== undefined && { epc: { $gte: filters.minEPC } })), (filters.maxEPC !== undefined && { epc: { $lte: filters.maxEPC } }))
         },
-        // Sort dynamically
+        // Sort dynamically with multiple fallbacks
         {
             $sort: {
                 [sortBy || 'createdAt']: sortOrder === 'asc' ? 1 : -1,
+                _id: sortOrder === 'asc' ? 1 : -1 // Secondary sort for consistency
             },
         },
         // Pagination (skip & limit only if not exporting)
         ...(paginationOptions.export ? [] : [{ $skip: skip }, { $limit: limit }]),
-        // Project only needed fields
+        // Project only needed fields for frontend
         {
             $project: {
                 _id: 1,
+                id: 1,
                 subId: 1,
                 plan: 1,
                 billing: 1,
                 campaign: 1,
+                affiliateCode: 1,
+                slug: 1,
+                shortSlug: 1,
+                generatedUrl: 1,
+                shortUrl: 1,
+                status: 1,
+                tags: 1,
+                // Performance metrics
                 clicks: 1,
                 leads: 1,
-                cr: 1,
+                cr: { $round: ['$cr', 2] }, // Round to 2 decimal places
                 revenue: 1,
                 commission: 1,
-                epc: 1,
+                epc: { $round: ['$epc', 2] }, // Round to 2 decimal places
+                commissionRate: 1,
+                // Dates
                 createdAt: 1,
-                status: 1,
-                generatedUrl: 1,
-                tags: 1,
+                updatedAt: 1,
                 lastClickedAt: 1,
                 lastConvertedAt: 1,
+                // Device breakdown
                 clicksByDevice: 1,
-            },
-        },
+                // Additional useful fields
+                customDomain: 1,
+                expiresAt: 1,
+                notes: 1,
+                tier: 1
+            }
+        }
     ];
+    // Execute aggregation
     const data = yield affiliate_model_1.AffiliateLink.aggregate(pipeline);
-    // Total count for pagination (only when not exporting)
-    const total = paginationOptions.export
-        ? data.length
-        : yield affiliate_model_1.AffiliateLink.countDocuments(match);
+    // Get total count for pagination
+    let total = data.length;
+    if (!paginationOptions.export) {
+        // For pagination, get actual total count without limit
+        const countPipeline = [
+            { $match: match },
+            { $count: 'total' }
+        ];
+        const countResult = yield affiliate_model_1.AffiliateLink.aggregate(countPipeline);
+        total = ((_a = countResult[0]) === null || _a === void 0 ? void 0 : _a.total) || 0;
+    }
     return {
         data,
         meta: {
             page: paginationOptions.page || 1,
-            limit,
-            total,
-        },
+            limit: paginationOptions.export ? total : limit,
+            total
+        }
     };
 });
 exports.getAffiliateLinksTable = getAffiliateLinksTable;

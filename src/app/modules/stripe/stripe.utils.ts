@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Stripe from 'stripe';
 import {
   AttachAndUpdatePaymentMethodParams,
@@ -21,55 +22,6 @@ export const stripe = new Stripe(config.stripe_secret_key!, {
 });
 
 // Updated price mappings with type information
-export const PRICE_MAPPINGS: PriceMapping[] = [
-  {
-    id: 'price_basic_monthly',
-    amount: 999,
-    currency: 'usd',
-    name: 'Basic Plan Monthly',
-    type: 'recurring',
-    interval: 'month',
-  },
-  {
-    id: 'price_pro_monthly',
-    amount: 2999, // $29.99
-    currency: 'usd',
-    name: 'Pro Plan Monthly',
-    type: 'recurring',
-    interval: 'month',
-  },
-  {
-    id: 'price_enterprise_monthly',
-    amount: 9999, // $99.99
-    currency: 'usd',
-    name: 'Enterprise Plan Monthly',
-    type: 'recurring',
-    interval: 'month',
-  },
-  {
-    id: 'price_basic_yearly',
-    amount: 9999, // $99.99 (2 months free)
-    currency: 'usd',
-    name: 'Basic Plan Yearly',
-    type: 'recurring',
-    interval: 'year',
-  },
-  {
-    id: 'price_pro_yearly',
-    amount: 29999, // $299.99 (2 months free)
-    currency: 'usd',
-    name: 'Pro Plan Yearly',
-    type: 'recurring',
-    interval: 'year',
-  },
-  {
-    id: 'price_one_time_basic',
-    amount: 4999, // $49.99
-    currency: 'usd',
-    name: 'Basic Plan One-time',
-    type: 'one_time',
-  },
-];
 
 export const PROTECTION_PLANS = {
   BASIC: {
@@ -149,9 +101,9 @@ export const PROTECTION_PLANS = {
     monthly: {
     priceId: process.env.STRIPE_ELITE_MONTHLY_PRICE_ID!,
     amount: 7999,
-      baseAmount: 100,
-      setupFee: 17900,
-      features: [
+    baseAmount: 100,
+    setupFee: 17900,
+    features: [
          "Identity & Document Verification",
         "Biometric & Face Recognition",
         "KYC & AML Compliance",
@@ -223,16 +175,6 @@ export type PlanType = keyof typeof PROTECTION_PLANS;
 /**
  * Maps a priceId to its corresponding amount and currency
  */
-export const getPriceMapping = (priceId: string): PriceMapping | null => {
-  return PRICE_MAPPINGS.find(price => price.id === priceId) || null;
-};
-
-/**
- * Validates if a price ID exists in our mappings
- */
-export const isValidPriceId = (priceId: string): boolean => {
-  return PRICE_MAPPINGS.some(price => price.id === priceId);
-};
 
 /**
  * Constructs Stripe webhook endpoint secret
@@ -740,3 +682,28 @@ export function shouldProcessDunning(subscription: ISubscription): boolean {
     subscription.dunningStatus !== DunningStatus.FAILED
   );
 }
+
+
+
+
+
+
+
+
+export const getCommissionRate = (affiliateLink:any, referredAffiliate:any) => {
+  // ১. প্রথমে Affiliate Link-এর Commission Rate check করুন
+  if (affiliateLink && affiliateLink.commissionRate !== null && affiliateLink.commissionRate !== undefined) {
+    console.log('Using Link-Level Commission Rate:', affiliateLink.commissionRate);
+    return affiliateLink.commissionRate;
+  }
+  
+  // ২. তারপর Affiliate Profile-এর Commission Rate
+  if (referredAffiliate.affiliateProfile.commissionRate) {
+    console.log('Using Profile Commission Rate:', referredAffiliate.affiliateProfile.commissionRate);
+    return referredAffiliate.affiliateProfile.commissionRate;
+  }
+  
+  // ৩. শেষে Default Rate
+  console.log('Using Default Commission Rate: 0.2');
+  return 0.2;
+};

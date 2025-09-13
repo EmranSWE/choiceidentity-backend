@@ -53,11 +53,11 @@ const CreateAffiliateUser: RequestHandler = catchAsync(
       userAgent,
       geo,
       deviceFingerprint,
-      
     };
 
     const result = await UserService.AffiliateRegister(affiliateData);
 
+    
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

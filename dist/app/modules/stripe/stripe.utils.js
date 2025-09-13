@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStripeSubscription = exports.createPaymentIntent = exports.attachAndSetDefaultPaymentMethod = exports.createStripeCustomer = exports.constructWebhookEvent = exports.getWebhookSecret = exports.isValidPriceId = exports.getPriceMapping = exports.PROTECTION_PLANS = exports.PRICE_MAPPINGS = exports.stripe = void 0;
+exports.getCommissionRate = exports.createStripeSubscription = exports.createPaymentIntent = exports.attachAndSetDefaultPaymentMethod = exports.createStripeCustomer = exports.constructWebhookEvent = exports.getWebhookSecret = exports.PROTECTION_PLANS = exports.stripe = void 0;
 exports.isRetryableError = isRetryableError;
 exports.withTimeout = withTimeout;
 exports.retry = retry;
@@ -21,6 +21,7 @@ exports.getSubscriptionDates = getSubscriptionDates;
 exports.safeStripeDateConvert = safeStripeDateConvert;
 exports.calculateNextBillingDate = calculateNextBillingDate;
 exports.shouldProcessDunning = shouldProcessDunning;
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 const stripe_1 = __importDefault(require("stripe"));
 const stripe_interface_1 = require("./stripe.interface");
 const config_1 = __importDefault(require("../../../config"));
@@ -32,55 +33,6 @@ exports.stripe = new stripe_1.default(config_1.default.stripe_secret_key, {
     typescript: true,
 });
 // Updated price mappings with type information
-exports.PRICE_MAPPINGS = [
-    {
-        id: 'price_basic_monthly',
-        amount: 999,
-        currency: 'usd',
-        name: 'Basic Plan Monthly',
-        type: 'recurring',
-        interval: 'month',
-    },
-    {
-        id: 'price_pro_monthly',
-        amount: 2999, // $29.99
-        currency: 'usd',
-        name: 'Pro Plan Monthly',
-        type: 'recurring',
-        interval: 'month',
-    },
-    {
-        id: 'price_enterprise_monthly',
-        amount: 9999, // $99.99
-        currency: 'usd',
-        name: 'Enterprise Plan Monthly',
-        type: 'recurring',
-        interval: 'month',
-    },
-    {
-        id: 'price_basic_yearly',
-        amount: 9999, // $99.99 (2 months free)
-        currency: 'usd',
-        name: 'Basic Plan Yearly',
-        type: 'recurring',
-        interval: 'year',
-    },
-    {
-        id: 'price_pro_yearly',
-        amount: 29999, // $299.99 (2 months free)
-        currency: 'usd',
-        name: 'Pro Plan Yearly',
-        type: 'recurring',
-        interval: 'year',
-    },
-    {
-        id: 'price_one_time_basic',
-        amount: 4999, // $49.99
-        currency: 'usd',
-        name: 'Basic Plan One-time',
-        type: 'one_time',
-    },
-];
 exports.PROTECTION_PLANS = {
     BASIC: {
         id: 'prod_BASIC_ID',
@@ -227,17 +179,6 @@ exports.PROTECTION_PLANS = {
 /**
  * Maps a priceId to its corresponding amount and currency
  */
-const getPriceMapping = (priceId) => {
-    return exports.PRICE_MAPPINGS.find(price => price.id === priceId) || null;
-};
-exports.getPriceMapping = getPriceMapping;
-/**
- * Validates if a price ID exists in our mappings
- */
-const isValidPriceId = (priceId) => {
-    return exports.PRICE_MAPPINGS.some(price => price.id === priceId);
-};
-exports.isValidPriceId = isValidPriceId;
 /**
  * Constructs Stripe webhook endpoint secret
  */
@@ -581,3 +522,19 @@ function shouldProcessDunning(subscription) {
         subscription.dunningStatus !== stripe_interface_1.DunningStatus.COMPLETED &&
         subscription.dunningStatus !== stripe_interface_1.DunningStatus.FAILED);
 }
+const getCommissionRate = (affiliateLink, referredAffiliate) => {
+    // ১. প্রথমে Affiliate Link-এর Commission Rate check করুন
+    if (affiliateLink && affiliateLink.commissionRate !== null && affiliateLink.commissionRate !== undefined) {
+        console.log('Using Link-Level Commission Rate:', affiliateLink.commissionRate);
+        return affiliateLink.commissionRate;
+    }
+    // ২. তারপর Affiliate Profile-এর Commission Rate
+    if (referredAffiliate.affiliateProfile.commissionRate) {
+        console.log('Using Profile Commission Rate:', referredAffiliate.affiliateProfile.commissionRate);
+        return referredAffiliate.affiliateProfile.commissionRate;
+    }
+    // ৩. শেষে Default Rate
+    console.log('Using Default Commission Rate: 0.2');
+    return 0.2;
+};
+exports.getCommissionRate = getCommissionRate;

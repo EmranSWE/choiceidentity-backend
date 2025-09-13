@@ -1,0 +1,227 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:00:28.264Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:02:49.880Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:14:44.127Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:14:52.522Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:15:45.600Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T23:16:46.727Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T23:16:47.708Z'
+}
+{
+  type: 'StripeCardError',
+  raw: {
+    advice_code: 'try_again_later',
+    code: 'card_declined',
+    decline_code: 'insufficient_funds',
+    doc_url: 'https://stripe.com/docs/error-codes/card-declined',
+    message: 'Your card has insufficient funds.',
+    network_advice_code: '02',
+    network_decline_code: '51',
+    param: '',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_pYOv2D5pxz7Chp?t=1757546207',
+    type: 'card_error',
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 10 Sep 2025 23:16:48 GMT',
+      'content-type': 'application/json',
+      'content-length': '456',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LB45HryUdLHAsnPY64LzpP8Qbm2Zn7LuaLGqlRS2AXmQYr9h99nKCwc4bvPZeTp8tBQVtU8gZjcVxHxg",
+      'idempotency-key': 'attach_pm_1e8253a2-526c-4318-8c65-eb759bef1ac4',
+      'original-request': 'req_pYOv2D5pxz7Chp',
+      'request-id': 'req_pYOv2D5pxz7Chp',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 402,
+    requestId: 'req_pYOv2D5pxz7Chp'
+  },
+  rawType: 'card_error',
+  code: 'card_declined',
+  doc_url: 'https://stripe.com/docs/error-codes/card-declined',
+  param: '',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Wed, 10 Sep 2025 23:16:48 GMT',
+    'content-type': 'application/json',
+    'content-length': '456',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LB45HryUdLHAsnPY64LzpP8Qbm2Zn7LuaLGqlRS2AXmQYr9h99nKCwc4bvPZeTp8tBQVtU8gZjcVxHxg",
+    'idempotency-key': 'attach_pm_1e8253a2-526c-4318-8c65-eb759bef1ac4',
+    'original-request': 'req_pYOv2D5pxz7Chp',
+    'request-id': 'req_pYOv2D5pxz7Chp',
+    'stripe-should-retry': 'false',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_pYOv2D5pxz7Chp',
+  statusCode: 402,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: 'insufficient_funds',
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'error',
+  message: 'Non-retryable error on attempt 1 Your card has insufficient funds.',
+  stack: 'Error: Your card has insufficient funds.\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:9:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-10T23:16:48.536Z'
+}
+{
+  err: StripeCardError: Your card has insufficient funds.
+      at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:9:20)
+      at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    type: 'StripeCardError',
+    raw: {
+      advice_code: 'try_again_later',
+      code: 'card_declined',
+      decline_code: 'insufficient_funds',
+      doc_url: 'https://stripe.com/docs/error-codes/card-declined',
+      message: 'Your card has insufficient funds.',
+      network_advice_code: '02',
+      network_decline_code: '51',
+      param: '',
+      request_log_url: 'https://dashboard.stripe.com/test/logs/req_pYOv2D5pxz7Chp?t=1757546207',
+      type: 'card_error',
+      headers: {
+        server: 'nginx',
+        date: 'Wed, 10 Sep 2025 23:16:48 GMT',
+        'content-type': 'application/json',
+        'content-length': '456',
+        connection: 'keep-alive',
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+        'access-control-max-age': '300',
+        'cache-control': 'no-cache, no-store',
+        'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LB45HryUdLHAsnPY64LzpP8Qbm2Zn7LuaLGqlRS2AXmQYr9h99nKCwc4bvPZeTp8tBQVtU8gZjcVxHxg",
+        'idempotency-key': 'attach_pm_1e8253a2-526c-4318-8c65-eb759bef1ac4',
+        'original-request': 'req_pYOv2D5pxz7Chp',
+        'request-id': 'req_pYOv2D5pxz7Chp',
+        'stripe-should-retry': 'false',
+        'stripe-version': '2025-06-30.basil',
+        vary: 'Origin',
+        'x-stripe-priority-routing-enabled': 'true',
+        'x-stripe-routing-context-priority-tier': 'api-testmode',
+        'x-wc': 'ABGHIJ',
+        'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+      },
+      statusCode: 402,
+      requestId: 'req_pYOv2D5pxz7Chp'
+    },
+    rawType: 'card_error',
+    code: 'card_declined',
+    doc_url: 'https://stripe.com/docs/error-codes/card-declined',
+    param: '',
+    detail: undefined,
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 10 Sep 2025 23:16:48 GMT',
+      'content-type': 'application/json',
+      'content-length': '456',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=LB45HryUdLHAsnPY64LzpP8Qbm2Zn7LuaLGqlRS2AXmQYr9h99nKCwc4bvPZeTp8tBQVtU8gZjcVxHxg",
+      'idempotency-key': 'attach_pm_1e8253a2-526c-4318-8c65-eb759bef1ac4',
+      'original-request': 'req_pYOv2D5pxz7Chp',
+      'request-id': 'req_pYOv2D5pxz7Chp',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    requestId: 'req_pYOv2D5pxz7Chp',
+    statusCode: 402,
+    userMessage: undefined,
+    charge: undefined,
+    decline_code: 'insufficient_funds',
+    payment_intent: undefined,
+    payment_method: undefined,
+    payment_method_type: undefined,
+    setup_intent: undefined,
+    source: undefined
+  },
+  customerId: 'cus_T21IbSdFukyk8u',
+  paymentMethodId: 'pm_1S5xFp2NDTqGR9XIa8L0MEew',
+  level: 'error',
+  message: 'Stripe attach and update payment method failed',
+  timestamp: '2025-09-10T23:16:48.539Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-10T23:16:48.643Z'
+}
+{
+  message: 'Deleted customer cus_T21IbSdFukyk8u',
+  level: 'info',
+  timestamp: '2025-09-10T23:16:49.158Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-10T23:18:49.072Z'
+}

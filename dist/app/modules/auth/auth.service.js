@@ -64,6 +64,8 @@ const crypto_1 = require("crypto");
 const emailClient_1 = require("../../../emails/emailClient");
 const auth_utils_1 = require("./auth.utils");
 const affiliate_utils_1 = require("../affiliate/affiliate.utils");
+const logger_1 = require("../../../shared/logger");
+const sendAffiliateWelcomeEmail_1 = require("../../../emails/sendAffiliateWelcomeEmail");
 const CreateUser = (UserData) => __awaiter(void 0, void 0, void 0, function* () {
     // Check if email already exists
     //@ts-ignore
@@ -437,7 +439,7 @@ const GetAffiliateById = (id) => __awaiter(void 0, void 0, void 0, function* () 
 });
 const ApproveAffiliate = (adminId, affiliateId) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    console.log("AffiliateId:", affiliateId);
+    console.log('AffiliateId:', affiliateId);
     if (!mongoose_1.default.Types.ObjectId.isValid(affiliateId)) {
         throw new apiErrors_1.default(400, 'Invalid affiliate ID');
     }
@@ -645,18 +647,6 @@ const AdminCompleteSetup = (token, password) => __awaiter(void 0, void 0, void 0
     return adminUser;
 });
 exports.AdminCompleteSetup = AdminCompleteSetup;
-// ==================== 🎯 BACKGROUND TASK QUEUES ====================
-const queueWelcomeSequence = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('Queueing welcome sequence for:', email);
-    // Implement your email service integration
-});
-const logSuspiciousActivity = (affiliateData, ipReputation) => {
-    console.warn('Suspicious registration attempt:', {
-        email: affiliateData.email,
-        ip: affiliateData.ipAddress,
-        riskScore: ipReputation.riskScore,
-    });
-};
 const AffiliateRegister = (affiliateData) => __awaiter(void 0, void 0, void 0, function* () {
     const { ip, userAgent, geo, email, address, affiliateProfile } = affiliateData;
     if (!affiliateData.password)
@@ -677,7 +667,7 @@ const AffiliateRegister = (affiliateData) => __awaiter(void 0, void 0, void 0, f
         if (ipReputation.riskScore > 0.9 ||
             ipReputation.isVPN ||
             ipReputation.isHostingProvider) {
-            logSuspiciousActivity(affiliateData, ipReputation);
+            (0, auth_utils_1.logSuspiciousActivity)(affiliateData, ipReputation);
             throw new apiErrors_1.default(http_status_1.default.BAD_REQUEST, 'Registration not permitted');
         }
         // 💰 INDUSTRY-LEADING AFFILIATE PROFILE
@@ -728,21 +718,15 @@ const AffiliateRegister = (affiliateData) => __awaiter(void 0, void 0, void 0, f
                 osVersion: deviceInfo.osVersion,
             },
         };
-        const createdAffiliate = yield auth_model_1.Affiliate.create([affiliateAccount], {
+        const createdAffiliate = yield auth_model_1.User.create([affiliateAccount], {
             session,
         });
         yield session.commitTransaction();
         // ⚡ REAL-TIME BACKGROUND PROCESSING
+        const affiliateObj = createdAffiliate[0].toObject();
+        yield (0, sendAffiliateWelcomeEmail_1.sendAffiliateWelcomeEmail)(affiliateObj.email, affiliateObj.name, 'https://affiliate.choiceidentity.com/login', { accountManager: 'Alex Imran ' });
         //@ts-ignore
-        yield Promise.allSettled([queueWelcomeSequence(createdAffiliate[0].email)]);
-        // 📈 RETURN WORLD-CLASS RESPONSE
-        const response = createdAffiliate[0].toObject();
-        //@ts-ignore
-        delete response.password;
-        //@ts-ignore
-        delete response.ip;
-        //@ts-ignore
-        response.meta = {
+        const response = {
             nextSteps: [
                 { action: 'verify_email', priority: 'high', deadline: '24 hours' },
                 { action: 'upload_documents', priority: 'high', deadline: '72 hours' },
@@ -767,6 +751,11 @@ const AffiliateRegister = (affiliateData) => __awaiter(void 0, void 0, void 0, f
     }
     catch (error) {
         yield session.abortTransaction();
+        logger_1.errorLogger.error('Affiliate registration failed', {
+            error,
+            email: affiliateData.email,
+            ip,
+        });
         if (error instanceof apiErrors_1.default)
             throw error;
         throw new apiErrors_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, 'Registration processing failed. Our team has been notified.');

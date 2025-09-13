@@ -26,8 +26,10 @@ import { sendAffiliateApprovalEmail } from '../../../emails/sendAffiliateEmail';
 import { sendAffiliateRejectionEmail } from '../../../emails/sendAffiliateRejectEmail';
 import { randomBytes } from 'crypto';
 import { sendEmail } from '../../../emails/emailClient';
-import { checkIPReputation, validateToken } from './auth.utils';
+import { checkIPReputation, logSuspiciousActivity, validateToken } from './auth.utils';
 import { parseUserAgent } from '../affiliate/affiliate.utils';
+import { errorLogger, logger } from '../../../shared/logger';
+import { sendAffiliateWelcomeEmail } from '../../../emails/sendAffiliateWelcomeEmail';
 const CreateUser = async (UserData: IUser): Promise<IUser | null> => {
   // Check if email already exists
   //@ts-ignore
@@ -553,8 +555,7 @@ const GetAffiliateById = async (id: string) => {
 };
 
 const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
-
-    console.log("AffiliateId:", affiliateId);
+  console.log('AffiliateId:', affiliateId);
 
   if (!mongoose.Types.ObjectId.isValid(affiliateId)) {
     throw new ApiError(400, 'Invalid affiliate ID');
@@ -582,7 +583,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
     // Ensure affiliateProfile exists, create if not
     //@ts-ignore
     if (!affiliate.affiliateProfile) {
-          //@ts-ignore
+      //@ts-ignore
       affiliate.affiliateProfile = {
         referralCode: await generateUniqueReferralCode(),
         commissionBalance: 0,
@@ -594,10 +595,10 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
           conversions: 0,
         },
       };
-        //@ts-ignore
+      //@ts-ignore
     } else if (!affiliate.affiliateProfile.referralCode) {
       // Only generate referral code if missing
-        //@ts-ignore
+      //@ts-ignore
       affiliate.affiliateProfile.referralCode =
         await generateUniqueReferralCode();
     }
@@ -619,7 +620,7 @@ const ApproveAffiliate = async (adminId: string, affiliateId: string) => {
       timestamp: new Date(),
       ip: '',
       userAgent: '',
-    //@ts-ignore
+      //@ts-ignore
       details: `Approved by admin ${adminId}, referralCode: ${affiliate.affiliateProfile.referralCode}`,
     });
 
@@ -840,20 +841,8 @@ export const AdminCompleteSetup = async (token: string, password: string) => {
   return adminUser;
 };
 
-// ==================== 🎯 BACKGROUND TASK QUEUES ====================
 
-const queueWelcomeSequence = async (email: string): Promise<void> => {
-  console.log('Queueing welcome sequence for:', email);
-  // Implement your email service integration
-};
 
-const logSuspiciousActivity = (affiliateData: any, ipReputation: any): void => {
-  console.warn('Suspicious registration attempt:', {
-    email: affiliateData.email,
-    ip: affiliateData.ipAddress,
-    riskScore: ipReputation.riskScore,
-  });
-};
 
 const AffiliateRegister = async (affiliateData: any) => {
   const { ip, userAgent, geo, email, address, affiliateProfile } =
@@ -867,7 +856,7 @@ const AffiliateRegister = async (affiliateData: any) => {
 
     // 🌍 GLOBAL FRAUD PREVENTION
     const [existingCheck, ipReputation] = await Promise.all([
-        //@ts-ignore
+      //@ts-ignore
       User.isUserExist(email, session),
       checkIPReputation(ip),
     ]);
@@ -940,24 +929,24 @@ const AffiliateRegister = async (affiliateData: any) => {
       },
     };
 
-    const createdAffiliate = await Affiliate.create([affiliateAccount], {
+    const createdAffiliate = await User.create([affiliateAccount], {
       session,
     });
 
     await session.commitTransaction();
 
     // ⚡ REAL-TIME BACKGROUND PROCESSING
-    //@ts-ignore
-    await Promise.allSettled([queueWelcomeSequence(createdAffiliate[0].email)]);
+    const affiliateObj = createdAffiliate[0].toObject();
+    await sendAffiliateWelcomeEmail(
+      affiliateObj.email,
+      affiliateObj.name,
+      'https://affiliate.choiceidentity.com/login',
+      { accountManager: 'Alex Imran ' }
+    );
 
-    // 📈 RETURN WORLD-CLASS RESPONSE
-    const response = createdAffiliate[0].toObject();
+ 
     //@ts-ignore
-    delete response.password;
-     //@ts-ignore
-    delete response.ip;
-     //@ts-ignore
-    response.meta = {
+   const response = {
       nextSteps: [
         { action: 'verify_email', priority: 'high', deadline: '24 hours' },
         { action: 'upload_documents', priority: 'high', deadline: '72 hours' },
@@ -981,6 +970,11 @@ const AffiliateRegister = async (affiliateData: any) => {
     return response;
   } catch (error) {
     await session.abortTransaction();
+    errorLogger.error('Affiliate registration failed', {
+      error,
+      email: affiliateData.email,
+      ip,
+    });
     if (error instanceof ApiError) throw error;
     throw new ApiError(
       httpStatus.INTERNAL_SERVER_ERROR,

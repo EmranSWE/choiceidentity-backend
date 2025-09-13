@@ -5,7 +5,7 @@ import { ClientSession, Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../../config';
 import { ENUM_GENDER, ENUM_USER_ROLE } from '../../../enums/user';
-import { stripe } from './auth.utils';
+import { decrypt, encrypt, stripe, validateSSN } from './auth.utils';
 import { IAdminSetupToken } from './auth.interface';
 // Address Schema
 const AddressSchema = new Schema(
@@ -62,6 +62,476 @@ const AdminProfileSchema = new Schema(
   { _id: false }
 );
 
+const AffiliateSchema = new Schema({
+  // ==================== APPLICATION & ONBOARDING ====================
+  firstName: { type: String, required: true, trim: true },
+  lastName: { type: String, required: true, trim: true },
+  companyName: { type: String, trim: true },
+  skypeId: { type: String, trim: true },
+  yourWebsite: { type: String, trim: true, lowercase: true },
+  trafficSources: [String],
+  channels: [String],
+  howPromote: { type: String, maxlength: 1000 },
+  describeExperience: { type: String, maxlength: 2000 },
+  pastExperience: { type: String, maxlength: 2000 },
+  lookingCampaign: { type: String, maxlength: 1000 },
+  whenYouFree: String,
+  idPhotoFront: { type: String, select: false },
+  idPhotoBack: { type: String, select: false },
+  timeZone: String,
+  didYouHear: String,
+  phone: { type: String, select: false },
+  alternativePhone: { type: String, select: false },
+
+  // ==================== APPROVAL & ADMIN MANAGEMENT ====================
+  approvalStatus: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected', 'suspended', 'under_review'],
+    default: 'pending',
+  },
+  adminNotes: String,
+  reviewDate: Date,
+  reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  contractSigned: { type: Boolean, default: false },
+  contractVersion: String,
+  contractSignedAt: Date,
+  contractDocument: String,
+
+  // ==================== REFERRAL & COMMISSION TRACKING ====================
+  referralCode: {
+    type: String,
+    unique: true,
+    index: true,
+    sparse: true,
+    uppercase: true,
+    match: [
+      /^[A-Z0-9]{8,12}$/,
+      'Referral code must be 8-12 alphanumeric characters',
+    ],
+  },
+  referralSource: String,
+
+  referrals: [
+    {
+      amount: { type: Number }, // Sale amount
+      commission: { type: Number }, // Commission earned
+      plan: { type: String }, // Product plan
+      billingInterval: { type: String }, // Billing cycle
+      clickId: { type: String }, // For click-based attribution
+      convertedAt: { type: Date, default: Date.now }, // Conversion timestamp,
+      email: { type: String, lowercase: true },
+      customerName: String,
+      customerId: { type: Schema.Types.ObjectId, ref: 'User' },
+      subscriptionId: String,
+      orderId: String,
+      date: { type: Date, default: Date.now },
+      status: {
+        type: String,
+        enum: [
+          'pending',
+          'confirmed',
+          'paid',
+          'rejected',
+          'canceled',
+          'refunded',
+          'chargeback',
+        ],
+        default: 'pending',
+      },
+      commissionAmount: { type: Number, default: 0, min: 0 },
+      orderValue: { type: Number, default: 0, min: 0 },
+      productType: String,
+      productId: String,
+      affiliateCodeUsed: String,
+      conversionDate: Date,
+      payoutDate: Date,
+      commissionRate: { type: Number, default: 0.2 },
+      notes: String,
+      customRulesApplied: [String],
+    },
+  ],
+
+  // ==================== FINANCIAL MANAGEMENT ====================
+  commissionBalance: { type: Number, default: 0, min: 0 },
+  totalEarnings: { type: Number, default: 0, min: 0 },
+  pendingEarnings: { type: Number, default: 0, min: 0 },
+  confirmedEarnings: { type: Number, default: 0, min: 0 },
+  paidEarnings: { type: Number, default: 0, min: 0 },
+  lifetimeEarnings: { type: Number, default: 0, min: 0 },
+  adjustedEarnings: { type: Number, default: 0 },
+  payoutThreshold: { type: Number, default: 50, min: 0 },
+
+  totalReferrals: { type: Number, default: 0, min: 0 },
+  successfulReferrals: { type: Number, default: 0, min: 0 },
+  pendingCommissions: { type: Number, default: 0, min: 0 },
+  confirmedCommissions: { type: Number, default: 0, min: 0 },
+  paidCommissions: { type: Number, default: 0, min: 0 },
+
+
+
+  // ==================== PERFORMANCE ANALYTICS ====================
+  performanceMetrics: {
+    clicks: { type: Number, default: 0, min: 0 },
+    signups: { type: Number, default: 0, min: 0 },
+    conversions: { type: Number, default: 0, min: 0 },
+    conversionRate: { type: Number, default: 0, min: 0, max: 100 },
+    revenue: { type: Number, default: 0, min: 0 },
+    revenueGenerated: { type: Number, default: 0, min: 0 },
+    averageOrderValue: { type: Number, default: 0, min: 0 },
+    clickThroughRate: { type: Number, default: 0, min: 0, max: 100 },
+    earningsPerClick: { type: Number, default: 0, min: 0 },
+    returnOnInvestment: { type: Number, default: 0 },
+    lastUpdated: { type: Date, default: Date.now },
+    historicalData: [
+      {
+        date: Date,
+        clicks: Number,
+        conversions: Number,
+        revenue: Number,
+        commissions: Number,
+      },
+    ],
+  },
+  // ==================== PAYOUT SYSTEM ====================
+  payoutMethod: {
+    type: {
+      type: String,
+      enum: [
+        'paypal',
+        'bank_transfer',
+        'check',
+        'crypto',
+        'wire_transfer',
+        'skrill',
+        'payoneer',
+      ],
+    },
+    details: Schema.Types.Mixed,
+    isVerified: { type: Boolean, default: false },
+    verifiedAt: Date,
+    verificationDocuments: [String],
+    primary: { type: Boolean, default: true },
+  },
+
+  payoutHistory: [
+    {
+      payoutId: { type: String, unique: true, sparse: true },
+      amount: { type: Number, required: true, min: 0 },
+      netAmount: { type: Number, min: 0 },
+      fees: { type: Number, default: 0, min: 0 },
+      currency: { type: String, default: 'USD' },
+      date: { type: Date, default: Date.now },
+      status: {
+        type: String,
+        enum: [
+          'pending',
+          'processing',
+          'paid',
+          'failed',
+          'cancelled',
+          'rejected',
+          'on_hold',
+        ],
+        default: 'pending',
+      },
+      transactionId: String,
+      paymentMethod: String,
+      reference: String,
+      notes: String,
+      processedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      estimatedArrival: Date,
+      actualArrival: Date,
+      taxDocumentGenerated: { type: Boolean, default: false },
+    },
+  ],
+
+
+  // ==================== TIER & COMMISSION STRUCTURE ====================
+  tier: {
+    type: String,
+    enum: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'elite'],
+    default: 'bronze',
+  },
+  commissionRate: { type: Number, default: 0.2, min: 0, max: 1 },
+  customCommissionRules: [
+    {
+      ruleId: { type: String, required: true },
+      productId: String,
+      productName: String,
+      productCategory: String,
+      commissionRate: { type: Number, required: true, min: 0, max: 1 },
+      commissionType: {
+        type: String,
+        enum: ['percentage', 'fixed', 'hybrid'],
+        default: 'percentage',
+      },
+      fixedAmount: { type: Number, min: 0 },
+      startDate: { type: Date, required: true },
+      endDate: Date,
+      isActive: { type: Boolean, default: true },
+      createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      createdAt: { type: Date, default: Date.now },
+      conditions: Schema.Types.Mixed,
+      priority: { type: Number, default: 1, min: 1, max: 100 },
+    },
+  ],
+
+  // ==================== BONUS & INCENTIVE SYSTEM ====================
+  performanceBonuses: [
+    {
+      bonusId: { type: String, required: true },
+      name: String,
+      amount: { type: Number, required: true, min: 0 },
+      reason: String,
+      type: {
+        type: String,
+        enum: [
+          'signup',
+          'revenue',
+          'conversion',
+          'retention',
+          'special',
+          'holiday',
+        ],
+        default: 'conversion',
+      },
+      dateAwarded: { type: Date, default: Date.now },
+      targetMet: String,
+      status: {
+        type: String,
+        enum: ['awarded', 'paid', 'pending', 'cancelled', 'forfeited'],
+        default: 'awarded',
+      },
+      payoutDate: Date,
+      conditions: Schema.Types.Mixed,
+      awardedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      notes: String,
+    },
+  ],
+
+  // ==================== ACCOUNT STATUS & LIFECYCLE ====================
+  isActive: { type: Boolean, default: true },
+  activationDate: Date,
+  deactivationDate: Date,
+  deactivationReason: String,
+  reactivationDate: Date,
+  lastPayoutDate: Date,
+  nextPayoutDate: Date,
+  accountStatus: {
+    type: String,
+    enum: ['active', 'inactive', 'suspended', 'terminated', 'grace_period'],
+    default: 'active',
+  },
+
+  // ==================== TAX & LEGAL COMPLIANCE ====================
+  taxInfo: {
+    taxId: { type: String, select: false },
+    taxForm: {
+      type: String,
+      enum: ['W-9', 'W-8BEN', 'W-8BEN-E', 'W-8ECI', 'W-8IMY', 'Other'],
+    },
+    formSubmitted: { type: Boolean, default: false },
+    submittedAt: Date,
+    verifiedAt: Date,
+    verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    taxYear: Number,
+    taxDocument: String,
+    taxStatus: {
+      type: String,
+      enum: ['not_required', 'pending', 'verified', 'rejected', 'expired'],
+      default: 'not_required',
+    },
+    countryOfTaxResidency: String,
+    usTaxTreatyClaimed: { type: Boolean, default: false },
+  },
+
+  termsAccepted: {
+    affiliateAgreement: { type: Boolean, default: false },
+    dataProcessing: { type: Boolean, default: false },
+    acceptedAt: Date,
+    agreementVersion: String,
+    ipAddress: String,
+    userAgent: String,
+    acceptedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  },
+
+  // ==================== COMMUNICATION PREFERENCES ====================
+  affiliateCommunications: {
+    newCommissionAlerts: { type: Boolean, default: true },
+    payoutNotifications: { type: Boolean, default: true },
+    performanceReports: {
+      frequency: {
+        type: String,
+        enum: ['weekly', 'bi_weekly', 'monthly', 'quarterly', 'never'],
+        default: 'monthly',
+      },
+      format: {
+        type: String,
+        enum: ['email', 'pdf', 'dashboard', 'all'],
+        default: 'email',
+      },
+    },
+    promotionalOffers: { type: Boolean, default: true },
+    educationalContent: { type: Boolean, default: true },
+    systemUpdates: { type: Boolean, default: true },
+    lastCommunicationSent: Date,
+    unsubscribeReason: String,
+    preferredLanguage: { type: String, default: 'en' },
+  },
+
+  // ==================== RELATIONSHIP MANAGEMENT ====================
+  affiliateManager: { type: Schema.Types.ObjectId, ref: 'User' },
+  accountManager: { type: Schema.Types.ObjectId, ref: 'User' },
+  supportContact: { type: Schema.Types.ObjectId, ref: 'User' },
+  notes: [
+    {
+      content: String,
+      createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      createdAt: { type: Date, default: Date.now },
+      category: {
+        type: String,
+        enum: ['general', 'support', 'billing', 'performance', 'compliance'],
+      },
+      isInternal: { type: Boolean, default: false },
+    },
+  ],
+
+  // ==================== MARKETING & PROMOTION ====================
+  marketingMaterials: [
+    {
+      name: String,
+      type: {
+        type: String,
+        enum: ['banner', 'link', 'email', 'social', 'video', 'document'],
+      },
+      url: String,
+      description: String,
+      created: { type: Date, default: Date.now },
+      isActive: { type: Boolean, default: true },
+      performance: {
+        clicks: { type: Number, default: 0 },
+        conversions: { type: Number, default: 0 },
+        lastUsed: Date,
+      },
+    },
+  ],
+
+  landingPageClicks: { type: Number, default: 0, min: 0 },
+  uniqueVisitors: { type: Number, default: 0, min: 0 },
+  impressionCount: { type: Number, default: 0, min: 0 },
+  creativeUsage: [
+    {
+      creativeId: String,
+      type: String,
+      usageCount: { type: Number, default: 0 },
+      lastUsed: Date,
+    },
+  ],
+
+  // ==================== QUALITY & PERFORMANCE MONITORING ====================
+  qualityScore: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 100,
+  },
+  lastQualityReview: Date,
+  reviewNotes: String,
+  performanceWarnings: [
+    {
+      warning: String,
+      severity: { type: String, enum: ['low', 'medium', 'high', 'critical'] },
+      issuedAt: { type: Date, default: Date.now },
+      resolvedAt: Date,
+      issuedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    },
+  ],
+  complianceIssues: [
+    {
+      issue: String,
+      type: {
+        type: String,
+        enum: ['terms', 'traffic', 'promotion', 'legal', 'other'],
+      },
+      severity: {
+        type: String,
+        enum: ['warning', 'violation', 'suspension', 'termination'],
+      },
+      occurredAt: Date,
+      resolvedAt: Date,
+      notes: String,
+    },
+  ],
+
+  // ==================== ADVANCED ANALYTICS ====================
+  geographicPerformance: [
+    {
+      country: String,
+      region: String,
+      clicks: { type: Number, default: 0 },
+      conversions: { type: Number, default: 0 },
+      revenue: { type: Number, default: 0 },
+    },
+  ],
+
+  devicePerformance: [
+    {
+      deviceType: {
+        type: String,
+        enum: ['desktop', 'mobile', 'tablet', 'other'],
+      },
+      os: String,
+      browser: String,
+      clicks: { type: Number, default: 0 },
+      conversions: { type: Number, default: 0 },
+    },
+  ],
+
+  temporalPerformance: [
+    {
+      hourOfDay: Number,
+      dayOfWeek: Number,
+      month: Number,
+      clicks: { type: Number, default: 0 },
+      conversions: { type: Number, default: 0 },
+    },
+  ],
+
+  auditTrail: [
+    {
+      action: String,
+      performedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+      performedAt: { type: Date, default: Date.now },
+      ipAddress: String,
+      userAgent: String,
+      changes: Schema.Types.Mixed,
+      reason: String,
+    },
+  ],
+
+  // ==================== SYSTEM METADATA ====================
+  signupSource: {
+    type: String,
+    enum: ['web', 'mobile', 'api', 'admin', 'affiliate', 'partner'],
+    default: 'web',
+  },
+  signupCampaign: String,
+  signupReferrer: String,
+  ipAddress: String,
+  userAgent: String,
+  locale: String,
+  dataResidency: { type: String, enum: ['eu', 'us', 'apac', 'global'] },
+
+  // ==================== CUSTOM FIELDS ====================
+  customFields: Schema.Types.Mixed,
+  tags: [String],
+
+  // ==================== TIMESTAMPS ====================
+  lastActivityAt: Date,
+  lastCommissionAt: Date,
+  lastPayoutRequestAt: Date,
+});
+
 // Customer Profile Schema
 const CustomerProfileSchema = new Schema(
   {
@@ -70,10 +540,14 @@ const CustomerProfileSchema = new Schema(
     ssn: {
       type: String,
       select: false,
-      validate: {
-        validator: (value: string) => /^\d{3}-\d{2}-\d{4}$/.test(value),
-        message: 'SSN must be in format XXX-XX-XXXX',
+      set: (value: string) => {
+        if (value && !validateSSN(value)) {
+          throw new Error('Invalid SSN format');
+        }
+        return value ? encrypt(value) : value;
       },
+      get: (value: string) => (value ? decrypt(value) : value),
+      maxlength: 512,
     },
     stripeCustomerId: String,
     stripeSubscriptionId: String,
@@ -208,473 +682,6 @@ const CustomerProfileSchema = new Schema(
   },
   { _id: false }
 );
-
-const AffiliateSchema = new Schema(
-  {
-    // ==================== APPLICATION & ONBOARDING ====================
-    firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
-    companyName: { type: String, trim: true },
-    skypeId: { type: String, trim: true },
-    yourWebsite: { type: String, trim: true, lowercase: true },
-    trafficSources: [String],
-    channels: [String],
-    howPromote: { type: String, maxlength: 1000 },
-    describeExperience: { type: String, maxlength: 2000 },
-    pastExperience: { type: String, maxlength: 2000 },
-    lookingCampaign: { type: String, maxlength: 1000 },
-    whenYouFree: String,
-    idPhotoFront: { type: String, select: false },
-    idPhotoBack: { type: String, select: false },
-    timeZone: String,
-    didYouHear: String,
-    phone: { type: String, select: false },
-    alternativePhone: { type: String, select: false },
-
-    // ==================== APPROVAL & ADMIN MANAGEMENT ====================
-    approvalStatus: {
-      type: String,
-      enum: ['pending', 'approved', 'rejected', 'suspended', 'under_review'],
-      default: 'pending',
-    },
-    adminNotes: String,
-    reviewDate: Date,
-    reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-    contractSigned: { type: Boolean, default: false },
-    contractVersion: String,
-    contractSignedAt: Date,
-    contractDocument: String,
-
-    // ==================== REFERRAL & COMMISSION TRACKING ====================
-    referralCode: {
-      type: String,
-      unique: true,
-      index: true,
-      sparse: true,
-      uppercase: true,
-      match: [
-        /^[A-Z0-9]{8,12}$/,
-        'Referral code must be 8-12 alphanumeric characters',
-      ],
-    },
-    referralSource: String,
-
-    referrals: [
-      {
-        email: { type: String, lowercase: true },
-        customerName: String,
-        customerId: { type: Schema.Types.ObjectId, ref: 'User' },
-        subscriptionId: String,
-        orderId: String,
-        date: { type: Date, default: Date.now },
-        status: {
-          type: String,
-          enum: [
-            'pending',
-            'confirmed',
-            'paid',
-            'rejected',
-            'canceled',
-            'refunded',
-            'chargeback',
-          ],
-          default: 'pending',
-        },
-        commissionAmount: { type: Number, default: 0, min: 0 },
-        orderValue: { type: Number, default: 0, min: 0 },
-        productType: String,
-        productId: String,
-        affiliateCodeUsed: String,
-        conversionDate: Date,
-        payoutDate: Date,
-        commissionRate: { type: Number, default: 0.2 },
-        notes: String,
-        customRulesApplied: [String],
-      },
-    ],
-
-    // ==================== FINANCIAL MANAGEMENT ====================
-    commissionBalance: { type: Number, default: 0, min: 0 },
-    totalEarnings: { type: Number, default: 0, min: 0 },
-    pendingEarnings: { type: Number, default: 0, min: 0 },
-    confirmedEarnings: { type: Number, default: 0, min: 0 },
-    paidEarnings: { type: Number, default: 0, min: 0 },
-    lifetimeEarnings: { type: Number, default: 0, min: 0 },
-    adjustedEarnings: { type: Number, default: 0 },
-    payoutThreshold: { type: Number, default: 50, min: 0 },
-
-    totalReferrals: { type: Number, default: 0, min: 0 },
-    successfulReferrals: { type: Number, default: 0, min: 0 },
-    pendingCommissions: { type: Number, default: 0, min: 0 },
-    confirmedCommissions: { type: Number, default: 0, min: 0 },
-    paidCommissions: { type: Number, default: 0, min: 0 },
-
-    // ==================== PAYOUT SYSTEM ====================
-    payoutMethod: {
-      type: {
-        type: String,
-        enum: [
-          'paypal',
-          'bank_transfer',
-          'check',
-          'crypto',
-          'wire_transfer',
-          'skrill',
-          'payoneer',
-        ],
-      },
-      details: Schema.Types.Mixed,
-      isVerified: { type: Boolean, default: false },
-      verifiedAt: Date,
-      verificationDocuments: [String],
-      primary: { type: Boolean, default: true },
-    },
-
-    payoutHistory: [
-      {
-        payoutId: { type: String, unique: true, sparse: true },
-        amount: { type: Number, required: true, min: 0 },
-        netAmount: { type: Number, min: 0 },
-        fees: { type: Number, default: 0, min: 0 },
-        currency: { type: String, default: 'USD' },
-        date: { type: Date, default: Date.now },
-        status: {
-          type: String,
-          enum: [
-            'pending',
-            'processing',
-            'paid',
-            'failed',
-            'cancelled',
-            'rejected',
-            'on_hold',
-          ],
-          default: 'pending',
-        },
-        transactionId: String,
-        paymentMethod: String,
-        reference: String,
-        notes: String,
-        processedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-        estimatedArrival: Date,
-        actualArrival: Date,
-        taxDocumentGenerated: { type: Boolean, default: false },
-      },
-    ],
-
-    // ==================== PERFORMANCE ANALYTICS ====================
-    performanceMetrics: {
-      clicks: { type: Number, default: 0, min: 0 },
-      signups: { type: Number, default: 0, min: 0 },
-      conversions: { type: Number, default: 0, min: 0 },
-      conversionRate: { type: Number, default: 0, min: 0, max: 100 },
-      revenueGenerated: { type: Number, default: 0, min: 0 },
-      averageOrderValue: { type: Number, default: 0, min: 0 },
-      clickThroughRate: { type: Number, default: 0, min: 0, max: 100 },
-      earningsPerClick: { type: Number, default: 0, min: 0 },
-      returnOnInvestment: { type: Number, default: 0 },
-      lastUpdated: { type: Date, default: Date.now },
-      historicalData: [
-        {
-          date: Date,
-          clicks: Number,
-          conversions: Number,
-          revenue: Number,
-          commissions: Number,
-        },
-      ],
-    },
-
-    // ==================== TIER & COMMISSION STRUCTURE ====================
-    tier: {
-      type: String,
-      enum: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'elite'],
-      default: 'bronze',
-    },
-    commissionRate: { type: Number, default: 0.2, min: 0, max: 1 },
-    customCommissionRules: [
-      {
-        ruleId: { type: String, required: true },
-        productId: String,
-        productName: String,
-        productCategory: String,
-        commissionRate: { type: Number, required: true, min: 0, max: 1 },
-        commissionType: {
-          type: String,
-          enum: ['percentage', 'fixed', 'hybrid'],
-          default: 'percentage',
-        },
-        fixedAmount: { type: Number, min: 0 },
-        startDate: { type: Date, required: true },
-        endDate: Date,
-        isActive: { type: Boolean, default: true },
-        createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
-        createdAt: { type: Date, default: Date.now },
-        conditions: Schema.Types.Mixed,
-        priority: { type: Number, default: 1, min: 1, max: 100 },
-      },
-    ],
-
-    // ==================== BONUS & INCENTIVE SYSTEM ====================
-    performanceBonuses: [
-      {
-        bonusId: { type: String, required: true },
-        name: String,
-        amount: { type: Number, required: true, min: 0 },
-        reason: String,
-        type: {
-          type: String,
-          enum: [
-            'signup',
-            'revenue',
-            'conversion',
-            'retention',
-            'special',
-            'holiday',
-          ],
-          default: 'conversion',
-        },
-        dateAwarded: { type: Date, default: Date.now },
-        targetMet: String,
-        status: {
-          type: String,
-          enum: ['awarded', 'paid', 'pending', 'cancelled', 'forfeited'],
-          default: 'awarded',
-        },
-        payoutDate: Date,
-        conditions: Schema.Types.Mixed,
-        awardedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-        notes: String,
-      },
-    ],
-
-    // ==================== ACCOUNT STATUS & LIFECYCLE ====================
-    isActive: { type: Boolean, default: true },
-    activationDate: Date,
-    deactivationDate: Date,
-    deactivationReason: String,
-    reactivationDate: Date,
-    lastPayoutDate: Date,
-    nextPayoutDate: Date,
-    accountStatus: {
-      type: String,
-      enum: ['active', 'inactive', 'suspended', 'terminated', 'grace_period'],
-      default: 'active',
-    },
-
-    // ==================== TAX & LEGAL COMPLIANCE ====================
-    taxInfo: {
-      taxId: { type: String, select: false },
-      taxForm: {
-        type: String,
-        enum: ['W-9', 'W-8BEN', 'W-8BEN-E', 'W-8ECI', 'W-8IMY', 'Other'],
-      },
-      formSubmitted: { type: Boolean, default: false },
-      submittedAt: Date,
-      verifiedAt: Date,
-      verifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-      taxYear: Number,
-      taxDocument: String,
-      taxStatus: {
-        type: String,
-        enum: ['not_required', 'pending', 'verified', 'rejected', 'expired'],
-        default: 'not_required',
-      },
-      countryOfTaxResidency: String,
-      usTaxTreatyClaimed: { type: Boolean, default: false },
-    },
-
-    termsAccepted: {
-      affiliateAgreement: { type: Boolean, default: false },
-      dataProcessing: { type: Boolean, default: false },
-      acceptedAt: Date,
-      agreementVersion: String,
-      ipAddress: String,
-      userAgent: String,
-      acceptedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-    },
-
-    // ==================== COMMUNICATION PREFERENCES ====================
-    affiliateCommunications: {
-      newCommissionAlerts: { type: Boolean, default: true },
-      payoutNotifications: { type: Boolean, default: true },
-      performanceReports: {
-        frequency: {
-          type: String,
-          enum: ['weekly', 'bi_weekly', 'monthly', 'quarterly', 'never'],
-          default: 'monthly',
-        },
-        format: {
-          type: String,
-          enum: ['email', 'pdf', 'dashboard', 'all'],
-          default: 'email',
-        },
-      },
-      promotionalOffers: { type: Boolean, default: true },
-      educationalContent: { type: Boolean, default: true },
-      systemUpdates: { type: Boolean, default: true },
-      lastCommunicationSent: Date,
-      unsubscribeReason: String,
-      preferredLanguage: { type: String, default: 'en' },
-    },
-
-    // ==================== RELATIONSHIP MANAGEMENT ====================
-    affiliateManager: { type: Schema.Types.ObjectId, ref: 'User' },
-    accountManager: { type: Schema.Types.ObjectId, ref: 'User' },
-    supportContact: { type: Schema.Types.ObjectId, ref: 'User' },
-    notes: [
-      {
-        content: String,
-        createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
-        createdAt: { type: Date, default: Date.now },
-        category: {
-          type: String,
-          enum: ['general', 'support', 'billing', 'performance', 'compliance'],
-        },
-        isInternal: { type: Boolean, default: false },
-      },
-    ],
-
-    // ==================== MARKETING & PROMOTION ====================
-    marketingMaterials: [
-      {
-        name: String,
-        type: {
-          type: String,
-          enum: ['banner', 'link', 'email', 'social', 'video', 'document'],
-        },
-        url: String,
-        description: String,
-        created: { type: Date, default: Date.now },
-        isActive: { type: Boolean, default: true },
-        performance: {
-          clicks: { type: Number, default: 0 },
-          conversions: { type: Number, default: 0 },
-          lastUsed: Date,
-        },
-      },
-    ],
-
-    landingPageClicks: { type: Number, default: 0, min: 0 },
-    uniqueVisitors: { type: Number, default: 0, min: 0 },
-    impressionCount: { type: Number, default: 0, min: 0 },
-    creativeUsage: [
-      {
-        creativeId: String,
-        type: String,
-        usageCount: { type: Number, default: 0 },
-        lastUsed: Date,
-      },
-    ],
-
-    // ==================== QUALITY & PERFORMANCE MONITORING ====================
-    qualityScore: {
-      type: Number,
-      min: 0,
-      max: 100,
-      default: 100,
-    },
-    lastQualityReview: Date,
-    reviewNotes: String,
-    performanceWarnings: [
-      {
-        warning: String,
-        severity: { type: String, enum: ['low', 'medium', 'high', 'critical'] },
-        issuedAt: { type: Date, default: Date.now },
-        resolvedAt: Date,
-        issuedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-      },
-    ],
-    complianceIssues: [
-      {
-        issue: String,
-        type: {
-          type: String,
-          enum: ['terms', 'traffic', 'promotion', 'legal', 'other'],
-        },
-        severity: {
-          type: String,
-          enum: ['warning', 'violation', 'suspension', 'termination'],
-        },
-        occurredAt: Date,
-        resolvedAt: Date,
-        notes: String,
-      },
-    ],
-
-    // ==================== ADVANCED ANALYTICS ====================
-    geographicPerformance: [
-      {
-        country: String,
-        region: String,
-        clicks: { type: Number, default: 0 },
-        conversions: { type: Number, default: 0 },
-        revenue: { type: Number, default: 0 },
-      },
-    ],
-
-    devicePerformance: [
-      {
-        deviceType: {
-          type: String,
-          enum: ['desktop', 'mobile', 'tablet', 'other'],
-        },
-        os: String,
-        browser: String,
-        clicks: { type: Number, default: 0 },
-        conversions: { type: Number, default: 0 },
-      },
-    ],
-
-    temporalPerformance: [
-      {
-        hourOfDay: Number,
-        dayOfWeek: Number,
-        month: Number,
-        clicks: { type: Number, default: 0 },
-        conversions: { type: Number, default: 0 },
-      },
-    ],
-
-    auditTrail: [
-      {
-        action: String,
-        performedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-        performedAt: { type: Date, default: Date.now },
-        ipAddress: String,
-        userAgent: String,
-        changes: Schema.Types.Mixed,
-        reason: String,
-      },
-    ],
-
-    // ==================== SYSTEM METADATA ====================
-    signupSource: {
-      type: String,
-      enum: ['web', 'mobile', 'api', 'admin', 'affiliate', 'partner'],
-      default: 'web',
-    },
-    signupCampaign: String,
-    signupReferrer: String,
-    ipAddress: String,
-    userAgent: String,
-    locale: String,
-    dataResidency: { type: String, enum: ['eu', 'us', 'apac', 'global'] },
-
-    // ==================== CUSTOM FIELDS ====================
-    customFields: Schema.Types.Mixed,
-    tags: [String],
-
-    // ==================== TIMESTAMPS ====================
-    lastActivityAt: Date,
-    lastCommissionAt: Date,
-    lastPayoutRequestAt: Date,
-  },
-  {
-    _id: false,
-  }
-);
-
 // Main User Schema Fo All User
 const userSchema = new Schema(
   {
@@ -1329,14 +1336,15 @@ export const SuperAdmin = User.discriminator(
 
 export default User;
 
-
-
 // ==================== ADMIN SETUP TOKEN SCHEMA ====================
 const AdminSetupTokenSchema = new Schema<IAdminSetupToken>({
   email: { type: String, required: true },
   token: { type: String, required: true, unique: true },
   expiresAt: { type: Date, required: true },
-    used: { type: Boolean, default: false }
+  used: { type: Boolean, default: false },
 });
 
-export const AdminSetupToken = model<IAdminSetupToken>("AdminSetupToken", AdminSetupTokenSchema);
+export const AdminSetupToken = model<IAdminSetupToken>(
+  'AdminSetupToken',
+  AdminSetupTokenSchema
+);

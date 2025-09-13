@@ -6,151 +6,6 @@
     "auditLog": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/.28fa6a3be7776a7e537178fd41fb770b2f21abb3-audit.json",
     "files": [
         {
-            "date": 1756244847659,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-03-error.log",
-            "hash": "a052e930cbf17cbbe7199ba42514b396c68f049c8bf8655d2559fbbe63179b9a"
-        },
-        {
-            "date": 1756247795789,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-04-error.log",
-            "hash": "53eb5464a920c05d7ec9d7c8010af95a4707a477ff598c4a9087a50fa97d8ddb"
-        },
-        {
-            "date": 1756249467037,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-05-error.log",
-            "hash": "279572ad3dc66ff86f8987bd2d6b78eff72dc0c42b601b25b14eb56dfe79c420"
-        },
-        {
-            "date": 1756270699526,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-10-error.log",
-            "hash": "bea288b28cdaa70e0338058ae4d8e0f9f37ecd91e22b212b7d1c7527bf48e66e"
-        },
-        {
-            "date": 1756272209084,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-11-error.log",
-            "hash": "65d441e0c55d86fd86e7ef3e53721af6c5f2a766b0ab43c5034bb500bbac71b7"
-        },
-        {
-            "date": 1756274426683,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-12-error.log",
-            "hash": "08fa035b7600bdbb81b206c3a31960a7532b2fbbd8285305bfcaa57f8c5174e7"
-        },
-        {
-            "date": 1756279383845,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-13-error.log",
-            "hash": "cae5c03a01592fcb13b106dcd7b4c0d61b6999bf6d8f149e250e705cf0cb726e"
-        },
-        {
-            "date": 1756281626410,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-14-error.log",
-            "hash": "34d8b53c455f9eafb785082771765d33991d4b55f66c441e3a4c40175533409b"
-        },
-        {
-            "date": 1756302835679,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-27-08-19-error.log",
-            "hash": "3a80f8669d6847342e91f93c75c1318ccba7008d474e895cee72760b39e15225"
-        },
-        {
-            "date": 1756328203465,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-02-error.log",
-            "hash": "a15bcea7d8a599963527eee8e584128ce2bc29c56d33b172b11eedfed8b49b19"
-        },
-        {
-            "date": 1756328626129,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-03-error.log",
-            "hash": "379987025345cbdca9450c06f16c595633d5982f7b8671f9704488dbf37375aa"
-        },
-        {
-            "date": 1756358332852,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-11-error.log",
-            "hash": "96c6bf3a2fd4de8528b61c5320ef1ccb38b6614f44e422d9d7186491465f69d4"
-        },
-        {
-            "date": 1756376029072,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-16-error.log",
-            "hash": "8c0fd20b891d7b1599a802b95af2d820771cb82eb8cef2b0ddba693c6ebcbd00"
-        },
-        {
-            "date": 1756378808524,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-17-error.log",
-            "hash": "c135971f20682142013d72ebfd2897ae0be4c91f43059cb5e1c6cf9203c38b60"
-        },
-        {
-            "date": 1756403691878,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-28-08-23-error.log",
-            "hash": "1a6d26b91af210f3b151d819c87d85d9d1774c365f3abbe0ea49c9aab9ae4163"
-        },
-        {
-            "date": 1756404205175,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-00-error.log",
-            "hash": "c75a1006d7b4f618cec2f54f10f4b89753c8fda8765dfe5722d31d21e6caf8d6"
-        },
-        {
-            "date": 1756408848302,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-01-error.log",
-            "hash": "74906afdf5347c34cb15da0172599cfaa0f81eff593769818ecb719b9742a754"
-        },
-        {
-            "date": 1756412998873,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-02-error.log",
-            "hash": "a7f948efb54907b2fb519361a2644dd28f1aafd490625ae950d2b9ab3bd57372"
-        },
-        {
-            "date": 1756415114354,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-03-error.log",
-            "hash": "d5fbf60305fea094ec95d1a5ea2ecfd581eabf0d1557bfd0604d1a7b151705af"
-        },
-        {
-            "date": 1756418564881,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-04-error.log",
-            "hash": "568271dff15b9463a949b5c23ef72c4e1f7c7f2e3e79e3ff3e0e6ee811e207b9"
-        },
-        {
-            "date": 1756455451632,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-14-error.log",
-            "hash": "ea8e034d9cc157d9ea721b29f555c546e8a2c04f2a148517e47a2d6fb486d3ac"
-        },
-        {
-            "date": 1756458040690,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-15-error.log",
-            "hash": "37ec45d8dfab927bef6b2ea7a6be65c5a5708a9339ec0b430d23591adc755cbd"
-        },
-        {
-            "date": 1756485054183,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-22-error.log",
-            "hash": "bd5e437eb01ce0222176d079bf3a74fa090a8e672cfb81812daeb2b86b0c2a29"
-        },
-        {
-            "date": 1756487873240,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-29-08-23-error.log",
-            "hash": "ed63d9ec63247d266fd331384f123d86d7b29f16e7cbbd2fb190fe32d77eb7c0"
-        },
-        {
-            "date": 1756490530255,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-30-08-00-error.log",
-            "hash": "27f9b0cfc4a542efe9dd5bb4516f9d0ca49015345b7722ac39bd75aaf02ecf57"
-        },
-        {
-            "date": 1756495950688,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-30-08-01-error.log",
-            "hash": "488628963b4a9b13db4227251cd0734b6737ed8cb800968151f9f63d021dbfbb"
-        },
-        {
-            "date": 1756497701917,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-30-08-02-error.log",
-            "hash": "2c7f65b08d163c3ced51a7e0a31f95e9e3ac448a62968f7886a496e6e00383d1"
-        },
-        {
-            "date": 1756506347596,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-30-08-04-error.log",
-            "hash": "6763ad5900fa6db091acf2318ca890f234ebcd4cd31b5781245de2714cad4dcc"
-        },
-        {
-            "date": 1756508451212,
-            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-30-08-05-error.log",
-            "hash": "6bb7d4a32c7b43f41ebfaf4bdb257ebbf1dc75dc147fdcf7d78140a93c74a4a3"
-        },
-        {
             "date": 1756615719159,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-31-08-10-error.log",
             "hash": "c6e0588d79c3a5d650f0db66e9048f2976805929543e4a0839ca700b23cf00f7"
@@ -634,6 +489,176 @@
             "date": 1757448469418,
             "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-02-error.log",
             "hash": "67200632f58e47d491a397e5679bd98c03cc5a735378afb7c77e161c9ae50153"
+        },
+        {
+            "date": 1757495615156,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-15-error.log",
+            "hash": "0d424a71deb114b0b5c8ba2759c1256e47dd6e2e588be5dabb7d26203373f3dc"
+        },
+        {
+            "date": 1757505276744,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-17-error.log",
+            "hash": "4b21f28203798b6a3b191aa35b086898519efd8ba0c1f8ea0a82a5ea182e9c2c"
+        },
+        {
+            "date": 1757505689911,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-18-error.log",
+            "hash": "1fec29f52db9139522b6ef0e9808df969b0f86bae2df9f9d93fdb34e83ff9732"
+        },
+        {
+            "date": 1757509659884,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-19-error.log",
+            "hash": "e944211cc36e1dd3a94be2cb0f86d065c4207ae4b9d2fff05ebd4f93d5fd7ac4"
+        },
+        {
+            "date": 1757513641770,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-20-error.log",
+            "hash": "aa8114a36e55c5ee1b4f20b7801b379ff6149f9ad10436d89cd938e9cf00289f"
+        },
+        {
+            "date": 1757516476674,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-21-error.log",
+            "hash": "ec97a9b82d29cf7bbb29d305ed7f7a8183683e0299ab15b343eabf379a7227b4"
+        },
+        {
+            "date": 1757520102946,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-22-error.log",
+            "hash": "54eca0f8d052e25a8a675ade9ca5d8e9e711c250f8fa49148e84e04dc0eee848"
+        },
+        {
+            "date": 1757524048051,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-10-09-23-error.log",
+            "hash": "d371cec85f3ad972562055e52381be3328bcc2fc8fd5a3619ff6114d8b9fc45e"
+        },
+        {
+            "date": 1757535525989,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-02-error.log",
+            "hash": "92c76eaad414c5320fad6a9d65a1cb3155179771aeca921ad7d6072b6b723609"
+        },
+        {
+            "date": 1757539709059,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-03-error.log",
+            "hash": "ce843ed3b3486937e5c7bc88498e207f313134dac382d01c4a34f8681c0a59fd"
+        },
+        {
+            "date": 1757543381301,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-04-error.log",
+            "hash": "82304e7ac9682d024b50f8063eaaf6a51f2c111fee3aa67f7a902f8e31b38329"
+        },
+        {
+            "date": 1757545225653,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-05-error.log",
+            "hash": "25ae894021625c489607489857ea59cbce3b02496f379e99e441922cb9171f6b"
+        },
+        {
+            "date": 1757550555254,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-06-error.log",
+            "hash": "44e37f477016235c53cf0d08928b6f48104543af8d91f249cfa35a68baeee24e"
+        },
+        {
+            "date": 1757552799189,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-07-error.log",
+            "hash": "ac5b9061955e67d01762451623a0a91c7c57a2e311c1dd8c30de06b2102392d6"
+        },
+        {
+            "date": 1757556458956,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-08-error.log",
+            "hash": "4f4527232352bcf504786546808c738787a1c48c9256297c4872cfc2acb3be4b"
+        },
+        {
+            "date": 1757573704912,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-12-error.log",
+            "hash": "b27cd0922c371b0a63392a115ca1fb118fd129bcb807f3152e6a745566531ee2"
+        },
+        {
+            "date": 1757574201894,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-13-error.log",
+            "hash": "3b24997ac40bfa844de6183d85a16c9fdd1b2d0cbc5df62f4e664d76eb1d2f06"
+        },
+        {
+            "date": 1757577601818,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-14-error.log",
+            "hash": "2c99411bc2f17252fa8d24a82944b46d2bbe83a2898e6a63eb99e1e0f2da6496"
+        },
+        {
+            "date": 1757581383391,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-15-error.log",
+            "hash": "97a6ccd851b053bebfcacaeae84a2ce158289ba528aa53ace8fa6efeb63303ad"
+        },
+        {
+            "date": 1757585083099,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-16-error.log",
+            "hash": "c014f558f865c7c373512b3b718972e562c4c75a5603e9bacbbeeb8938f80969"
+        },
+        {
+            "date": 1757588437000,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-11-09-17-error.log",
+            "hash": "b5831d23ab963803f798a40060e2353b33b5edd438a6a751c7970b5d82f43593"
+        },
+        {
+            "date": 1757619640848,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-12-09-01-error.log",
+            "hash": "e927610ce943944b626cb366c1caf5a8c3158dc7e9b349cded280f9f44f8eacf"
+        },
+        {
+            "date": 1757620889471,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-12-09-02-error.log",
+            "hash": "e0ee75f261a5e02cf25af1451f2135c3d5110065297675de817dd11e6dfb6441"
+        },
+        {
+            "date": 1757624453865,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-12-09-03-error.log",
+            "hash": "0c3ef7318cc730eead14cf2e6751ec60237eb9bc0916209f513e973930a4ca30"
+        },
+        {
+            "date": 1757628100665,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-12-09-04-error.log",
+            "hash": "b9c64b0b6f9a61429d0a6add8d6f0a2606aaf3de64be70c9113fc1600afaf523"
+        },
+        {
+            "date": 1757699909390,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-12-09-23-error.log",
+            "hash": "7a6ad037dba474373ff997e8dfdb7d0329ee86eece5de427f1399876515bd6be"
+        },
+        {
+            "date": 1757708761681,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-02-error.log",
+            "hash": "67699c68516525ee6e62771b4ac54a20baca2d2d845f2f65043617a4f0740b0c"
+        },
+        {
+            "date": 1757710810149,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-03-error.log",
+            "hash": "ae38fc252e6321ce628d81bf72e8b8a6ddde011e68ce9078991210ecf01c3eea"
+        },
+        {
+            "date": 1757714737396,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-04-error.log",
+            "hash": "db7b1c5df2bab721fe58bdaa43e13597646a24ebd7788fda0a5c9cffc6bdd830"
+        },
+        {
+            "date": 1757718330252,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-05-error.log",
+            "hash": "08086e693a16466724f8f777aad1f4860ec6cf1cdd993151debf402e9c6a6c05"
+        },
+        {
+            "date": 1757722093194,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-06-error.log",
+            "hash": "222e1facda64f186176d3715cc217d11f3e9952b8ba996d0ea711dea9f4334a8"
+        },
+        {
+            "date": 1757725231182,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-07-error.log",
+            "hash": "b973a45f8d9c44e01ff053cc454884d5cc7c835b590b322e005d6755a1a3df0d"
+        },
+        {
+            "date": 1757728975655,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-08-error.log",
+            "hash": "ca4182070daa34066468a52037799090de8a5a63484a50fed36fefaec4d3b441"
+        },
+        {
+            "date": 1757734126749,
+            "name": "/home/imran/choiceidentity/choiceidentity-backend/logs/winston/error/project-title-2025-13-09-09-error.log",
+            "hash": "5ede80df8e53715f8e328cbea5f57ff8e0e7d4bf4fc15ba109dcf2779f8c06a2"
         }
     ],
     "hashType": "sha256"
