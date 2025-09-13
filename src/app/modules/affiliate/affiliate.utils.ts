@@ -55,8 +55,8 @@ export function normalizeSubId(input: string): string {
 
 // Build redirect URL with params
 export function buildRedirectUrl(affiliateLink: any, clickId: string) {
-  //   const url = new URL("https://www.choiceidentity.com/register");
-  const url = new URL('http://localhost:3000/register'); // For local testing
+    const url = new URL("https://www.choiceidentity.com/register");
+//   const url = new URL('http://localhost:3000/register'); // For local testing
 
   url.searchParams.set('ref', affiliateLink.affiliateCode);
   url.searchParams.set('plan', affiliateLink.plan);

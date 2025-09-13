@@ -59,8 +59,8 @@ function normalizeSubId(input) {
 }
 // Build redirect URL with params
 function buildRedirectUrl(affiliateLink, clickId) {
-    //   const url = new URL("https://www.choiceidentity.com/register");
-    const url = new URL('http://localhost:3000/register'); // For local testing
+    const url = new URL("https://www.choiceidentity.com/register");
+    //   const url = new URL('http://localhost:3000/register'); // For local testing
     url.searchParams.set('ref', affiliateLink.affiliateCode);
     url.searchParams.set('plan', affiliateLink.plan);
     url.searchParams.set('billing', affiliateLink.billing);
