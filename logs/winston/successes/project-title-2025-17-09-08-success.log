@@ -1,0 +1,740 @@
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:02:52.993Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:04:56.742Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:05:01.726Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:05:41.736Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:09:59.026Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:13:09.255Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:13:19.440Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:13:37.093Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:31.323Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:31.988Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:32.877Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:33.333Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:33.756Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:34.719Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:35.230Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:35.643Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:15:36.155Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:19:40.812Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:19:47.015Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:20:53.683Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:21:21.638Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:21:37.405Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:21:47.096Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:23:42.981Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:24:16.895Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:24:29.201Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:24:50.910Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:25:06.419Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:25:12.774Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:25:26.964Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:26:24.395Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:26:28.685Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:26:44.611Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:26:57.244Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:27:48.378Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:31:02.719Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:34.154Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:34.837Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:35.639Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:36.087Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:36.498Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:36.867Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:37.298Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_6ZDc0BgWUQGgvG?t=1758076357',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 17 Sep 2025 02:32:37 GMT',
+      'content-type': 'application/json',
+      'content-length': '308',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+      'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+      'original-request': 'req_6ZDc0BgWUQGgvG',
+      'request-id': 'req_6ZDc0BgWUQGgvG',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_6ZDc0BgWUQGgvG'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Wed, 17 Sep 2025 02:32:37 GMT',
+    'content-type': 'application/json',
+    'content-length': '308',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+    'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+    'original-request': 'req_6ZDc0BgWUQGgvG',
+    'request-id': 'req_6ZDc0BgWUQGgvG',
+    'stripe-should-retry': 'false',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_6ZDc0BgWUQGgvG',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 1, retrying after 1000ms The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+  stack: 'Error: The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-17T02:32:37.682Z'
+}
+{
+  message: 'Retry attempt 2 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:38.686Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_6ZDc0BgWUQGgvG?t=1758076357',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 17 Sep 2025 02:32:39 GMT',
+      'content-type': 'application/json',
+      'content-length': '308',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+      'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+      'idempotent-replayed': 'true',
+      'original-request': 'req_6ZDc0BgWUQGgvG',
+      'request-id': 'req_G6xKoMK7pGD5Cp',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_G6xKoMK7pGD5Cp'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Wed, 17 Sep 2025 02:32:39 GMT',
+    'content-type': 'application/json',
+    'content-length': '308',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+    'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+    'idempotent-replayed': 'true',
+    'original-request': 'req_6ZDc0BgWUQGgvG',
+    'request-id': 'req_G6xKoMK7pGD5Cp',
+    'stripe-should-retry': 'false',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_G6xKoMK7pGD5Cp',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 2, retrying after 2000ms The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+  stack: 'Error: The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-17T02:32:39.382Z'
+}
+{
+  message: 'Retry attempt 3 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:41.385Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_6ZDc0BgWUQGgvG?t=1758076357',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+      'content-type': 'application/json',
+      'content-length': '308',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+      'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+      'idempotent-replayed': 'true',
+      'original-request': 'req_6ZDc0BgWUQGgvG',
+      'request-id': 'req_ESuYnU6bAqftcM',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_ESuYnU6bAqftcM'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+    'content-type': 'application/json',
+    'content-length': '308',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+    'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+    'idempotent-replayed': 'true',
+    'original-request': 'req_6ZDc0BgWUQGgvG',
+    'request-id': 'req_ESuYnU6bAqftcM',
+    'stripe-should-retry': 'false',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_ESuYnU6bAqftcM',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'warn',
+  message: 'Retryable error on attempt 3, retrying after 4000ms The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+  stack: 'Error: The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-17T02:32:41.715Z'
+}
+{
+  type: 'StripeInvalidRequestError',
+  raw: {
+    message: 'The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+    param: 'items[0][price]',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_6ZDc0BgWUQGgvG?t=1758076357',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+      'content-type': 'application/json',
+      'content-length': '308',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+      'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+      'idempotent-replayed': 'true',
+      'original-request': 'req_6ZDc0BgWUQGgvG',
+      'request-id': 'req_ESuYnU6bAqftcM',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_ESuYnU6bAqftcM'
+  },
+  rawType: 'invalid_request_error',
+  code: undefined,
+  doc_url: undefined,
+  param: 'items[0][price]',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+    'content-type': 'application/json',
+    'content-length': '308',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+    'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+    'idempotent-replayed': 'true',
+    'original-request': 'req_6ZDc0BgWUQGgvG',
+    'request-id': 'req_ESuYnU6bAqftcM',
+    'stripe-should-retry': 'false',
+    'stripe-version': '2025-06-30.basil',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHIJ',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_ESuYnU6bAqftcM',
+  statusCode: 400,
+  userMessage: undefined,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined,
+  level: 'error',
+  message: 'All retry attempts failed The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+  stack: 'Error: The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.\n' +
+    '    at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)\n' +
+    '    at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)\n' +
+    '    at processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-09-17T02:32:41.716Z'
+}
+{
+  err: StripeInvalidRequestError: The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.
+      at generateV1Error (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/Error.js:11:20)
+      at res.toJSON.then.Error_js_1.StripeAPIError.message (/home/imran/choiceidentity/choiceidentity-backend/node_modules/.pnpm/stripe@18.3.0_@types+node@24.1.0/node_modules/stripe/cjs/RequestSender.js:108:62)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5) {
+    type: 'StripeInvalidRequestError',
+    raw: {
+      message: 'The price specified is set to `type=one_time` but this field only accepts prices with `type=recurring`.',
+      param: 'items[0][price]',
+      request_log_url: 'https://dashboard.stripe.com/test/logs/req_6ZDc0BgWUQGgvG?t=1758076357',
+      type: 'invalid_request_error',
+      headers: {
+        server: 'nginx',
+        date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+        'content-type': 'application/json',
+        'content-length': '308',
+        connection: 'keep-alive',
+        'access-control-allow-credentials': 'true',
+        'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+        'access-control-allow-origin': '*',
+        'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+        'access-control-max-age': '300',
+        'cache-control': 'no-cache, no-store',
+        'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+        'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+        'idempotent-replayed': 'true',
+        'original-request': 'req_6ZDc0BgWUQGgvG',
+        'request-id': 'req_ESuYnU6bAqftcM',
+        'stripe-should-retry': 'false',
+        'stripe-version': '2025-06-30.basil',
+        vary: 'Origin',
+        'x-stripe-priority-routing-enabled': 'true',
+        'x-stripe-routing-context-priority-tier': 'api-testmode',
+        'x-wc': 'ABGHIJ',
+        'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+      },
+      statusCode: 400,
+      requestId: 'req_ESuYnU6bAqftcM'
+    },
+    rawType: 'invalid_request_error',
+    code: undefined,
+    doc_url: undefined,
+    param: 'items[0][price]',
+    detail: undefined,
+    headers: {
+      server: 'nginx',
+      date: 'Wed, 17 Sep 2025 02:32:41 GMT',
+      'content-type': 'application/json',
+      'content-length': '308',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=RviU3p9QdSXpAzm8C0xkNYZUG0cR4ufzO-Cbrse40C4asjefkNt9XvNaFm3YBTp7mCoikHSmMBUrE9Ew",
+      'idempotency-key': 'subscription_e0da5d01-d0d5-4e1c-b2e6-04d7908c87bd',
+      'idempotent-replayed': 'true',
+      'original-request': 'req_6ZDc0BgWUQGgvG',
+      'request-id': 'req_ESuYnU6bAqftcM',
+      'stripe-should-retry': 'false',
+      'stripe-version': '2025-06-30.basil',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHIJ',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    requestId: 'req_ESuYnU6bAqftcM',
+    statusCode: 400,
+    userMessage: undefined,
+    charge: undefined,
+    decline_code: undefined,
+    payment_intent: undefined,
+    payment_method: undefined,
+    payment_method_type: undefined,
+    setup_intent: undefined,
+    source: undefined
+  },
+  customerId: 'cus_T4Jo4fjpRTLXu8',
+  level: 'error',
+  message: 'Stripe subscription creation failed',
+  timestamp: '2025-09-17T02:32:41.716Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:41.803Z'
+}
+{
+  message: 'Deleted customer cus_T4Jo4fjpRTLXu8',
+  level: 'info',
+  timestamp: '2025-09-17T02:32:42.396Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:42.877Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:43.532Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:44.303Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:44.751Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:45.162Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:45.539Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:36:45.972Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:29.184Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:29.789Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:30.563Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:30.984Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:31.386Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:32.202Z'
+}
+{
+  message: 'Retry attempt 1 started for operation ',
+  level: 'info',
+  timestamp: '2025-09-17T02:44:32.713Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:48:34.772Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:48:47.854Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:48:52.733Z'
+}
+{
+  message: '💻 Database connected successfully 💻',
+  level: 'info',
+  timestamp: '2025-09-17T02:49:07.011Z'
+}

@@ -218,7 +218,6 @@ const validateClickId = (clickId, session) => __awaiter(void 0, void 0, void 0, 
 exports.validateClickId = validateClickId;
 const updateConversionStats = (affiliateLinkId, subId, revenueGenerated, commissionAmount, session) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log(`Updating conversion stats for link: ${affiliateLinkId}, subId: ${subId}`);
         // 1️⃣ Fetch the affiliate link document
         const affiliateLink = yield affiliate_model_1.AffiliateLink.findOne({
             _id: affiliateLinkId,
@@ -249,7 +248,6 @@ const updateConversionStats = (affiliateLinkId, subId, revenueGenerated, commiss
         //   },
         //   { session }
         // );
-        console.log(`Updating conversion stats for link: ${affiliateLink}`);
         // 4️⃣ Update SUB-ID PERFORMANCE if multi-subId tracking is enabled
         if (affiliateLink.subIdPerformanceRef) {
             yield affiliate_model_1.SubIdPerformance.findOneAndUpdate({
@@ -270,8 +268,6 @@ const updateConversionStats = (affiliateLinkId, subId, revenueGenerated, commiss
         }
         // 5️⃣ Save the updated affiliate link
         yield affiliateLink.save({ session });
-        console.log('After update', affiliateLink);
-        console.log('✅ Conversion stats updated successfully');
     }
     catch (err) {
         console.error('Error updating conversion stats:', err);

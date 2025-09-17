@@ -303,12 +303,14 @@ export type CreateSubscriptionParams = {
   customerId: string;
   key: string;
   planPriceId: string;
-  billingInterval: 'monthly' | 'yearly';
+  billingInterval?: 'monthly' | 'yearly';
   trialPeriodDays?: number;
-  metadata?: Record<string, string>;
+  extraMetadata?: Record<string, string>;
   promotionCodeId?: string;
   paymentMethodId?: string;
   setupFeeAmount?: number;
+  baseAmount?: number;
+  planType?: string;
 };
 
 export type SubscriptionData = {

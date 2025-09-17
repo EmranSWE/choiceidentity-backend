@@ -267,10 +267,7 @@ export const updateConversionStats = async (
   session: mongoose.ClientSession
 ) => {
   try {
-    console.log(
-      `Updating conversion stats for link: ${affiliateLinkId}, subId: ${subId}`
-    );
-
+   
     // 1️⃣ Fetch the affiliate link document
     const affiliateLink = await AffiliateLink.findOne({
       _id: affiliateLinkId,
@@ -307,7 +304,6 @@ export const updateConversionStats = async (
     //   { session }
     // );
 
-    console.log(`Updating conversion stats for link: ${affiliateLink}`);
 
     // 4️⃣ Update SUB-ID PERFORMANCE if multi-subId tracking is enabled
     if (affiliateLink.subIdPerformanceRef) {
@@ -334,8 +330,6 @@ export const updateConversionStats = async (
 
     // 5️⃣ Save the updated affiliate link
     await affiliateLink.save({ session });
-    console.log('After update', affiliateLink);
-    console.log('✅ Conversion stats updated successfully');
   } catch (err) {
     console.error('Error updating conversion stats:', err);
     throw err;

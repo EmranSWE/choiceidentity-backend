@@ -7,7 +7,6 @@ import {
   CreateSubscriptionParams,
   DunningStatus,
   ISubscription,
-  PriceMapping,
   StripeCustomerInput,
   SubscriptionStatus,
 } from './stripe.interface';
@@ -28,8 +27,10 @@ export const PROTECTION_PLANS = {
     id: 'prod_BASIC_ID',
     monthly: {
       priceId: process.env.STRIPE_BASIC_MONTHLY_PRICE_ID!,
-      amount: 3999,
-      baseAmount: 100,
+      //   baseAmount: 100,
+      //   amount: 3999,
+      amount: 0,
+      baseAmount: 0,
       setupFee: 0,
       features: [
         'Identity & Document Verification',
@@ -82,54 +83,53 @@ export const PROTECTION_PLANS = {
       baseAmount: 100,
       setupFee: 0,
       features: [
-        "Identity & Document Verification",
-        "Biometric & Face Recognition",
-        "KYC & AML Compliance",
-        "Age Verification",
-        "NFC Verification",
-        "Assisted Image Capture",
-        "Fraud Prevention",
-        "Email Validation API",
-        "Email Finder",
-        "Email Scoring"
-
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
+        'Fraud Prevention',
+        'Email Validation API',
+        'Email Finder',
+        'Email Scoring',
       ],
     },
   },
   PREMIUM: {
     id: 'prod_ELITE_ID',
     monthly: {
-    priceId: process.env.STRIPE_ELITE_MONTHLY_PRICE_ID!,
-    amount: 7999,
-    baseAmount: 100,
-    setupFee: 17900,
-    features: [
-         "Identity & Document Verification",
-        "Biometric & Face Recognition",
-        "KYC & AML Compliance",
-        "Age Verification",
-        "NFC Verification",
-        "Assisted Image Capture",
-        "Fraud Prevention",
-        "Email Validation API",
-        "Email Finder",
-        "Email Scoring",
-        "Email Appending",
-        "Activity Data",
-        "Catch-All Domain Detection",
-        "Abuse Email Detection",
-        "AI Email Classifier",
-        "Real-time API & SDK Integration",
-        "Webhook for verification status",
-        "Identity Monitoring",
-        "Credit Alerts",
-        "Dark Web Scan",
-        "Dark Web Monitoring",
-        "Simple Background Check",
-        "Social Security Watch",
-        "Bank Account Guard",
-        "Recovery Assistance",
-        "Website Protection Services"
+      priceId: process.env.STRIPE_ELITE_MONTHLY_PRICE_ID!,
+      amount: 7999,
+      baseAmount: 100,
+      setupFee: 17900,
+      features: [
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
+        'Fraud Prevention',
+        'Email Validation API',
+        'Email Finder',
+        'Email Scoring',
+        'Email Appending',
+        'Activity Data',
+        'Catch-All Domain Detection',
+        'Abuse Email Detection',
+        'AI Email Classifier',
+        'Real-time API & SDK Integration',
+        'Webhook for verification status',
+        'Identity Monitoring',
+        'Credit Alerts',
+        'Dark Web Scan',
+        'Dark Web Monitoring',
+        'Simple Background Check',
+        'Social Security Watch',
+        'Bank Account Guard',
+        'Recovery Assistance',
+        'Website Protection Services',
       ],
     },
     yearly: {
@@ -138,43 +138,38 @@ export const PROTECTION_PLANS = {
       baseAmount: 100,
       setupFee: 17900,
       features: [
-        "Identity & Document Verification",
-        "Biometric & Face Recognition",
-        "KYC & AML Compliance",
-        "Age Verification",
-        "NFC Verification",
-        "Assisted Image Capture",
-        "Fraud Prevention",
-        "Email Validation API",
-        "Email Finder",
-        "Email Scoring",
-        "Email Appending",
-        "Activity Data",
-        "Catch-All Domain Detection",
-        "Abuse Email Detection",
-        "AI Email Classifier",
-        "Real-time API & SDK Integration",
-        "Webhook for verification status",
-        "Identity Monitoring",
-        "Credit Alerts",
-        "Dark Web Scan",
-        "Dark Web Monitoring",
-        "Simple Background Check",
-        "Social Security Watch",
-        "Bank Account Guard",
-        "Recovery Assistance",
-        "Website Protection Services"
+        'Identity & Document Verification',
+        'Biometric & Face Recognition',
+        'KYC & AML Compliance',
+        'Age Verification',
+        'NFC Verification',
+        'Assisted Image Capture',
+        'Fraud Prevention',
+        'Email Validation API',
+        'Email Finder',
+        'Email Scoring',
+        'Email Appending',
+        'Activity Data',
+        'Catch-All Domain Detection',
+        'Abuse Email Detection',
+        'AI Email Classifier',
+        'Real-time API & SDK Integration',
+        'Webhook for verification status',
+        'Identity Monitoring',
+        'Credit Alerts',
+        'Dark Web Scan',
+        'Dark Web Monitoring',
+        'Simple Background Check',
+        'Social Security Watch',
+        'Bank Account Guard',
+        'Recovery Assistance',
+        'Website Protection Services',
       ],
     },
   },
 } as const;
 
-
 export type PlanType = keyof typeof PROTECTION_PLANS;
-
-/**
- * Maps a priceId to its corresponding amount and currency
- */
 
 /**
  * Constructs Stripe webhook endpoint secret
@@ -426,7 +421,6 @@ export const attachAndSetDefaultPaymentMethod = async ({
     if (!customerId || !paymentMethodId)
       throw new Error('customerId and paymentMethodId are required.');
 
-
     const attached = await retry(() =>
       stripe.paymentMethods.attach(
         paymentMethodId,
@@ -532,44 +526,45 @@ export const createStripeSubscription = async ({
   planPriceId,
   key,
   trialPeriodDays = 0,
-  metadata = {},
+  extraMetadata,
   promotionCodeId,
   paymentMethodId,
-  setupFeeAmount,
+  baseAmount = 0,
+  setupFeeAmount = 0,
+  planType,
+  billingInterval,
 }: CreateSubscriptionParams) => {
   try {
-    const safeMetadata: Record<string, string> = {};
-    for (const [k, v] of Object.entries(metadata)) safeMetadata[k] = String(v);
-
-    const subscriptionParams: Stripe.SubscriptionCreateParams = {
-      customer: customerId,
-      items: [{ price: planPriceId }],
-      trial_period_days: trialPeriodDays > 0 ? trialPeriodDays : undefined,
-      payment_settings: {
-        payment_method_types: ['card'],
-        save_default_payment_method: 'on_subscription',
-      },
-      expand: ['latest_invoice.payment_intent'],
-      metadata: safeMetadata,
-      discounts: promotionCodeId
-        ? [{ promotion_code: promotionCodeId }]
-        : undefined,
+    // Convert metadata values to strings
+    const metadata: Record<string, string> = {
+      plan_type: planType || '',
+      billing_interval: billingInterval || '',
+      base_amount: baseAmount.toString(),
+      setup_fee: setupFeeAmount.toString(),
+      ...extraMetadata,
     };
+    const paymentDescription = `Payment for ${planType} plan (${billingInterval})${
+      setupFeeAmount > 0 ? ` + setup fee` : ''
+    }`;
+    // Add one-time invoice items for base amount
+    if (baseAmount > 0) {
+      await retry(() =>
+        stripe.invoiceItems.create({
+          customer: customerId,
+          amount: baseAmount,
+          currency: 'usd',
+          description: `${planType} base amount`,
+        })
+      );
+    }
 
-    const subscription = await retry(() =>
-      stripe.subscriptions.create(subscriptionParams, {
-        idempotencyKey: `subscription_${key}`,
-      })
-    );
-
-    if (setupFeeAmount && setupFeeAmount > 0) {
+    if (setupFeeAmount > 0) {
       await retry(() =>
         stripe.invoiceItems.create({
           customer: customerId,
           amount: setupFeeAmount,
           currency: 'usd',
-          description: 'Setup Fee',
-          subscription: subscription.id,
+          description: `${planType} setup fee`,
         })
       );
     }
@@ -585,6 +580,29 @@ export const createStripeSubscription = async ({
       );
     }
 
+    // Create subscription
+    const subscriptionParams: Stripe.SubscriptionCreateParams = {
+      customer: customerId,
+      items: [{ price: planPriceId, quantity: 1 }],
+      trial_period_days: trialPeriodDays > 0 ? trialPeriodDays : undefined,
+      metadata,
+      description: paymentDescription,
+      expand: ['latest_invoice.payment_intent'],
+      discounts: promotionCodeId
+        ? [{ promotion_code: promotionCodeId }]
+        : undefined,
+      payment_settings: {
+        payment_method_types: ['card'],
+        save_default_payment_method: 'on_subscription',
+      },
+    };
+
+    const subscription = await retry(() =>
+      stripe.subscriptions.create(subscriptionParams, {
+        idempotencyKey: `subscription_${key}`,
+      })
+    );
+
     return subscription;
   } catch (err) {
     logger.error('Stripe subscription creation failed', { err, customerId });
@@ -592,11 +610,105 @@ export const createStripeSubscription = async ({
   }
 };
 
+// export const createStripeSubscription = async ({
+//   customerId,
+//   planPriceId,
+//   idempotencyKey,
+//   trialPeriodDays = 0,
+//   metadata = {},
+//   promotionCodeId,
+//   paymentMethodId,
+//   baseAmount = 0,
+//   setupFeeAmount = 0,
+// }: CreateSubscriptionParams): Promise<Stripe.Subscription> => {
+//   try {
+//     // Convert metadata values to strings (more concise approach)
+//     const safeMetadata = Object.fromEntries(
+//       Object.entries(metadata).map(([key, value]) => [key, String(value)])
+//     );
 
+//     // Parallelize invoice item creation for better performance
+//     const invoiceItemPromises: Promise<Stripe.InvoiceItem>[] = [];
 
+//     if (baseAmount > 0) {
+//       invoiceItemPromises.push(
+//         retry(() =>
+//           stripe.invoiceItems.create({
+//             customer: customerId,
+//             amount: baseAmount,
+//             currency: 'usd',
+//             description: 'Base amount',
+//           })
+//         )
+//       );
+//     }
 
+//     if (setupFeeAmount > 0) {
+//       invoiceItemPromises.push(
+//         retry(() =>
+//           stripe.invoiceItems.create({
+//             customer: customerId,
+//             amount: setupFeeAmount,
+//             currency: 'usd',
+//             description: 'Setup Fee',
+//           })
+//         )
+//       );
+//     }
+
+//     await Promise.all(invoiceItemPromises);
+
+//     // Handle payment method if provided
+//     if (paymentMethodId) {
+//       await Promise.all([
+//         retry(() =>
+//           stripe.paymentMethods.attach(paymentMethodId, { customer: customerId })
+//         ),
+//         retry(() =>
+//           stripe.customers.update(customerId, {
+//             invoice_settings: { default_payment_method: paymentMethodId },
+//           })
+//         ),
+//       ]);
+//     }
+
+//     // Create subscription with proper typing
+//     const subscriptionParams: Stripe.SubscriptionCreateParams = {
+//       customer: customerId,
+//       items: [{ price: planPriceId }], // quantity is optional if it's 1
+//       trial_period_days: trialPeriodDays || undefined,
+//       metadata: safeMetadata,
+//       expand: ['latest_invoice.payment_intent'],
+//       ...(promotionCodeId && {
+//         discounts: [{ promotion_code: promotionCodeId }],
+//       }),
+//       payment_settings: {
+//         payment_method_types: ['card'],
+//         save_default_payment_method: 'on_subscription',
+//       },
+//     };
+
+//     const subscription = await retry(() =>
+//       stripe.subscriptions.create(subscriptionParams, {
+//         idempotencyKey: `subscription_${idempotencyKey}`,
+//       })
+//     );
+
+//     return subscription;
+//   } catch (error) {
+//     logger.error('Stripe subscription creation failed', {
+//       error,
+//       customerId,
+//       planPriceId
+//     });
+
+//     throw error;
+//   }
+// };
+
+// }
 export function getSubscriptionDates(
-  subscription: Stripe.Subscription, 
+  subscription: Stripe.Subscription,
   billingInterval: string
 ): {
   currentPeriodStart: Date;
@@ -605,35 +717,39 @@ export function getSubscriptionDates(
   trialEnd?: Date;
   isTrial: boolean;
 } {
-  
   const isTrial = subscription.status === 'trialing';
   const periodStart = subscription.billing_cycle_anchor || subscription.created;
-  
+
   // Use trial end date if currently in trial, otherwise calculate billing period
-  const periodEnd = isTrial && subscription.trial_end 
-    ? subscription.trial_end 
-    : calculatePeriodEnd(periodStart, billingInterval);
+  const periodEnd =
+    isTrial && subscription.trial_end
+      ? subscription.trial_end
+      : calculatePeriodEnd(periodStart, billingInterval);
 
   return {
     currentPeriodStart: new Date(periodStart * 1000),
     currentPeriodEnd: new Date(periodEnd * 1000),
     trialStart: safeStripeDateConvert(subscription.trial_start),
     trialEnd: safeStripeDateConvert(subscription.trial_end),
-    isTrial
+    isTrial,
   };
 }
 
 // Enhanced safe date conversion with validation
-export function safeStripeDateConvert(timestamp: number | null | undefined): Date | undefined {
+export function safeStripeDateConvert(
+  timestamp: number | null | undefined
+): Date | undefined {
   if (!timestamp) return undefined;
-  
+
   const date = new Date(timestamp * 1000);
   return isNaN(date.getTime()) ? undefined : date;
 }
 
-
 // Helper function for period end calculation
-function calculatePeriodEnd(periodStart: number, billingInterval: string): number {
+function calculatePeriodEnd(
+  periodStart: number,
+  billingInterval: string
+): number {
   switch (billingInterval.toLowerCase()) {
     case 'monthly':
       return periodStart + 30 * 24 * 60 * 60;
@@ -644,33 +760,26 @@ function calculatePeriodEnd(periodStart: number, billingInterval: string): numbe
     default:
       return periodStart + 30 * 24 * 60 * 60;
   }
-
 }
 
-
-
-
-
-
-
 export function calculateNextBillingDate(
-  currentPeriodEnd: Date, 
+  currentPeriodEnd: Date,
   billingInterval: string
 ): Date {
   const nextDate = new Date(currentPeriodEnd);
-  
+
   switch (billingInterval) {
     case BillingInterval.MONTHLY:
       nextDate.setMonth(nextDate.getMonth() + 1);
       break;
- 
+
     case BillingInterval.YEARLY:
       nextDate.setFullYear(nextDate.getFullYear() + 1);
       break;
     default:
       nextDate.setMonth(nextDate.getMonth() + 1);
   }
-  
+
   return nextDate;
 }
 
@@ -683,26 +792,32 @@ export function shouldProcessDunning(subscription: ISubscription): boolean {
   );
 }
 
-
-
-
-
-
-
-
-export const getCommissionRate = (affiliateLink:any, referredAffiliate:any) => {
+export const getCommissionRate = (
+  affiliateLink: any,
+  referredAffiliate: any
+) => {
   // ১. প্রথমে Affiliate Link-এর Commission Rate check করুন
-  if (affiliateLink && affiliateLink.commissionRate !== null && affiliateLink.commissionRate !== undefined) {
-    console.log('Using Link-Level Commission Rate:', affiliateLink.commissionRate);
+  if (
+    affiliateLink &&
+    affiliateLink.commissionRate !== null &&
+    affiliateLink.commissionRate !== undefined
+  ) {
+    console.log(
+      'Using Link-Level Commission Rate:',
+      affiliateLink.commissionRate
+    );
     return affiliateLink.commissionRate;
   }
-  
+
   // ২. তারপর Affiliate Profile-এর Commission Rate
   if (referredAffiliate.affiliateProfile.commissionRate) {
-    console.log('Using Profile Commission Rate:', referredAffiliate.affiliateProfile.commissionRate);
+    console.log(
+      'Using Profile Commission Rate:',
+      referredAffiliate.affiliateProfile.commissionRate
+    );
     return referredAffiliate.affiliateProfile.commissionRate;
   }
-  
+
   // ৩. শেষে Default Rate
   console.log('Using Default Commission Rate: 0.2');
   return 0.2;
